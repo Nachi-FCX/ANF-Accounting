@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  fincorpx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENV: production
+    ports:
+      - "3000:80"
+    container_name: fincorpx-prod
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - fincorpx-network
+
+networks:
+  fincorpx-network:
+    driver: bridge

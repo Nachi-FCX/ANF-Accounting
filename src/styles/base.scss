@@ -1,0 +1,291 @@
+// Base styles for Fcx components
+@use "sass:map";
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Generate CSS custom properties for themes
+:root,
+:root[data-theme="light"],
+.light {
+  @include theme-colors(light);
+}
+
+:root[data-theme="dark"],
+.dark {
+  @include theme-colors(dark);
+}
+
+// Base design tokens as CSS custom properties
+:root {
+  // Transition settings
+  --fcx-transition-duration: #{$transition-duration};
+  --fcx-transition-timing: #{$transition-timing};
+  
+  // Border radius
+  @each $key, $value in $border-radius {
+    --fcx-border-radius-#{$key}: #{$value};
+  }
+  
+  // Spacing
+  @each $key, $value in $spacing {
+    --fcx-spacing-#{$key}: #{$value};
+  }
+  
+  // Font sizes
+  @each $key, $value in $font-sizes {
+    --fcx-font-size-#{$key}: #{$value};
+  }
+  
+  // Font weights
+  @each $key, $value in $font-weights {
+    --fcx-font-weight-#{$key}: #{$value};
+  }
+  
+  // Z-index layers
+  @each $key, $value in $z-index {
+    --fcx-z-#{$key}: #{$value};
+  }
+}
+
+// Reset and base styles
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Base body styles
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--fcx-background);
+  color: var(--fcx-text-primary);
+  margin: 0;
+  padding: 0;
+}
+
+// Focus styles
+* {
+  &:focus {
+    @include focus-ring;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Common utility classes
+fcx-sr-only {
+  @include visually-hidden;
+}
+
+fcx-transition {
+  @include fcx-transition;
+}
+
+fcx-flex-center {
+  @include flex-center;
+}
+
+fcx-truncate {
+  @include truncate;
+}
+
+// Form field base styles - Zoho Books Style
+fcx-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+  
+  &-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.25rem;
+    
+    &.required::after {
+      content: ' *';
+      color: #ef4444;
+    }
+  }
+  
+  &-error {
+    font-size: 0.75rem;
+    color: #ef4444;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.25rem;
+  }
+  
+  &-help {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+  }
+  
+  // Field states
+  &--error {
+    fcx-field-label {
+      color: #ef4444;
+    }
+  }
+  
+  &--success {
+    fcx-field-label {
+      color: #10b981;
+    }
+  }
+  
+  &--disabled {
+    opacity: 0.6;
+    
+    fcx-field-label {
+      color: #9ca3af;
+    }
+  }
+  
+  &--loading {
+    position: relative;
+  }
+}
+
+// Loading spinner
+fcx-spinner {
+  @include spinner;
+}
+
+// Keyframe animations
+@keyframes fcx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Error icon
+fcx-error-icon {
+  @include icon-size(16px);
+  color: var(--fcx-error-500);
+}
+
+// Success icon
+fcx-success-icon {
+  @include icon-size(16px);
+  color: var(--fcx-success-500);
+}
+
+// Smooth transitions for theme switching
+* {
+  @include fcx-transition(background-color, border-color, color, box-shadow);
+}
+
+// Disable transitions during theme initialization to prevent flash
+.theme-transition-disabled * {
+  transition: none !important;
+}
+
+// Generate spacing utilities
+@include generate-spacing-utilities('fcx-m', 'margin');
+@include generate-spacing-utilities('fcx-mt', 'margin-top');
+@include generate-spacing-utilities('fcx-mr', 'margin-right');
+@include generate-spacing-utilities('fcx-mb', 'margin-bottom');
+@include generate-spacing-utilities('fcx-ml', 'margin-left');
+@include generate-spacing-utilities('fcx-mx', 'margin-left', 'margin-right');
+@include generate-spacing-utilities('fcx-my', 'margin-top', 'margin-bottom');
+
+@include generate-spacing-utilities('fcx-p', 'padding');
+@include generate-spacing-utilities('fcx-pt', 'padding-top');
+@include generate-spacing-utilities('fcx-pr', 'padding-right');
+@include generate-spacing-utilities('fcx-pb', 'padding-bottom');
+@include generate-spacing-utilities('fcx-pl', 'padding-left');
+@include generate-spacing-utilities('fcx-px', 'padding-left', 'padding-right');
+@include generate-spacing-utilities('fcx-py', 'padding-top', 'padding-bottom');
+
+// Responsive utilities
+@each $breakpoint-name, $breakpoint-value in $breakpoints {
+  @include breakpoint($breakpoint-name) {
+    fcx-hidden-#{$breakpoint-name} {
+      display: none;
+    }
+    
+    fcx-block-#{$breakpoint-name} {
+      display: block;
+    }
+    
+    fcx-flex-#{$breakpoint-name} {
+      display: flex;
+    }
+    
+    fcx-grid-#{$breakpoint-name} {
+      display: grid;
+    }
+  }
+}
+
+// Text utilities
+fcx-text {
+  &-left { text-align: left; }
+  &-center { text-align: center; }
+  &-right { text-align: right; }
+  &-justify { text-align: justify; }
+  
+  &-primary { color: var(--fcx-text-primary); }
+  &-secondary { color: var(--fcx-text-secondary); }
+  &-muted { color: var(--fcx-text-muted); }
+  &-inverse { color: var(--fcx-text-inverse); }
+  
+  @each $key, $value in $font-sizes {
+    &-#{$key} { font-size: $value; }
+  }
+  
+  @each $key, $value in $font-weights {
+    &-#{$key} { font-weight: $value; }
+  }
+}
+
+// Background utilities
+fcx-bg {
+  &-background { background-color: var(--fcx-background); }
+  &-surface { background-color: var(--fcx-surface); }
+  &-surface-hover { background-color: var(--fcx-surface-hover); }
+  &-surface-active { background-color: var(--fcx-surface-active); }
+  
+  &-primary { background-color: var(--fcx-primary-500); }
+  &-success { background-color: var(--fcx-success-500); }
+  &-warning { background-color: var(--fcx-warning-500); }
+  &-error { background-color: var(--fcx-error-500); }
+}
+
+// Border utilities
+fcx-border {
+  border: 1px solid var(--fcx-border-normal);
+  
+  &-light { border-color: var(--fcx-border-light); }
+  &-normal { border-color: var(--fcx-border-normal); }
+  &-strong { border-color: var(--fcx-border-strong); }
+  
+  &-primary { border-color: var(--fcx-primary-500); }
+  &-success { border-color: var(--fcx-success-500); }
+  &-warning { border-color: var(--fcx-warning-500); }
+  &-error { border-color: var(--fcx-error-500); }
+  
+  @each $key, $value in $border-radius {
+    &-radius-#{$key} { border-radius: $value; }
+  }
+}
+
+// Shadow utilities
+fcx-shadow {
+  @each $key, $value in $shadows {
+    &-#{$key} { box-shadow: $value; }
+  }
+}

@@ -1,0 +1,205 @@
+// FcxDropdown Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+
+.fcx-dropdown-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.fcx-dropdown {
+  @include form-field-base;
+  @include component-size(md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  // Size variants
+  &--sm {
+    @include component-size(sm);
+  }
+  
+  &--md {
+    @include component-size(md);
+  }
+  
+  &--lg {
+    @include component-size(lg);
+  }
+  
+  // States
+  @include form-field-states;
+  @include dark-theme-focus;
+  
+  // PrimeVue specific overrides
+  .p-dropdown-label {
+    color: var(--fcx-text-primary);
+    flex: 1;
+    @include truncate;
+    
+    &.p-placeholder {
+      color: var(--fcx-text-muted);
+    }
+  }
+  
+  .p-dropdown-trigger {
+    color: var(--fcx-text-secondary);
+    @include icon-size(20px);
+    @include flex-center;
+    margin-left: map.get($spacing, sm);
+  }
+  
+  // Disabled state
+  &.p-disabled {
+    background-color: var(--fcx-surface-active);
+    color: var(--fcx-text-muted);
+    cursor: not-allowed;
+    opacity: 0.6;
+    
+    .p-dropdown-label {
+      color: var(--fcx-text-muted);
+    }
+  }
+  
+  // Loading state
+  &--loading {
+    position: relative;
+    
+    .p-dropdown-trigger {
+      opacity: 0.5;
+    }
+  }
+}
+
+// Loading spinner
+.fcx-dropdown-loading {
+  position: absolute;
+  right: calc(#{map.get($spacing, md)} + 24px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+ß
+// Clear button
+.fcx-dropdown-clear {
+  @include clear-button;
+  right: calc(#{map.get($spacing, md)} + 24px);
+}
+
+// Dropdown panel
+.fcx-dropdown-panel {
+  background: var(--fcx-surface);
+  border: 1px solid var(--fcx-border-normal);
+  border-radius: map.get($border-radius, md);
+  box-shadow: var(--fcx-shadow-lg);
+  padding: map.get($spacing, xs);
+  margin-top: map.get($spacing, xs);
+  z-index: map.get($z-index, dropdown);
+  
+  .p-dropdown-items {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    @include custom-scrollbar;
+  }
+  
+  .p-dropdown-item {
+    padding: map.get($spacing, sm) map.get($spacing, md);
+    margin: 0;
+    border: none;
+    border-radius: map.get($border-radius, sm);
+    color: var(--fcx-text-primary);
+    background: transparent;
+    cursor: pointer;
+    @include fcx-transition(background-color);
+    @include flex-center;
+    justify-content: flex-start;
+    width: 100%;
+    text-align: left;
+    font-size: $form-input-text-size-medium;
+    line-height: $form-input-line-height;
+    
+    &:hover {
+      background-color: var(--fcx-surface-hover);
+    }
+    
+    &:focus {
+      background-color: var(--fcx-surface-hover);
+      outline: none;
+    }
+    
+    &.p-highlight {
+      background-color: var(--fcx-primary-50);
+      color: var(--fcx-primary-700);
+    }
+    
+    &.p-disabled {
+      color: var(--fcx-text-muted);
+      cursor: not-allowed;
+      opacity: 0.6;
+      
+      &:hover {
+        background: transparent;
+      }
+    }
+  }
+  
+  // Filter input
+  .p-dropdown-filter-container {
+    padding: map.get($spacing, sm);
+    border-bottom: 1px solid var(--fcx-border-light);
+    margin-bottom: map.get($spacing, xs);
+  }
+  
+  .p-dropdown-filter {
+    width: 100%;
+    padding: map.get($spacing, sm) map.get($spacing, md);
+    border: 1px solid var(--fcx-border-normal);
+    border-radius: map.get($border-radius, sm);
+    background: var(--fcx-surface);
+    color: var(--fcx-text-primary);
+    font-size: $form-input-text-size-small;
+    outline: none;
+    @include fcx-transition(border-color);
+    
+    &:focus {
+      border-color: var(--fcx-primary-500);
+    }
+    
+    &::placeholder {
+      color: var(--fcx-text-muted);
+    }
+  }
+  
+  // Empty message
+  .p-dropdown-empty-message {
+    padding: map.get($spacing, md);
+    color: var(--fcx-text-secondary);
+    text-align: center;
+    font-size: $form-input-text-size-small;
+    font-style: italic;
+  }
+  
+  // Group headers
+  .p-dropdown-item-group {
+    padding: map.get($spacing, sm) map.get($spacing, md);
+    color: var(--fcx-text-secondary);
+    font-size: $form-counter-size;
+    font-weight: $form-header-weight;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--fcx-surface-hover);
+    margin: map.get($spacing, xs) 0;
+    border-radius: map.get($border-radius, sm);
+  }
+  
+  // Multiple selection
+  .p-dropdown-item .p-checkbox {
+    margin-right: map.get($spacing, sm);
+  }
+}

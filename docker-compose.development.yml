@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  fincorpx-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENV: development
+    ports:
+      - "3001:80"
+    container_name: fincorpx-dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    networks:
+      - fincorpx-dev-network
+
+networks:
+  fincorpx-dev-network:
+    driver: bridge

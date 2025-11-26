@@ -1,0 +1,615 @@
+// Global UI Variables and Styling Constants
+// This file centralizes all UI-related variables including menu font sizes, icon dimensions,
+// button configurations, and other styling constants used across the application
+
+@use "sass:map";
+
+// =============================================================================
+// MENU ICON SIZES
+// =============================================================================
+
+// Primary menu icon sizes
+$menu-icon-size-large: 24px;        // For main navigation items
+$menu-icon-size-medium: 20px;       // For secondary menu items  
+$menu-icon-size-small: 18px;        // For compact/collapsed states
+$menu-icon-size-mini: 16px;         // For nested or sub-menu items
+
+// Header specific icon sizes
+$header-icon-size: 20px;            // Header menu icons
+$header-notification-icon: 18px;    // Notification bell icon
+$header-profile-icon: 16px;         // Profile dropdown icons
+
+// =============================================================================
+// MENU TEXT FONT SIZES
+// =============================================================================
+
+// Primary menu text sizes
+$menu-text-size-large: 16px;        // For main navigation text
+$menu-text-size-medium: 14px;       // For standard menu items
+$menu-text-size-small: 13px;        // For compact menu items
+$menu-text-size-mini: 12px;         // For sub-menu or nested items
+
+// Header specific text sizes
+$header-menu-text: 14px;            // Header menu text
+$header-dropdown-text: 13px;        // Header dropdown menu text
+$header-notification-text: 12px;    // Notification text
+$header-breadcrumb-text: 13px;      // Breadcrumb navigation text
+
+// =============================================================================
+// FONT WEIGHTS
+// =============================================================================
+
+$menu-font-weight-normal: 400;      // Regular menu items
+$menu-font-weight-medium: 500;      // Emphasized menu items
+$menu-font-weight-semibold: 600;    // Active/selected menu items
+$menu-font-weight-bold: 700;        // Section headers
+
+// =============================================================================
+// LINE HEIGHTS
+// =============================================================================
+
+$menu-line-height-compact: 1.2;     // For compact layouts
+$menu-line-height-normal: 1.4;      // Standard line height
+$menu-line-height-relaxed: 1.6;     // For better readability
+
+// =============================================================================
+// SIDEBAR SPECIFIC VARIABLES
+// =============================================================================
+
+// Current sidebar menu styling (extracted from existing components)
+$sidebar-menu-icon-size: $menu-icon-size-small;           // 18px
+$sidebar-menu-text-size: $menu-text-size-medium;          // 14px
+$sidebar-menu-text-weight: $menu-font-weight-normal;      // 400
+$sidebar-menu-line-height: $menu-line-height-normal;      // 1.4
+
+// Sidebar collapsed state
+$sidebar-collapsed-icon-size: $menu-icon-size-small;      // 18px (same as normal)
+$sidebar-tooltip-text-size: $menu-text-size-small;        // 13px
+
+// Sidebar profile section
+$sidebar-profile-name-size: $menu-text-size-medium;       // 14px
+$sidebar-profile-name-weight: $menu-font-weight-medium;   // 500
+$sidebar-profile-email-size: $menu-text-size-mini;        // 12px
+
+// =============================================================================
+// HEADER SPECIFIC VARIABLES
+// =============================================================================
+
+// Header menu items
+$header-menu-icon-size: $header-icon-size;                // 20px
+$header-menu-text-size: $header-menu-text;                // 14px
+$header-menu-text-weight: $menu-font-weight-normal;       // 400
+
+// Header dropdown menus
+$header-dropdown-icon-size: $header-profile-icon;         // 16px
+$header-dropdown-text-size: $header-dropdown-text;        // 13px
+$header-dropdown-text-weight: $menu-font-weight-normal;   // 400
+
+// Header notifications
+$header-notification-icon-size: $header-notification-icon; // 18px
+$header-notification-text-size: $header-notification-text; // 12px
+
+// =============================================================================
+// RESPONSIVE BREAKPOINTS FOR FONT SIZES
+// =============================================================================
+
+// Mobile adjustments (screens < 768px)
+$mobile-menu-icon-size: $menu-icon-size-medium;          // 20px (slightly larger for touch)
+$mobile-menu-text-size: $menu-text-size-medium;          // 14px
+$mobile-header-icon-size: $menu-icon-size-medium;        // 20px
+
+// Tablet adjustments (768px - 1024px)
+$tablet-menu-icon-size: $menu-icon-size-small;           // 18px
+$tablet-menu-text-size: $menu-text-size-medium;          // 14px
+
+// Desktop (> 1024px) - uses default sizes
+
+// =============================================================================
+// UTILITY MIXINS
+// =============================================================================
+
+// Mixin for standard menu item styling
+@mixin menu-item-base {
+  font-size: $sidebar-menu-text-size;
+  font-weight: $sidebar-menu-text-weight;
+  line-height: $sidebar-menu-line-height;
+}
+
+// Mixin for menu icons
+@mixin menu-icon-base($size: $sidebar-menu-icon-size) {
+  width: $size;
+  height: $size;
+  flex-shrink: 0;
+  
+  img, svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+// Mixin for header menu items
+@mixin header-menu-item {
+  font-size: $header-menu-text-size;
+  font-weight: $header-menu-text-weight;
+  line-height: $menu-line-height-normal;
+}
+
+// Mixin for responsive menu text
+@mixin responsive-menu-text {
+  font-size: $menu-text-size-medium;
+  
+  @media (max-width: 767px) {
+    font-size: $mobile-menu-text-size;
+  }
+  
+  @media (min-width: 768px) and (max-width: 1023px) {
+    font-size: $tablet-menu-text-size;
+  }
+}
+
+// Mixin for responsive menu icons
+@mixin responsive-menu-icon {
+  @include menu-icon-base($menu-icon-size-small);
+  
+  @media (max-width: 767px) {
+    @include menu-icon-base($mobile-menu-icon-size);
+  }
+  
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @include menu-icon-base($tablet-menu-icon-size);
+  }
+}
+
+// =============================================================================
+// THEME VARIATIONS
+// =============================================================================
+
+// Light theme menu text colors
+$light-menu-text-primary: #374151;
+$light-menu-text-secondary: #6b7280;
+$light-menu-text-muted: #9ca3af;
+
+// Dark theme menu text colors  
+$dark-menu-text-primary: #ececec;
+$dark-menu-text-secondary: #d1d5db;
+$dark-menu-text-muted: #9ca3af;
+
+// =============================================================================
+// FORM SPECIFIC VARIABLES
+// =============================================================================
+
+// Form text sizes (using existing menu text size variables)
+$form-header-size: $menu-text-size-large;           // 16px - Form header (h2)
+$form-subtitle-size: $menu-text-size-medium;        // 14px - Form subtitle
+$form-label-size: $menu-text-size-small;            // 13px - Form labels
+$form-text-size: $menu-text-size-medium;            // 14px - Form input text
+$form-error-size: $menu-text-size-mini;             // 12px - Error messages
+$form-helper-size: $menu-text-size-mini;            // 12px - Helper text
+$form-divider-size: $menu-text-size-small;          // 13px - Divider text
+
+// Form font weights (using existing menu font weight variables)
+$form-header-weight: $menu-font-weight-semibold;    // 600 - Form headers
+$form-label-weight: $menu-font-weight-medium;       // 500 - Form labels
+$form-text-weight: $menu-font-weight-normal;        // 400 - Regular text
+$form-link-weight: $menu-font-weight-medium;        // 500 - Links
+$form-error-weight: $menu-font-weight-normal;       // 400 - Error messages
+
+// Form line heights
+$form-line-height: $menu-line-height-normal;        // 1.4 - Standard form line height
+$form-header-line-height: $menu-line-height-compact; // 1.2 - Header line height
+
+// Form responsive sizes
+$form-header-size-mobile: 24px;                     // Mobile header size
+$form-header-size-tablet: 20px;                     // Tablet header size
+
+// Form input specific variables
+$form-input-text-size-small: $menu-text-size-small;    // 13px - Small input text
+$form-input-text-size-medium: $menu-text-size-medium;  // 14px - Medium input text
+$form-input-text-size-large: $menu-text-size-large;    // 16px - Large input text
+$form-input-line-height: 1.5;                          // Input text line height
+$form-counter-size: $menu-text-size-mini;              // 12px - Character counter
+
+// Form input icon sizes
+$form-input-icon-small: 14px;                          // Small input icons
+$form-input-icon-medium: $menu-icon-size-mini;         // 16px - Medium input icons
+$form-input-icon-large: $menu-icon-size-small;         // 18px - Large input icons
+
+// Form input padding
+$form-input-padding-x: 7px;                            // Horizontal padding for inputs
+$form-input-padding-y: 7px;                            // Vertical padding for inputs
+$form-input-padding-x-sm: 5px;                         // Small input horizontal padding
+$form-input-padding-y-sm: 5px;                         // Small input vertical padding
+$form-input-padding-x-lg: 9px;                         // Large input horizontal padding
+$form-input-padding-y-lg: 9px;                         // Large input vertical padding
+
+// Form icon container padding
+$form-icon-padding: 7px;                               // Padding for icon containers (calendar, dropdown icons)
+
+// =============================================================================
+// BUTTON SPECIFIC VARIABLES
+// =============================================================================
+
+// Button sizes (following existing component-sizes pattern)
+$button-size-small: (
+  height: 32px,
+  padding: 6px 10px,
+  font-size: $menu-text-size-mini,         // 12px
+  icon-size: $menu-icon-size-mini,         // 16px
+  border-radius: 4px,
+  min-width: 56px
+);
+
+$button-size-medium: (
+  height: 36px,
+  padding: 8px 12px,
+  font-size: $menu-text-size-small,        // 13px
+  icon-size: $menu-icon-size-mini,         // 16px
+  border-radius: 5px,
+  min-width: 64px
+);
+
+$button-size-large: (
+  height: 40px,
+  padding: 10px 16px,
+  font-size: $menu-text-size-medium,       // 14px
+  icon-size: $menu-icon-size-small,        // 18px
+  border-radius: 6px,
+  min-width: 72px
+);
+
+// Button font settings (using existing menu variables)
+$button-font-family: inherit;
+$button-font-weight-normal: $menu-font-weight-normal;    // 400
+$button-font-weight-medium: $menu-font-weight-medium;    // 500
+$button-font-weight-semibold: $menu-font-weight-semibold; // 600
+$button-line-height: $menu-line-height-normal;           // 1.4
+
+// Button spacing and layout
+$button-gap-small: 4px;
+$button-gap-medium: 8px;
+$button-gap-large: 12px;
+$button-icon-gap: 6px;
+
+// Button transition settings
+$button-transition-duration: 0.2s;
+$button-transition-timing: ease-in-out;
+$button-transition-properties: background-color, border-color, color, box-shadow, transform;
+
+// Button focus ring settings
+$button-focus-ring-width: 2px;
+$button-focus-ring-offset: 2px;
+$button-focus-ring-opacity: 0.5;
+
+// Button loading spinner settings
+$button-spinner-size-small: 14px;
+$button-spinner-size-medium: 16px;
+$button-spinner-size-large: 18px;
+$button-spinner-border-width: 2px;
+
+// Icon button specific sizes
+$icon-button-size-small: 32px;
+$icon-button-size-medium: 40px;
+$icon-button-size-large: 48px;
+
+// Floating Action Button sizes
+$fab-size-mini: 40px;
+$fab-size-normal: 56px;
+$fab-size-large: 64px;
+$fab-icon-size-mini: 18px;
+$fab-icon-size-normal: 24px;
+$fab-icon-size-large: 28px;
+
+// Button group settings
+$button-group-border-radius: 6px;
+$button-group-divider-width: 1px;
+
+// =============================================================================
+// BUTTON UTILITY MIXINS
+// =============================================================================
+
+// Mixin for button base styles
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $button-icon-gap;
+  font-family: $button-font-family;
+  font-weight: $button-font-weight-medium;
+  line-height: $button-line-height;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: #{$button-transition-properties} #{$button-transition-duration} #{$button-transition-timing};
+  
+  &:focus {
+    outline: none;
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Mixin for button sizes
+@mixin button-size($size-map) {
+  height: map.get($size-map, height);
+  padding: map.get($size-map, padding);
+  font-size: map.get($size-map, font-size);
+  border-radius: map.get($size-map, border-radius);
+  min-width: map.get($size-map, min-width);
+  
+  fcx-button-icon {
+    width: map.get($size-map, icon-size);
+    height: map.get($size-map, icon-size);
+  }
+}
+
+// Mixin for button focus ring
+@mixin button-focus-ring($color) {
+  box-shadow: 0 0 0 #{$button-focus-ring-offset} #{$color}#{$button-focus-ring-opacity};
+}
+
+// Mixin for loading spinner
+@mixin button-loading-spinner($size, $color: currentColor) {
+  width: $size;
+  height: $size;
+  border: #{$button-spinner-border-width} solid transparent;
+  border-top-color: $color;
+  border-radius: 50%;
+  animation: fcx-button-spin 1s linear infinite;
+}
+
+// Button loading animation
+@keyframes fcx-button-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Mixin for icon button
+@mixin icon-button-base($size) {
+  width: $size;
+  height: $size;
+  min-width: $size;
+  padding: 0;
+  border-radius: 50%;
+  
+  &fcx-icon-button--square {
+    border-radius: 6px;
+  }
+}
+
+// =============================================================================
+// EXPORT FOR CSS CUSTOM PROPERTIES
+// =============================================================================
+
+// CSS Custom Properties for runtime theme switching
+:root {
+  // Menu icon sizes
+  --menu-icon-large: #{$menu-icon-size-large};
+  --menu-icon-medium: #{$menu-icon-size-medium};
+  --menu-icon-small: #{$menu-icon-size-small};
+  --menu-icon-mini: #{$menu-icon-size-mini};
+  
+  // Menu text sizes
+  --menu-text-large: #{$menu-text-size-large};
+  --menu-text-medium: #{$menu-text-size-medium};
+  --menu-text-small: #{$menu-text-size-small};
+  --menu-text-mini: #{$menu-text-size-mini};
+  
+  // Font weights
+  --menu-weight-normal: #{$menu-font-weight-normal};
+  --menu-weight-medium: #{$menu-font-weight-medium};
+  --menu-weight-semibold: #{$menu-font-weight-semibold};
+  --menu-weight-bold: #{$menu-font-weight-bold};
+  
+  // Line heights
+  --menu-line-height-compact: #{$menu-line-height-compact};
+  --menu-line-height-normal: #{$menu-line-height-normal};
+  --menu-line-height-relaxed: #{$menu-line-height-relaxed};
+  
+  // Sidebar specific
+  --sidebar-menu-icon-size: #{$sidebar-menu-icon-size};
+  --sidebar-menu-text-size: #{$sidebar-menu-text-size};
+  --sidebar-menu-text-weight: #{$sidebar-menu-text-weight};
+  
+  // Header specific
+  --header-menu-icon-size: #{$header-menu-icon-size};
+  --header-menu-text-size: #{$header-menu-text-size};
+  --header-notification-icon-size: #{$header-notification-icon-size};
+  
+  // Button specific
+  --button-font-weight-normal: #{$button-font-weight-normal};
+  --button-font-weight-medium: #{$button-font-weight-medium};
+  --button-font-weight-semibold: #{$button-font-weight-semibold};
+  --button-line-height: #{$button-line-height};
+  --button-icon-gap: #{$button-icon-gap};
+  --button-transition-duration: #{$button-transition-duration};
+  --button-focus-ring-width: #{$button-focus-ring-width};
+  --button-focus-ring-offset: #{$button-focus-ring-offset};
+  --button-spinner-border-width: #{$button-spinner-border-width};
+  
+  // Form specific
+  --form-header-size: #{$form-header-size};
+  --form-subtitle-size: #{$form-subtitle-size};
+  --form-label-size: #{$form-label-size};
+  --form-text-size: #{$form-text-size};
+  --form-error-size: #{$form-error-size};
+  --form-helper-size: #{$form-helper-size};
+  --form-divider-size: #{$form-divider-size};
+  --form-header-weight: #{$form-header-weight};
+  --form-label-weight: #{$form-label-weight};
+  --form-text-weight: #{$form-text-weight};
+  --form-link-weight: #{$form-link-weight};
+  --form-error-weight: #{$form-error-weight};
+  --form-line-height: #{$form-line-height};
+  --form-header-line-height: #{$form-header-line-height};
+  --form-header-size-mobile: #{$form-header-size-mobile};
+  --form-header-size-tablet: #{$form-header-size-tablet};
+  
+  // Form input specific
+  --form-input-text-size-small: #{$form-input-text-size-small};
+  --form-input-text-size-medium: #{$form-input-text-size-medium};
+  --form-input-text-size-large: #{$form-input-text-size-large};
+  --form-input-line-height: #{$form-input-line-height};
+  --form-counter-size: #{$form-counter-size};
+  --form-input-icon-small: #{$form-input-icon-small};
+  --form-input-icon-medium: #{$form-input-icon-medium};
+  --form-input-icon-large: #{$form-input-icon-large};
+
+  // =============================================================================
+  // GLOBAL THEME VARIABLES
+  // =============================================================================
+  
+  // Light theme (default)
+  --fcx-background: #ffffff;
+  --fcx-background-secondary: #f9fafb;
+  --fcx-background-tertiary: #f3f4f6;
+  --fcx-text-primary: #111827;
+  --fcx-text-secondary: #6b7280;
+  --fcx-text-tertiary: #9ca3af;
+  --fcx-text-inverse: #ffffff;
+  --fcx-border: #e5e7eb;
+  --fcx-border-hover: #d1d5db;
+  --fcx-border-focus: #3b82f6;
+  --fcx-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --fcx-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  // Header variables (unified)
+  --header-bg: var(--fcx-background);
+  --header-border: var(--fcx-border);
+  --header-text: var(--fcx-text-primary);
+  --header-text-secondary: var(--fcx-text-secondary);
+  --header-hover: rgba(243, 244, 246, 0.8);
+  --header-shadow: var(--fcx-shadow);
+  
+  // Sidebar variables
+  --sidebar-bg: var(--fcx-background);
+  --sidebar-border: var(--fcx-border);
+  --sidebar-border-hover: var(--fcx-border-hover);
+  --sidebar-text: var(--fcx-text-primary);
+  --sidebar-text-secondary: var(--fcx-text-secondary);
+  --sidebar-hover: rgba(243, 244, 246, 0.8);
+  
+  // Main content variables
+  --main-bg: var(--fcx-background);
+  --main-text: var(--fcx-text-primary);
+  --main-text-secondary: var(--fcx-text-secondary);
+}
+
+// Dark theme overrides
+:root[data-theme="dark"] {
+  // Dark theme colors
+  --fcx-background: #111827;
+  --fcx-background-secondary: #1f2937;
+  --fcx-background-tertiary: #374151;
+  --fcx-text-primary: #f9fafb;
+  --fcx-text-secondary: #d1d5db;
+  --fcx-text-tertiary: #9ca3af;
+  --fcx-text-inverse: #111827;
+  --fcx-border: #374151;
+  --fcx-border-hover: #4b5563;
+  --fcx-border-focus: #3b82f6;
+  --fcx-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --fcx-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  
+  // Header variables (dark)
+  --header-bg: #171717;
+  --header-border: #2d2d2d;
+  --header-text: #ececec;
+  --header-text-secondary: #a1a1aa;
+  --header-hover: rgba(45, 45, 45, 0.8);
+  --header-shadow: rgba(0, 0, 0, 0.3);
+  
+  // Sidebar variables (dark)
+  --sidebar-bg: var(--fcx-background);
+  --sidebar-border: var(--fcx-border);
+  --sidebar-border-hover: var(--fcx-border-hover);
+  --sidebar-text: var(--fcx-text-primary);
+  --sidebar-text-secondary: var(--fcx-text-secondary);
+  --sidebar-hover: rgba(45, 45, 45, 0.8);
+  
+  // Main content variables (dark)
+  --main-bg: #212121;
+  --main-text: #ececec;
+  --main-text-secondary: var(--fcx-text-secondary);
+}
+
+// Light theme explicit overrides
+:root[data-theme="light"] {
+  // Light theme colors (same as default)
+  --fcx-background: #ffffff;
+  --fcx-background-secondary: #f9fafb;
+  --fcx-background-tertiary: #f3f4f6;
+  --fcx-text-primary: #111827;
+  --fcx-text-secondary: #6b7280;
+  --fcx-text-tertiary: #9ca3af;
+  --fcx-text-inverse: #ffffff;
+  --fcx-border: #e5e7eb;
+  --fcx-border-hover: #d1d5db;
+  --fcx-border-focus: #3b82f6;
+  --fcx-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --fcx-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  // Header variables (light)
+  --header-bg: #ffffff;
+  --header-border: #e5e7eb;
+  --header-text: #1f2937;
+  --header-text-secondary: #6b7280;
+  --header-hover: rgba(243, 244, 246, 0.8);
+  --header-shadow: rgba(0, 0, 0, 0.1);
+  
+  // Sidebar variables (light explicit)
+  --sidebar-bg: var(--fcx-background);
+  --sidebar-border: var(--fcx-border);
+  --sidebar-border-hover: var(--fcx-border-hover);
+  --sidebar-text: var(--fcx-text-primary);
+  --sidebar-text-secondary: var(--fcx-text-secondary);
+  --sidebar-hover: rgba(243, 244, 246, 0.8);
+  
+  // Main content variables (light)
+  --main-bg: #ffffff;
+  --main-text: #1f2937;
+  --main-text-secondary: var(--fcx-text-secondary);
+}
+
+// =============================================================================
+// USAGE EXAMPLES
+// =============================================================================
+
+/*
+// Example usage in components:
+
+// 1. Using SCSS variables:
+.my-menu-item {
+  font-size: $sidebar-menu-text-size;
+  
+  .icon {
+    @include menu-icon-base($sidebar-menu-icon-size);
+  }
+}
+
+// 2. Using CSS custom properties:
+.my-menu-item {
+  font-size: var(--sidebar-menu-text-size);
+  
+  .icon {
+    width: var(--sidebar-menu-icon-size);
+    height: var(--sidebar-menu-icon-size);
+  }
+}
+
+// 3. Using mixins:
+.my-menu-item {
+  @include menu-item-base;
+  
+  .icon {
+    @include responsive-menu-icon;
+  }
+}
+*/

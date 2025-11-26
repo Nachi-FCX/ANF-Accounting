@@ -1,0 +1,46 @@
+{
+  "topMenuItems": [
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "icon": "dashboard.svg",
+      "route": "/dashboard",
+      "type": "single",
+      "order": 1
+    },
+    {
+      "id": "Sales",
+      "title": "Sales",
+      "icon": "dashboard.svg",
+      "route": "/sales-invoice",
+      "type": "single",
+      "order": 2
+    },
+    {
+      "id": "Purchase",
+      "title": "Purchase",
+      "icon": "dashboard.svg",
+      "route": "/gstin",
+      "type": "single",
+      "order": 3
+    }
+  ],
+  "bottomMenuItems": [
+    {
+      "id": "support",
+      "title": "Support",
+      "icon": "support.svg",
+      "route": "/support",
+      "type": "single",
+      "order": 1
+    },
+    {
+      "id": "settings",
+      "title": "Settings",
+      "icon": "settings.svg",
+      "route": "/settings",
+      "type": "single",
+      "order": 2
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+// Common Form Component Styles
+// Shared styles for PrimeVue form components
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// PRIMEVUE INPUT TEXT - GLOBAL STYLES
+// =============================================================================
+
+.p-inputtext {
+  @include fcx-input-base;
+  width: 100%;
+  padding: $form-input-padding-y $form-input-padding-x !important;
+  font-size: $form-text-size !important;
+  
+  // Size variants
+  &.p-inputtext-sm {
+    @include fcx-input-size-sm;
+    padding: $form-input-padding-y-sm $form-input-padding-x-sm !important;
+    font-size: $form-input-text-size-small !important;
+  }
+  
+  &.p-inputtext-lg {
+    @include fcx-input-size-lg;
+    padding: $form-input-padding-y-lg $form-input-padding-x-lg !important;
+    font-size: $form-input-text-size-large !important;
+  }
+  
+  // State variants
+  &.p-invalid {
+    @include fcx-input-error-state;
+  }
+  
+  &:disabled {
+    background-color: var(--fcx-surface-active);
+    color: var(--fcx-text-muted);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// =============================================================================
+// PRIMEVUE TEXTAREA - GLOBAL STYLES
+// =============================================================================
+
+.p-inputtextarea,
+.p-textarea {
+  @include fcx-input-base;
+  width: 100%;
+  padding: $form-input-padding-y $form-input-padding-x !important;
+  font-size: $form-text-size !important;
+  line-height: $form-input-line-height !important;
+  height: 100px !important;
+  resize: vertical;
+  
+  // Size variants
+  &.p-inputtextarea-sm,
+  &.p-textarea-sm {
+    padding: $form-input-padding-y-sm $form-input-padding-x-sm !important;
+    font-size: $form-input-text-size-small !important;
+  }
+  
+  &.p-inputtextarea-lg,
+  &.p-textarea-lg {
+    padding: $form-input-padding-y-lg $form-input-padding-x-lg !important;
+    font-size: $form-input-text-size-large !important;
+  }
+  
+  // State variants
+  &.p-invalid {
+    @include fcx-input-error-state;
+  }
+  
+  &:disabled {
+    background-color: var(--fcx-surface-active);
+    color: var(--fcx-text-muted);
+    cursor: not-allowed;
+    opacity: 0.6;
+    resize: none;
+  }
+}
+
+// =============================================================================
+// PRIMEVUE COMPONENT WRAPPER - COMMON PADDING
+// =============================================================================
+
+// Calendar input with icon
+.p-calendar {
+  .p-inputtext {
+    padding: $form-input-padding-y $form-input-padding-x !important;
+    padding-right: 2.75rem !important;
+  }
+}
+
+// Dropdown trigger icon spacing
+.p-dropdown {
+  .p-dropdown-trigger {
+    padding: $form-icon-padding !important;
+  }
+}
+
+// =============================================================================
+// ICON CONTAINERS - COMMON STYLES
+// =============================================================================
+
+.p-datepicker-trigger,
+.p-datepicker-input-icon-container {
+  position: absolute !important;
+  right: 0.5rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 1 !important;
+  cursor: pointer !important;
+  padding: $form-icon-padding !important;
+  border-radius: map.get($border-radius, sm) !important;
+  background: transparent !important;
+  border: none !important;
+  color: var(--fcx-text-secondary) !important;
+  transition: all 0.2s ease !important;
+  
+  &:hover {
+    background-color: var(--fcx-surface-hover) !important;
+    color: var(--fcx-text-primary) !important;
+  }
+  
+  &:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+  }
+  
+  i, svg {
+    width: 1.125rem !important;
+    height: 1.125rem !important;
+    display: block !important;
+  }
+}

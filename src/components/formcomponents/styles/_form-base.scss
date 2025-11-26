@@ -1,0 +1,436 @@
+// Form Base Styles - Shared across all form components
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+
+// =============================================================================
+// COMMON FIELD WRAPPER STYLES
+// =============================================================================
+
+.fcx-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0px;
+  
+  // Field states
+  &--disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  &--loading {
+    position: relative;
+  }
+}
+
+// =============================================================================
+// LABEL STYLES
+// =============================================================================
+
+.fcx-field-label {
+  display: block;
+  font-size: $form-label-size;
+  font-weight: $form-label-weight;
+  line-height: $form-line-height;
+  color: var(--fcx-text-primary);
+  margin-bottom: map.get($spacing, xs);
+  
+  // Required indicator
+  &.required::after {
+    content: ' *';
+    color: var(--fcx-error-500);
+    font-weight: $menu-font-weight-semibold;
+  }
+  
+  &.disabled {
+    color: var(--fcx-text-muted);
+    cursor: not-allowed;
+  }
+}
+
+.fcx-field-label-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0px;
+}
+
+// =============================================================================
+// ERROR MESSAGE STYLES
+// =============================================================================
+
+.fcx-field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: map.get($spacing, xs);
+  color: var(--fcx-error-500);
+  font-size: $form-error-size;
+  font-weight: $form-error-weight;
+  line-height: $form-line-height;
+  margin-top: map.get($spacing, xs);
+  animation: fcx-error-slide-in 0.2s ease-out;
+}
+
+.fcx-error-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+@keyframes fcx-error-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// =============================================================================
+// HELP TEXT STYLES
+// =============================================================================
+
+.fcx-field-help {
+  color: var(--fcx-text-secondary);
+  font-size: $form-helper-size;
+  line-height: $form-line-height;
+  margin-top: map.get($spacing, xs);
+}
+
+// =============================================================================
+// SPINNER / LOADING INDICATOR
+// =============================================================================
+
+.fcx-spinner {
+  @include spinner(16px);
+}
+
+@keyframes fcx-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// =============================================================================
+// COMMON INPUT BASE MIXIN (for reuse)
+// =============================================================================
+
+@mixin fcx-input-base {
+  width: 100%;
+  font-family: inherit;
+  line-height: $form-input-line-height;
+  color: var(--fcx-text-primary);
+  background-color: var(--fcx-surface);
+  border: 1px solid var(--fcx-border-normal);
+  border-radius: map.get($border-radius, md);
+  outline: none;
+  @include fcx-transition(border-color, box-shadow, background-color);
+  
+  &::placeholder {
+    color: var(--fcx-text-muted);
+    opacity: 1;
+  }
+  
+  &:hover:not(:disabled) {
+    border-color: var(--fcx-border-strong);
+    background-color: var(--fcx-surface-hover);
+  }
+  
+  &:focus {
+    border-color: var(--fcx-primary-500);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background-color: var(--fcx-surface);
+  }
+  
+  &:disabled {
+    background-color: var(--fcx-surface-active);
+    color: var(--fcx-text-muted);
+    cursor: not-allowed;
+    opacity: 0.6;
+    
+    &::placeholder {
+      color: var(--fcx-text-muted);
+    }
+  }
+}
+
+// =============================================================================
+// INPUT SIZE VARIANTS MIXIN
+// =============================================================================
+
+@mixin fcx-input-size-sm {
+  padding: 0.625rem 0.75rem;
+  font-size: $form-input-text-size-small;
+  min-height: 36px;
+}
+
+@mixin fcx-input-size-md {
+  padding: 0.75rem 0.875rem;
+  font-size: $form-input-text-size-medium;
+  min-height: 44px;
+}
+
+@mixin fcx-input-size-lg {
+  padding: 0.875rem 1rem;
+  font-size: $form-input-text-size-large;
+  min-height: 52px;
+}
+
+// =============================================================================
+// INPUT STATE VARIANTS MIXIN
+// =============================================================================
+
+@mixin fcx-input-error-state {
+  border-color: var(--fcx-error-500);
+  
+  &:focus {
+    border-color: var(--fcx-error-500);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  }
+  
+  &:hover:not(:disabled) {
+    border-color: var(--fcx-error-600);
+  }
+}
+
+@mixin fcx-input-success-state {
+  border-color: var(--fcx-success-500);
+  
+  &:focus {
+    border-color: var(--fcx-success-500);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  }
+  
+  &:hover:not(:disabled) {
+    border-color: var(--fcx-success-600);
+  }
+}
+
+// =============================================================================
+// DARK THEME FOCUS ADJUSTMENTS
+// =============================================================================
+
+@mixin fcx-dark-theme-focus {
+  :root[data-theme="dark"] &,
+  .dark & {
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+    }
+  }
+}
+
+@mixin fcx-dark-theme-error-focus {
+  :root[data-theme="dark"] &,
+  .dark & {
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.2);
+    }
+  }
+}
+
+@mixin fcx-dark-theme-success-focus {
+  :root[data-theme="dark"] &,
+  .dark & {
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+    }
+  }
+}
+
+// =============================================================================
+// ICON POSITIONING MIXINS
+// =============================================================================
+
+@mixin fcx-input-with-prefix-icon {
+  padding-left: 2.5rem;
+  
+  &.fcx-input--sm {
+    padding-left: 2.25rem;
+  }
+  
+  &.fcx-input--lg {
+    padding-left: 2.75rem;
+  }
+}
+
+@mixin fcx-input-with-suffix-icon {
+  padding-right: 2.5rem;
+  
+  &.fcx-input--sm {
+    padding-right: 2.25rem;
+  }
+  
+  &.fcx-input--lg {
+    padding-right: 2.75rem;
+  }
+}
+
+// =============================================================================
+// COMMON ICON CONTAINER STYLES
+// =============================================================================
+
+@mixin fcx-icon-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fcx-text-secondary);
+  pointer-events: none;
+  z-index: 1;
+  
+  svg,
+  i {
+    width: $form-input-icon-medium;
+    height: $form-input-icon-medium;
+    flex-shrink: 0;
+  }
+}
+
+@mixin fcx-prefix-icon {
+  @include fcx-icon-container;
+  left: 0.75rem;
+}
+
+@mixin fcx-suffix-icon {
+  @include fcx-icon-container;
+  right: 0.75rem;
+}
+
+// =============================================================================
+// DROPDOWN PANEL STYLES (for select, autocomplete, multiselect, calendar)
+// =============================================================================
+
+@mixin fcx-dropdown-panel {
+  background-color: var(--fcx-surface);
+  border-radius: map.get($border-radius, md);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: map.get($z-index, dropdown);
+  @include custom-scrollbar(6px);
+  
+  animation: fcx-panel-fade-in 0.15s ease-out;
+}
+
+@keyframes fcx-panel-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@mixin fcx-dropdown-item {
+  padding: map.get($spacing, sm) map.get($spacing, md);
+  border-radius: map.get($border-radius, sm);
+  cursor: pointer;
+  color: var(--fcx-text-primary);
+  font-size: $form-text-size;
+  line-height: $form-line-height;
+  @include fcx-transition(background-color, color);
+  
+  &:hover {
+    background-color: var(--fcx-surface-hover);
+  }
+  
+  &:focus {
+    background-color: var(--fcx-surface-active);
+    outline: none;
+  }
+  
+  &.selected,
+  &[aria-selected="true"] {
+    background-color: var(--fcx-primary-50);
+    color: var(--fcx-primary-700);
+    font-weight: $form-label-weight;
+    
+    :root[data-theme="dark"] &,
+    .dark & {
+      background-color: var(--fcx-primary-900);
+      color: var(--fcx-primary-300);
+    }
+  }
+  
+  &.disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// =============================================================================
+// CHIP/TAG STYLES (for multiselect)
+// =============================================================================
+
+@mixin fcx-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: map.get($spacing, xs);
+  padding: 0.25rem 0.5rem;
+  background-color: var(--fcx-primary-100);
+  color: var(--fcx-primary-700);
+  border-radius: map.get($border-radius, md);
+  font-size: $form-helper-size;
+  font-weight: $form-label-weight;
+  line-height: 1.2;
+  @include fcx-transition(background-color, color);
+  
+  :root[data-theme="dark"] &,
+  .dark & {
+    background-color: var(--fcx-primary-900);
+    color: var(--fcx-primary-300);
+  }
+}
+
+@mixin fcx-chip-remove-button {
+  @include button-reset;
+  @include flex-center;
+  padding: 2px;
+  border-radius: map.get($border-radius, sm);
+  color: var(--fcx-primary-600);
+  @include fcx-transition(background-color, color);
+  
+  &:hover {
+    background-color: var(--fcx-primary-200);
+    color: var(--fcx-primary-800);
+    
+    :root[data-theme="dark"] &,
+    .dark & {
+      background-color: var(--fcx-primary-800);
+      color: var(--fcx-primary-200);
+    }
+  }
+  
+  &:focus {
+    @include focus-ring(1px);
+  }
+  
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+// =============================================================================
+// RESPONSIVE UTILITIES
+// =============================================================================
+
+@mixin fcx-form-responsive {
+  @media (max-width: breakpoint(sm)) {
+    font-size: $form-input-text-size-small;
+    padding: 0.625rem 0.75rem;
+  }
+}

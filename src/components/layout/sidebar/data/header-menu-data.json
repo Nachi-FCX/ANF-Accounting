@@ -1,0 +1,89 @@
+{
+ 
+  "headerMenuItems": [
+    {
+      "id": "create-invoice",
+      "title": "Invoice",
+      "icon": "pi pi-file-edit",
+      "route": "/create/invoice",
+      "type": "action",
+      "order": 1,
+      "description": "Create a new invoice"
+    },
+      {
+      "id": "create-quote",
+      "title": "Quote",
+      "icon": "pi pi-bookmark",
+      "route": "/create/quote",
+      "type": "action",
+      "order": 4,
+      "description": "Create a new quote"
+    },
+    {
+      "id": "create-bill",
+      "title": "Bill",
+      "icon": "pi pi-receipt",
+      "route": "/create/bill",
+      "type": "action",
+      "order": 2,
+      "description": "Create a new bill"
+    },
+  {
+      "id": "create-manual-journal",
+      "title": "Manual journal",
+      "icon": "pi pi-book",
+      "route": "/create/manual-journal",
+      "type": "action",
+      "order": 6,
+      "description": "Create a manual journal entry"
+    },
+
+  
+    {
+      "id": "create-purchase-order",
+      "title": "Purchase order",
+      "icon": "pi pi-shopping-cart",
+      "route": "/create/purchase-order",
+      "type": "action",
+      "order": 5,
+      "description": "Create a new purchase order"
+    },
+  
+    {
+      "id": "spend-money",
+      "title": "Spend money",
+      "icon": "pi pi-minus-circle",
+      "route": "/transactions/spend-money",
+      "type": "transaction",
+      "order": 7,
+      "description": "Record money spent"
+    },
+    {
+      "id": "receive-money",
+      "title": "Receive money",
+      "icon": "pi pi-plus-circle",
+      "route": "/transactions/receive-money",
+      "type": "transaction",
+      "order": 8,
+      "description": "Record money received"
+    },
+    {
+      "id": "transfer-money",
+      "title": "Transfer money",
+      "icon": "pi pi-arrow-right-arrow-left",
+      "route": "/transactions/transfer-money",
+      "type": "transaction",
+      "order": 9,
+      "description": "Transfer money between accounts"
+    },
+        {
+      "id": "create-contact",
+      "title": "Contact",
+      "icon": "pi pi-user-plus",
+      "route": "/create/contact",
+      "type": "action",
+      "order": 3,
+      "description": "Add a new contact"
+    }
+  ]
+}

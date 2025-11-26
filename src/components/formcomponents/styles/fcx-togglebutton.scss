@@ -1,0 +1,437 @@
+// FcxToggleButton Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// TOGGLE BUTTON WRAPPER
+// =============================================================================
+
+.fcx-togglebutton-wrapper {
+  display: flex;
+  align-items: center;
+  gap: map.get($spacing, sm);
+  position: relative;
+  width: 100%;
+}
+
+// =============================================================================
+// TOGGLE BUTTON / SWITCH (PRIMEVUE OVERRIDE)
+// =============================================================================
+
+.fcx-togglebutton {
+  // Override PrimeVue InputSwitch/ToggleButton styles
+  .p-inputswitch {
+    width: 44px;
+    height: 24px;
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+    
+    .p-inputswitch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--fcx-border-strong);
+      border-radius: 24px;
+      @include fcx-transition(background-color, box-shadow);
+      
+      &::before {
+        content: '';
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: var(--fcx-surface);
+        border-radius: 50%;
+        @include fcx-transition(transform, box-shadow);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+    }
+    
+    &:hover:not(.p-disabled) .p-inputswitch-slider {
+      background-color: var(--fcx-gray-500);
+    }
+    
+    &.p-focus .p-inputswitch-slider {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      
+      @include fcx-dark-theme-focus;
+    }
+    
+    &.p-inputswitch-checked {
+      .p-inputswitch-slider {
+        background-color: var(--fcx-primary-500);
+        
+        &::before {
+          transform: translateX(20px);
+        }
+      }
+      
+      &:hover:not(.p-disabled) .p-inputswitch-slider {
+        background-color: var(--fcx-primary-600);
+      }
+    }
+    
+    &.p-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      
+      .p-inputswitch-slider {
+        cursor: not-allowed;
+        background-color: var(--fcx-surface-active);
+      }
+    }
+  }
+  
+  // Size variants
+  &--sm .p-inputswitch {
+    width: 36px;
+    height: 20px;
+    
+    .p-inputswitch-slider::before {
+      height: 14px;
+      width: 14px;
+    }
+    
+    &.p-inputswitch-checked .p-inputswitch-slider::before {
+      transform: translateX(16px);
+    }
+  }
+  
+  &--lg .p-inputswitch {
+    width: 52px;
+    height: 28px;
+    
+    .p-inputswitch-slider::before {
+      height: 22px;
+      width: 22px;
+    }
+    
+    &.p-inputswitch-checked .p-inputswitch-slider::before {
+      transform: translateX(24px);
+    }
+  }
+  
+  // Error state
+  &--error .p-inputswitch {
+    .p-inputswitch-slider {
+      background-color: var(--fcx-error-300);
+    }
+    
+    &.p-inputswitch-checked .p-inputswitch-slider {
+      background-color: var(--fcx-error-500);
+    }
+    
+    &.p-focus .p-inputswitch-slider {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      
+      @include fcx-dark-theme-error-focus;
+    }
+  }
+  
+  // Success state
+  &--success .p-inputswitch {
+    .p-inputswitch-slider {
+      background-color: var(--fcx-success-300);
+    }
+    
+    &.p-inputswitch-checked .p-inputswitch-slider {
+      background-color: var(--fcx-success-500);
+    }
+    
+    &.p-focus .p-inputswitch-slider {
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      
+      @include fcx-dark-theme-success-focus;
+    }
+  }
+}
+
+// =============================================================================
+// TOGGLE WITH LABELS (on/off labels inside switch)
+// =============================================================================
+
+.fcx-togglebutton--with-labels {
+  .p-inputswitch {
+    width: 60px;
+    
+    .p-inputswitch-slider {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6px;
+      
+      &::after {
+        content: attr(data-off-label);
+        font-size: 10px;
+        font-weight: $menu-font-weight-semibold;
+        color: var(--fcx-text-inverse);
+        position: absolute;
+        right: 6px;
+        opacity: 1;
+        @include fcx-transition(opacity);
+      }
+      
+      &::before {
+        z-index: 2;
+      }
+    }
+    
+    &.p-inputswitch-checked .p-inputswitch-slider {
+      &::after {
+        content: attr(data-on-label);
+        left: 6px;
+        right: auto;
+      }
+    }
+  }
+  
+  &.fcx-togglebutton--sm .p-inputswitch {
+    width: 52px;
+  }
+  
+  &.fcx-togglebutton--lg .p-inputswitch {
+    width: 68px;
+  }
+}
+
+// =============================================================================
+// TOGGLE BUTTON LABEL
+// =============================================================================
+
+.fcx-togglebutton-label {
+  display: block;
+  font-size: $form-text-size;
+  font-weight: $form-text-weight;
+  line-height: $form-line-height;
+  color: var(--fcx-text-primary);
+  cursor: pointer;
+  user-select: none;
+  @include fcx-transition(color);
+  
+  &:hover {
+    color: var(--fcx-text-primary);
+  }
+  
+  // Required indicator
+  &.required::after {
+    content: ' *';
+    color: var(--fcx-error-500);
+    font-weight: $menu-font-weight-semibold;
+  }
+  
+  &.disabled {
+    color: var(--fcx-text-muted);
+    cursor: not-allowed;
+  }
+}
+
+// =============================================================================
+// TOGGLE WITH EXTERNAL LABELS (text on both sides)
+// =============================================================================
+
+.fcx-togglebutton-labeled {
+  display: flex;
+  align-items: center;
+  gap: map.get($spacing, sm);
+  
+  .fcx-togglebutton-label-off {
+    font-size: $form-text-size;
+    color: var(--fcx-text-secondary);
+    font-weight: $form-text-weight;
+    @include fcx-transition(color, font-weight);
+  }
+  
+  .fcx-togglebutton-label-on {
+    font-size: $form-text-size;
+    color: var(--fcx-text-secondary);
+    font-weight: $form-text-weight;
+    @include fcx-transition(color, font-weight);
+  }
+  
+  &.checked {
+    .fcx-togglebutton-label-off {
+      color: var(--fcx-text-muted);
+    }
+    
+    .fcx-togglebutton-label-on {
+      color: var(--fcx-primary-700);
+      font-weight: $form-label-weight;
+      
+      :root[data-theme="dark"] &,
+      .dark & {
+        color: var(--fcx-primary-300);
+      }
+    }
+  }
+  
+  &:not(.checked) {
+    .fcx-togglebutton-label-off {
+      color: var(--fcx-text-primary);
+      font-weight: $form-label-weight;
+    }
+    
+    .fcx-togglebutton-label-on {
+      color: var(--fcx-text-muted);
+    }
+  }
+}
+
+// =============================================================================
+// LOADING STATE
+// =============================================================================
+
+.fcx-togglebutton-loading {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  
+  .fcx-spinner {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.fcx-togglebutton--loading {
+  .p-inputswitch {
+    pointer-events: none;
+    opacity: 0.7;
+    
+    .p-inputswitch-slider::before {
+      animation: fcx-toggle-pulse 1.5s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes fcx-toggle-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// =============================================================================
+// ICON VARIANTS (with check/cross icons)
+// =============================================================================
+
+.fcx-togglebutton--with-icons {
+  .p-inputswitch-slider {
+    &::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      right: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.7;
+      @include fcx-transition(opacity);
+    }
+  }
+  
+  .p-inputswitch-checked .p-inputswitch-slider {
+    &::after {
+      left: 6px;
+      right: auto;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+      opacity: 1;
+    }
+  }
+}
+
+// =============================================================================
+// DARK THEME ADJUSTMENTS
+// =============================================================================
+
+:root[data-theme="dark"],
+.dark {
+  .fcx-togglebutton {
+    .p-inputswitch-slider {
+      background-color: var(--fcx-gray-600);
+      
+      &::before {
+        background-color: var(--fcx-surface);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      }
+    }
+    
+    .p-inputswitch:hover:not(.p-disabled) .p-inputswitch-slider {
+      background-color: var(--fcx-gray-500);
+    }
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@media (max-width: breakpoint(sm)) {
+  .fcx-togglebutton-wrapper {
+    gap: map.get($spacing, xs);
+  }
+  
+  .fcx-togglebutton-label {
+    font-size: $form-input-text-size-small;
+  }
+  
+  // Larger touch targets on mobile
+  .fcx-togglebutton .p-inputswitch {
+    width: 48px;
+    height: 28px;
+    
+    .p-inputswitch-slider::before {
+      height: 22px;
+      width: 22px;
+    }
+    
+    &.p-inputswitch-checked .p-inputswitch-slider::before {
+      transform: translateX(20px);
+    }
+  }
+}
+
+// =============================================================================
+// ACCESSIBILITY ENHANCEMENTS
+// =============================================================================
+
+.fcx-togglebutton {
+  .p-inputswitch {
+    // Keyboard focus enhancement
+    &:focus-visible .p-inputswitch-slider {
+      outline: 2px solid var(--fcx-primary-500);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .fcx-togglebutton .p-inputswitch {
+    .p-inputswitch-slider {
+      border: 2px solid currentColor;
+      
+      &::before {
+        border: 2px solid currentColor;
+      }
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .fcx-togglebutton .p-inputswitch-slider,
+  .fcx-togglebutton .p-inputswitch-slider::before {
+    transition: none;
+  }
+}

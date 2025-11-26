@@ -1,0 +1,67 @@
+{
+  "events": [
+    {
+      "id": "e1",
+      "title": "Board Meeting",
+      "message": "Quarterly board meeting scheduled",
+      "type": "info",
+      "timestamp": "2024-01-07T10:00:00Z",
+      "isRead": false,
+      "category": "meeting",
+      "eventDate": "2024-01-07T14:00:00Z",
+      "location": "Conference Room A",
+      "attendees": ["John Doe", "Jane Smith", "Mike Johnson"],
+      "priority": "high"
+    },
+    {
+      "id": "e2",
+      "title": "Project Deadline",
+      "message": "FinCorpX Phase 2 deadline approaching",
+      "type": "warning",
+      "timestamp": "2024-01-06T09:00:00Z",
+      "isRead": true,
+      "category": "deadline",
+      "eventDate": "2024-01-10T17:00:00Z",
+      "project": "FinCorpX Phase 2",
+      "priority": "high"
+    },
+    {
+      "id": "e3",
+      "title": "Team Standup",
+      "message": "Daily team standup meeting",
+      "type": "info",
+      "timestamp": "2024-01-06T08:00:00Z",
+      "isRead": false,
+      "category": "meeting",
+      "eventDate": "2024-01-07T09:00:00Z",
+      "location": "Virtual - Zoom",
+      "attendees": ["Development Team"],
+      "priority": "medium"
+    },
+    {
+      "id": "e4",
+      "title": "Client Presentation",
+      "message": "Quarterly review presentation to ABC Corp",
+      "type": "info",
+      "timestamp": "2024-01-05T15:00:00Z",
+      "isRead": true,
+      "category": "meeting",
+      "eventDate": "2024-01-08T11:00:00Z",
+      "location": "Client Office",
+      "attendees": ["Sales Team", "Project Manager"],
+      "priority": "high"
+    },
+    {
+      "id": "e5",
+      "title": "System Backup",
+      "message": "Scheduled system backup maintenance",
+      "type": "warning",
+      "timestamp": "2024-01-05T12:00:00Z",
+      "isRead": false,
+      "category": "maintenance",
+      "eventDate": "2024-01-07T02:00:00Z",
+      "duration": "2 hours",
+      "priority": "medium"
+    }
+  ]
+}

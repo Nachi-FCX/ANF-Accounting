@@ -1,0 +1,1660 @@
+// Import Sass modules
+@use "sass:map";
+
+// Import global variables and mixins
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+// DataTable component styles
+.fcx-datatable {
+  position: relative;
+  width: 100%;
+  border-radius: map.get($border-radius, md);
+  overflow: hidden;
+  background: var(--fcx-datatable-background);
+  border: 1px solid var(--fcx-datatable-border);
+  box-shadow: var(--fcx-datatable-shadow);
+
+  // Enhanced Header Styles
+  &__header {
+    background: var(--fcx-datatable-header-background);
+    border-bottom: 1px solid var(--fcx-datatable-border);
+    padding: map.get($spacing, lg);
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+  }
+
+  &__header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: map.get($spacing, lg);
+    flex-wrap: wrap;
+
+    @media (max-width: breakpoint(md)) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: map.get($spacing, md);
+    }
+  }
+
+  &__header-left,
+  &__header-right {
+    display: flex;
+    align-items: center;
+    gap: map.get($spacing, md);
+    flex-wrap: wrap;
+
+    @media (max-width: breakpoint(md)) {
+      justify-content: center;
+    }
+  }
+
+  &__search-wrapper {
+    position: relative;
+    min-width: 250px;
+
+    @media (max-width: breakpoint(md)) {
+      min-width: 200px;
+      flex: 1;
+    }
+  }
+
+  &__search-input {
+    width: 100%;
+  }
+
+  &__export-wrapper {
+    position: relative;
+  }
+
+  &__export-btn {
+    &--active {
+      background: var(--fcx-datatable-header-hover-background) !important;
+      border-color: var(--fcx-datatable-border-strong) !important;
+    }
+  }
+
+  // Enhanced Export Menu
+  &__export-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: map.get($z-index, dropdown);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: map.get($spacing, lg);
+    backdrop-filter: blur(2px);
+  }
+
+  &__export-menu {
+    background: var(--fcx-datatable-background);
+    border: 1px solid var(--fcx-datatable-border);
+    border-radius: map.get($border-radius, lg);
+    box-shadow: var(--fcx-datatable-shadow-raised);
+    min-width: 280px;
+    overflow: hidden;
+    margin-top: map.get($spacing, 3xl);
+    animation: slideInDown 0.2s ease-out;
+
+    @media (max-width: breakpoint(md)) {
+      min-width: 250px;
+      margin-top: map.get($spacing, 2xl);
+    }
+  }
+
+  &__export-menu-header {
+    background: var(--fcx-datatable-header-background);
+    padding: map.get($spacing, md) map.get($spacing, lg);
+    border-bottom: 1px solid var(--fcx-datatable-border-light);
+    font-weight: map.get($font-weights, semibold);
+    color: var(--fcx-datatable-header-color);
+    font-size: map.get($font-sizes, sm);
+  }
+
+  &__export-menu-item {
+    display: flex;
+    align-items: center;
+    padding: map.get($spacing, lg);
+    cursor: pointer;
+    transition: all $transition-duration $transition-timing;
+    gap: map.get($spacing, md);
+    border-bottom: 1px solid var(--fcx-datatable-border-light);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: var(--fcx-datatable-row-hover-background);
+      transform: translateX(2px);
+    }
+
+    i {
+      font-size: map.get($font-sizes, lg);
+      color: var(--fcx-datatable-sort-icon-color);
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+  }
+
+  &__export-menu-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__export-menu-item-title {
+    color: var(--fcx-datatable-row-color);
+    font-weight: map.get($font-weights, medium);
+    font-size: map.get($font-sizes, sm);
+  }
+
+  &__export-menu-item-desc {
+    color: var(--fcx-datatable-empty-color);
+    font-size: map.get($font-sizes, xs);
+    line-height: 1.3;
+  }
+
+  // Size variants
+  &--small {
+    --fcx-datatable-font-size: #{map.get($font-sizes, sm)};
+    --fcx-datatable-padding: #{map.get($spacing, sm)};
+    --fcx-datatable-header-padding: #{map.get($spacing, sm)} #{map.get($spacing, md)};
+    --fcx-datatable-row-height: 36px;
+    --fcx-datatable-header-height: 40px;
+  }
+
+  &--medium {
+    --fcx-datatable-font-size: #{map.get($font-sizes, md)};
+    --fcx-datatable-padding: #{map.get($spacing, md)};
+    --fcx-datatable-header-padding: #{map.get($spacing, md)};
+    --fcx-datatable-row-height: 44px;
+    --fcx-datatable-header-height: 48px;
+  }
+
+  &--large {
+    --fcx-datatable-font-size: #{map.get($font-sizes, lg)};
+    --fcx-datatable-padding: #{map.get($spacing, lg)};
+    --fcx-datatable-header-padding: #{map.get($spacing, lg)};
+    --fcx-datatable-row-height: 52px;
+    --fcx-datatable-header-height: 56px;
+  }
+
+  // Theme variants
+  &--minimal {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+
+    .p-datatable-table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .p-datatable-thead > tr > th {
+      border-bottom: 2px solid var(--fcx-datatable-border);
+      background: transparent;
+    }
+
+    .p-datatable-tbody > tr > td {
+      border-top: none;
+      border-bottom: 1px solid var(--fcx-datatable-border-light);
+    }
+  }
+
+  &--bordered {
+    .p-datatable-table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .p-datatable-thead > tr > th,
+    .p-datatable-tbody > tr > td {
+      border-right: 1px solid var(--fcx-datatable-border);
+      
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+
+  &--compact {
+    --fcx-datatable-padding: #{map.get($spacing, xs)};
+    --fcx-datatable-header-padding: #{map.get($spacing, xs)} #{map.get($spacing, sm)};
+    --fcx-datatable-row-height: 32px;
+    --fcx-datatable-header-height: 36px;
+    --fcx-datatable-font-size: #{map.get($font-sizes, sm)};
+  }
+
+  // Rounded corners
+  &--rounded {
+    border-radius: map.get($border-radius, xl);
+  }
+
+  // Raised shadow
+  &--raised {
+    box-shadow: var(--fcx-datatable-shadow-raised);
+  }
+
+  // Striped rows
+  &--striped {
+    .p-datatable-tbody > tr:nth-child(even) > td {
+      background: var(--fcx-datatable-row-alternate-background);
+    }
+  }
+
+  // Hoverable rows
+  &--hoverable {
+    .p-datatable-tbody > tr:hover > td {
+      background: var(--fcx-datatable-row-hover-background);
+      transition: background-color $transition-duration $transition-timing;
+    }
+  }
+
+  // Show gridlines
+  &--gridlines {
+    .p-datatable-table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .p-datatable-thead > tr > th,
+    .p-datatable-tbody > tr > td {
+      border-right: 1px solid var(--fcx-datatable-border-light);
+      border-bottom: 1px solid var(--fcx-datatable-border-light);
+    }
+
+    .p-datatable-thead > tr > th:last-child,
+    .p-datatable-tbody > tr > td:last-child {
+      border-right: none;
+    }
+
+    .p-datatable-tbody > tr:last-child > td {
+      border-bottom: none;
+    }
+  }
+
+  // DataTable wrapper
+  .p-datatable-wrapper {
+    border-radius: inherit;
+    overflow: auto;
+  }
+
+  // Table styling
+  .p-datatable-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fcx-datatable-font-size);
+  }
+
+  // Header styling
+  .p-datatable-thead > tr > th {
+    background: var(--fcx-datatable-header-background) !important;
+    color: var(--fcx-datatable-header-color) !important;
+    font-weight: 600 !important;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
+    padding: map.get($spacing, sm) map.get($spacing, md);
+    height: 48px;
+    border-bottom: 1px solid var(--fcx-datatable-border-light);
+    text-align: left;
+    vertical-align: middle;
+    position: relative;
+    font-size: map.get($font-sizes, sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-right: 1px solid var(--fcx-datatable-border-light);
+    text-shadow: var(--fcx-datatable-header-text-shadow);
+    box-shadow: var(--fcx-datatable-header-shadow);
+
+    &:first-child {
+      border-top-left-radius: inherit;
+      padding-left: map.get($spacing, lg);
+    }
+
+    &:last-child {
+      border-top-right-radius: inherit;
+      border-right: none;
+      padding-right: map.get($spacing, lg);
+    }
+
+    // Ensure uniform background for sortable columns
+    &.p-sortable-column {
+      background: var(--fcx-datatable-header-background) !important;
+      
+      &:hover {
+        background: var(--fcx-datatable-header-hover-background) !important;
+      }
+    }
+
+    // Ensure uniform background for highlighted columns
+    &.p-highlight {
+      background: var(--fcx-datatable-header-background) !important;
+    }
+
+    // Sortable columns
+    &.p-sortable-column {
+      cursor: pointer;
+      transition: background-color $transition-duration $transition-timing;
+
+      &:hover {
+        background: var(--fcx-datatable-header-hover-background);
+      }
+
+      .p-sortable-column-icon {
+        margin-left: map.get($spacing, xs);
+        opacity: 0.6;
+        transition: opacity $transition-duration $transition-timing;
+      }
+
+      &.p-highlight .p-sortable-column-icon {
+        opacity: 1;
+        color: var(--fcx-datatable-sort-icon-color);
+      }
+    }
+
+    // Resizable columns
+    &.p-resizable-column {
+      .p-column-resizer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4px;
+        height: 100%;
+        cursor: col-resize;
+        background: transparent;
+        border: none;
+        
+        &:hover {
+          background: var(--fcx-datatable-resize-handle-color);
+        }
+      }
+    }
+
+    // Filter row
+    .p-column-filter {
+      margin-top: map.get($spacing, xs);
+    }
+
+    // Column filter menu styling
+    .p-column-filter-menu {
+      background: var(--fcx-datatable-background);
+      border: 1px solid var(--fcx-datatable-border);
+      border-radius: map.get($border-radius, md);
+      box-shadow: var(--fcx-datatable-shadow-raised);
+      padding: map.get($spacing, md);
+      min-width: 250px;
+      z-index: map.get($z-index, dropdown);
+
+      .p-column-filter-menu-button {
+        background: transparent;
+        border: 1px solid var(--fcx-datatable-border);
+        color: var(--fcx-datatable-row-color);
+        padding: map.get($spacing, xs) map.get($spacing, sm);
+        border-radius: map.get($border-radius, sm);
+        cursor: pointer;
+        transition: all $transition-duration $transition-timing;
+        margin: 0 map.get($spacing, xs);
+
+        &:hover {
+          background: var(--fcx-datatable-row-hover-background);
+          border-color: var(--fcx-datatable-sort-icon-color);
+        }
+      }
+
+      .p-column-filter-constraint {
+        margin-bottom: map.get($spacing, md);
+        padding: map.get($spacing, sm);
+        border: 1px solid var(--fcx-datatable-border-light);
+        border-radius: map.get($border-radius, sm);
+        background: var(--fcx-datatable-background);
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .p-column-filter-matchmode-dropdown {
+        width: 100%;
+        margin-bottom: map.get($spacing, sm);
+
+        .p-dropdown {
+          width: 100%;
+          border: 1px solid var(--fcx-datatable-border);
+          border-radius: map.get($border-radius, md);
+          background: var(--fcx-datatable-background);
+          height: 36px;
+          transition: all 0.2s ease;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+          &:hover {
+            border-color: var(--fcx-datatable-sort-icon-color);
+          }
+
+          &:focus-within {
+            border-color: var(--fcx-datatable-sort-icon-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+          }
+
+          .p-dropdown-label {
+            padding: map.get($spacing, sm) map.get($spacing, md);
+            color: var(--fcx-datatable-row-color);
+            font-size: map.get($font-sizes, sm);
+            font-weight: 400;
+            line-height: 1.5;
+          }
+
+          .p-dropdown-trigger {
+            width: 36px;
+            height: 34px;
+            border-left: 1px solid var(--fcx-datatable-border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fcx-datatable-label-color);
+          }
+
+          .p-dropdown-trigger {
+            border-left: 1px solid var(--fcx-datatable-border);
+            background: transparent;
+          }
+        }
+      }
+
+      .p-column-filter-element {
+        width: 100%;
+
+        .p-inputtext {
+          width: 100%;
+          border: 1px solid var(--fcx-datatable-border);
+          border-radius: map.get($border-radius, md);
+          padding: map.get($spacing, sm) map.get($spacing, md);
+          background: var(--fcx-datatable-background);
+          color: var(--fcx-datatable-row-color);
+          font-size: map.get($font-sizes, sm);
+          font-weight: 400;
+          line-height: 1.5;
+          height: 36px;
+          transition: all 0.2s ease;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+          &:focus {
+            outline: none;
+            border-color: var(--fcx-datatable-sort-icon-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+          }
+
+          &::placeholder {
+            color: var(--fcx-datatable-label-color);
+            font-style: italic;
+          }
+
+          &:focus {
+            border-color: var(--fcx-datatable-sort-icon-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(var(--fcx-datatable-sort-icon-color), 0.2);
+          }
+
+          &::placeholder {
+            color: var(--fcx-datatable-empty-color);
+            opacity: 0.7;
+          }
+        }
+      }
+
+      .p-column-filter-buttonbar {
+        display: flex;
+        justify-content: flex-end;
+        gap: map.get($spacing, sm);
+        margin-top: map.get($spacing, md);
+        padding-top: map.get($spacing, md);
+        border-top: 1px solid var(--fcx-datatable-border-light);
+
+        .p-button {
+          padding: map.get($spacing, xs) map.get($spacing, md);
+          border-radius: map.get($border-radius, sm);
+          font-size: map.get($font-sizes, sm);
+          font-weight: map.get($font-weights, medium);
+          transition: all $transition-duration $transition-timing;
+
+          &.p-button-text {
+            background: transparent;
+            border: 1px solid var(--fcx-datatable-border);
+            color: var(--fcx-datatable-row-color);
+
+            &:hover {
+              background: var(--fcx-datatable-row-hover-background);
+              border-color: var(--fcx-datatable-sort-icon-color);
+            }
+          }
+
+          &.p-button-success {
+            background: var(--fcx-datatable-sort-icon-color);
+            border: 1px solid var(--fcx-datatable-sort-icon-color);
+            color: white;
+
+            &:hover {
+              background: var(--fcx-datatable-sort-icon-color);
+              opacity: 0.9;
+            }
+          }
+        }
+      }
+
+      .p-column-filter-add-button {
+        width: 100%;
+        margin-top: map.get($spacing, sm);
+        padding: map.get($spacing, sm);
+        background: transparent;
+        border: 1px dashed var(--fcx-datatable-border);
+        color: var(--fcx-datatable-sort-icon-color);
+        border-radius: map.get($border-radius, sm);
+        cursor: pointer;
+        transition: all $transition-duration $transition-timing;
+        font-size: map.get($font-sizes, sm);
+
+        &:hover {
+          background: var(--fcx-datatable-row-hover-background);
+          border-color: var(--fcx-datatable-sort-icon-color);
+        }
+      }
+    }
+  }
+
+  // Body styling
+  .p-datatable-tbody > tr {
+    transition: all $transition-duration $transition-timing;
+    border-bottom: 1px solid var(--fcx-datatable-border-light);
+
+    &:hover {
+      background: var(--fcx-datatable-row-hover-background);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transform: translateY(-1px);
+    }
+
+    > td {
+      background: var(--fcx-datatable-row-background);
+      color: var(--fcx-datatable-row-color);
+      padding: map.get($spacing, sm) map.get($spacing, md);
+      height: 52px;
+      border-bottom: none;
+      border-right: 1px solid var(--fcx-datatable-border-light);
+      vertical-align: middle;
+      font-size: map.get($font-sizes, sm);
+      line-height: 1.5;
+      position: relative;
+
+      &:first-child {
+        padding-left: map.get($spacing, lg);
+      }
+
+      &:last-child {
+        border-right: none;
+        padding-right: map.get($spacing, lg);
+      }
+
+      // Add subtle focus indicator for accessibility
+      &:focus-within {
+        background: var(--fcx-datatable-row-hover-background);
+        outline: 2px solid var(--fcx-datatable-sort-icon-color);
+        outline-offset: -2px;
+      }
+    }
+
+    // Selected row
+    &.p-highlight {
+      background: var(--fcx-datatable-row-selected-background);
+      border-color: var(--fcx-datatable-sort-icon-color);
+      
+      > td {
+        background: var(--fcx-datatable-row-selected-background);
+        color: var(--fcx-datatable-row-selected-color);
+        font-weight: map.get($font-weights, medium);
+      }
+    }
+
+    // Last row
+    &:last-child {
+      border-bottom: none;
+    }
+
+    // Alternating row colors for better readability
+    &:nth-child(even) {
+      background: var(--fcx-datatable-row-alternate-background);
+      
+      > td {
+        background: var(--fcx-datatable-row-alternate-background);
+      }
+    }
+  }
+
+  // Footer styling
+  .p-datatable-tfoot > tr > td {
+    background: var(--fcx-datatable-footer-background);
+    color: var(--fcx-datatable-footer-color);
+    font-weight: map.get($font-weights, semibold);
+    padding: var(--fcx-datatable-padding);
+    border-top: 1px solid var(--fcx-datatable-border);
+  }
+
+  // Empty state
+  .p-datatable-emptymessage {
+    text-align: center;
+    padding: map.get($spacing, 3xl);
+    color: var(--fcx-datatable-empty-color);
+    font-size: var(--fcx-datatable-font-size);
+
+    fcx-datatable-empty-icon {
+      font-size: 48px;
+      margin-bottom: map.get($spacing, lg);
+      opacity: 0.5;
+    }
+
+    fcx-datatable-empty-message {
+      font-weight: map.get($font-weights, medium);
+      margin-bottom: map.get($spacing, sm);
+    }
+
+    fcx-datatable-empty-description {
+      font-size: map.get($font-sizes, sm);
+      opacity: 0.7;
+    }
+  }
+
+  // Enhanced Empty State
+  fcx-datatable-empty-state {
+    text-align: center;
+    padding: map.get($spacing, 3xl);
+    color: var(--fcx-datatable-empty-color);
+    font-size: var(--fcx-datatable-font-size);
+
+    fcx-datatable-empty-icon {
+      font-size: 48px;
+      margin-bottom: map.get($spacing, lg);
+      opacity: 0.5;
+      color: var(--fcx-datatable-empty-color);
+
+      i {
+        font-size: inherit;
+      }
+    }
+
+    fcx-datatable-empty-message {
+      font-weight: map.get($font-weights, medium);
+      margin-bottom: map.get($spacing, sm);
+      font-size: map.get($font-sizes, lg);
+      color: var(--fcx-datatable-row-color);
+    }
+
+    fcx-datatable-empty-description {
+      font-size: map.get($font-sizes, sm);
+      opacity: 0.7;
+      color: var(--fcx-datatable-empty-color);
+      line-height: 1.5;
+    }
+  }
+
+  // Enhanced Loading States
+  fcx-datatable-loading-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: map.get($spacing, md);
+    padding: map.get($spacing, 3xl);
+    color: var(--fcx-datatable-loading-color);
+    font-size: var(--fcx-datatable-font-size);
+
+    fcx-datatable-loading-spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--fcx-datatable-loading-spinner-track);
+      border-top: 2px solid var(--fcx-datatable-loading-spinner-color);
+      border-radius: 50%;
+      animation: fcx-datatable-spin 1s linear infinite;
+    }
+
+    span {
+      font-weight: map.get($font-weights, medium);
+    }
+  }
+
+  // Loading overlay
+  .fcx-datatable-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--fcx-datatable-loading-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: inherit;
+
+    .fcx-datatable-loading-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: map.get($spacing, md);
+      color: var(--fcx-datatable-loading-color);
+    }
+
+    .fcx-datatable-loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--fcx-datatable-loading-spinner-track);
+      border-top: 3px solid var(--fcx-datatable-loading-spinner-color);
+      border-radius: 50%;
+      animation: fcx-datatable-spin 1s linear infinite;
+    }
+
+    .fcx-datatable-loading-message {
+      font-size: var(--fcx-datatable-font-size);
+      font-weight: map.get($font-weights, medium);
+    }
+  }
+
+  // Enhanced Pagination
+  .p-paginator {
+    background: var(--fcx-datatable-paginator-background);
+    border-top: 1px solid var(--fcx-datatable-border);
+    padding: map.get($spacing, md) map.get($spacing, lg);
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: map.get($spacing, sm);
+    font-size: map.get($font-sizes, sm);
+
+    .p-paginator-first,
+    .p-paginator-prev,
+    .p-paginator-next,
+    .p-paginator-last {
+      background: transparent;
+      border: 1px solid var(--fcx-datatable-border);
+      color: var(--fcx-datatable-row-color);
+      padding: map.get($spacing, xs) map.get($spacing, sm);
+      border-radius: map.get($border-radius, sm);
+      cursor: pointer;
+      transition: all $transition-duration $transition-timing;
+      min-width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover:not(.p-disabled) {
+        background: var(--fcx-datatable-row-hover-background);
+        border-color: var(--fcx-datatable-sort-icon-color);
+        color: var(--fcx-datatable-sort-icon-color);
+      }
+
+      &.p-disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+
+    .p-paginator-pages {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+
+      .p-paginator-page {
+        background: transparent;
+        border: 1px solid var(--fcx-datatable-border);
+        color: var(--fcx-datatable-row-color);
+        padding: map.get($spacing, xs) map.get($spacing, sm);
+        border-radius: map.get($border-radius, sm);
+        cursor: pointer;
+        transition: all $transition-duration $transition-timing;
+        min-width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: map.get($font-weights, medium);
+
+        &:hover {
+          background: var(--fcx-datatable-row-hover-background);
+          border-color: var(--fcx-datatable-sort-icon-color);
+          color: var(--fcx-datatable-sort-icon-color);
+        }
+
+        &.p-highlight {
+          background: var(--fcx-datatable-sort-icon-color);
+          border-color: var(--fcx-datatable-sort-icon-color);
+          color: white;
+          font-weight: map.get($font-weights, semibold);
+        }
+      }
+    }
+
+    .p-paginator-current {
+      color: var(--fcx-datatable-row-color);
+      font-weight: map.get($font-weights, medium);
+      margin: 0 map.get($spacing, md);
+    }
+
+    .p-dropdown {
+      .p-dropdown-trigger {
+        background: transparent;
+        border: 1px solid var(--fcx-datatable-border);
+        border-radius: map.get($border-radius, sm);
+        padding: map.get($spacing, xs);
+        height: 32px;
+      }
+
+      .p-dropdown-label {
+        padding: 0 map.get($spacing, sm);
+        font-size: map.get($font-sizes, sm);
+      }
+    }
+  }
+
+  // Scrollable table
+  &.p-datatable-scrollable {
+    .p-datatable-wrapper {
+      position: relative;
+    }
+
+    .p-datatable-thead,
+    .p-datatable-tfoot {
+      position: sticky;
+      z-index: 1;
+    }
+
+    .p-datatable-thead {
+      top: 0;
+    }
+
+    .p-datatable-tfoot {
+      bottom: 0;
+    }
+  }
+
+  // Frozen columns
+  .p-datatable-frozen-column {
+    position: sticky;
+    z-index: 1;
+    background: inherit;
+  }
+
+  // Row expansion
+  .p-datatable-row-expansion {
+    background: var(--fcx-datatable-expansion-background);
+    border-bottom: 1px solid var(--fcx-datatable-border-light);
+
+    > td {
+      padding: map.get($spacing, lg);
+    }
+  }
+
+  // Row grouping
+  .p-datatable-row-group-header {
+    background: var(--fcx-datatable-group-header-background);
+    color: var(--fcx-datatable-group-header-color);
+    font-weight: map.get($font-weights, semibold);
+
+    > td {
+      padding: map.get($spacing, md);
+    }
+  }
+
+  .p-datatable-row-group-footer {
+    background: var(--fcx-datatable-group-footer-background);
+    color: var(--fcx-datatable-group-footer-color);
+    font-weight: map.get($font-weights, medium);
+
+    > td {
+      padding: map.get($spacing, md);
+    }
+  }
+
+  // Responsive
+  @media (max-width: breakpoint(md)) {
+    &.p-datatable-responsive-stack {
+      .p-datatable-thead {
+        display: none;
+      }
+
+      .p-datatable-tbody > tr {
+        display: block;
+        border: 1px solid var(--fcx-datatable-border);
+        margin-bottom: map.get($spacing, md);
+        border-radius: map.get($border-radius, md);
+        overflow: hidden;
+
+        > td {
+          display: block;
+          border: none;
+          border-bottom: 1px solid var(--fcx-datatable-border-light);
+          padding: map.get($spacing, md);
+          position: relative;
+          padding-left: 50%;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &::before {
+            content: attr(data-label);
+            position: absolute;
+            left: map.get($spacing, md);
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: map.get($font-weights, semibold);
+            color: var(--fcx-datatable-label-color);
+            width: calc(50% - #{map.get($spacing, lg)});
+          }
+        }
+      }
+    }
+  }
+}
+
+// Keyframes for loading spinner
+@keyframes fcx-datatable-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Keyframes for export menu animation
+@keyframes slideInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Vue Transition Classes for Export Menu
+.export-menu-enter-active,
+.export-menu-leave-active {
+  transition: all 0.2s ease-out;
+}
+
+.export-menu-enter-from {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+}
+
+.export-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+}
+
+.export-menu-enter-to,
+.export-menu-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+// Simplified filter overlay styling (rendered outside table structure)
+.p-datatable-filter-overlay-popover {
+  background: var(--fcx-datatable-background) !important;
+  border: 1px solid var(--fcx-datatable-border) !important;
+  border-radius: map.get($border-radius, lg) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  padding: map.get($spacing, lg) !important;
+  min-width: 280px !important;
+  max-width: 320px !important;
+  z-index: 1000 !important;
+  font-family: inherit !important;
+
+  .p-column-filter-row {
+    margin-bottom: map.get($spacing, md);
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .p-column-filter-matchmode-dropdown {
+    width: 100% !important;
+    margin-bottom: map.get($spacing, sm) !important;
+
+    .p-dropdown {
+      width: 100% !important;
+      border: 1px solid var(--fcx-datatable-border) !important;
+      border-radius: map.get($border-radius, md) !important;
+      background: var(--fcx-datatable-background) !important;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+      transition: all 0.2s ease !important;
+      height: 36px !important;
+
+      &:hover {
+        border-color: var(--fcx-datatable-sort-icon-color) !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+      }
+
+      &:focus-within {
+        border-color: var(--fcx-datatable-sort-icon-color) !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+      }
+
+      .p-dropdown-label {
+        padding: map.get($spacing, sm) map.get($spacing, md) !important;
+        color: var(--fcx-datatable-row-color) !important;
+        font-size: map.get($font-sizes, sm) !important;
+        font-weight: 500 !important;
+        line-height: 1.5 !important;
+      }
+
+      .p-dropdown-trigger {
+        border-left: 1px solid var(--fcx-datatable-border) !important;
+        background: transparent !important;
+        padding: map.get($spacing, sm) !important;
+        width: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        
+        .p-dropdown-trigger-icon {
+          color: var(--fcx-datatable-row-color) !important;
+          font-size: map.get($font-sizes, sm) !important;
+        }
+      }
+    }
+  }
+
+  .p-column-filter-element {
+    width: 100% !important;
+
+    .p-inputtext {
+      width: 100% !important;
+      border: 1px solid var(--fcx-datatable-border) !important;
+      border-radius: map.get($border-radius, md) !important;
+      padding: map.get($spacing, sm) map.get($spacing, md) !important;
+      background: var(--fcx-datatable-background) !important;
+      color: var(--fcx-datatable-row-color) !important;
+      font-size: map.get($font-sizes, sm) !important;
+      font-weight: 400 !important;
+      line-height: 1.5 !important;
+      height: 36px !important;
+      transition: all 0.2s ease !important;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+
+      &:focus {
+        outline: none !important;
+        border-color: var(--fcx-datatable-sort-icon-color) !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+      }
+
+      &::placeholder {
+        color: var(--fcx-datatable-label-color) !important;
+        font-style: italic !important;
+      }
+    }
+  }
+
+  .p-column-filter-buttonbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: map.get($spacing, sm);
+    margin-top: map.get($spacing, md);
+    padding-top: map.get($spacing, md);
+    border-top: 1px solid var(--fcx-datatable-border-light);
+
+    .p-button {
+      padding: map.get($spacing, xs) map.get($spacing, md);
+      border-radius: map.get($border-radius, sm);
+      font-size: map.get($font-sizes, sm);
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: 1px solid var(--fcx-datatable-border);
+
+      &.p-button-text {
+        background: transparent;
+        color: var(--fcx-datatable-row-color);
+
+        &:hover {
+          background: var(--fcx-datatable-row-hover-background);
+          border-color: var(--fcx-datatable-sort-icon-color);
+        }
+      }
+
+      &.p-button-success {
+        background: var(--fcx-datatable-sort-icon-color);
+        border-color: var(--fcx-datatable-sort-icon-color);
+        color: white;
+
+        &:hover {
+          background: var(--fcx-datatable-sort-icon-color);
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+
+  .p-column-filter-add-button {
+    width: 100%;
+    margin-top: map.get($spacing, sm);
+    padding: map.get($spacing, sm);
+    background: transparent;
+    border: 1px dashed var(--fcx-datatable-border);
+    color: var(--fcx-datatable-sort-icon-color);
+    border-radius: map.get($border-radius, sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: map.get($font-sizes, sm);
+
+    &:hover {
+      background: var(--fcx-datatable-row-hover-background);
+      border-color: var(--fcx-datatable-sort-icon-color);
+    }
+  }
+
+  .p-column-filter-operator-dropdown {
+    width: 100%;
+    margin-bottom: map.get($spacing, sm);
+
+    .p-dropdown {
+      width: 100%;
+      border: 1px solid var(--fcx-datatable-border);
+      border-radius: map.get($border-radius, md);
+      background: var(--fcx-datatable-background);
+      height: 36px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+      &:hover {
+        border-color: var(--fcx-datatable-sort-icon-color);
+      }
+
+      &:focus-within {
+        border-color: var(--fcx-datatable-sort-icon-color);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      .p-dropdown-label {
+        padding: map.get($spacing, sm);
+        color: var(--fcx-datatable-row-color);
+        font-size: map.get($font-sizes, sm);
+      }
+    }
+  }
+
+  .p-column-filter-constraint {
+    padding: map.get($spacing, sm);
+    border: 1px solid var(--fcx-datatable-border-light);
+    border-radius: map.get($border-radius, sm);
+    background: var(--fcx-datatable-background);
+    margin-bottom: map.get($spacing, sm);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .p-column-filter-remove-button {
+    background: transparent;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    padding: map.get($spacing, xs);
+    border-radius: map.get($border-radius, sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #dc3545;
+      color: white;
+    }
+  }
+
+  // Specific class targeting for operator dropdown
+  .p-datatable-filter-operator {
+    width: 100% !important;
+    margin-bottom: map.get($spacing, sm) !important;
+
+    .p-dropdown {
+      width: 100% !important;
+      border: 1px solid var(--fcx-datatable-border) !important;
+      border-radius: map.get($border-radius, md) !important;
+      background: var(--fcx-datatable-background) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+      transition: all 0.2s ease !important;
+      height: 40px !important;
+
+      &:hover {
+        border-color: var(--fcx-datatable-sort-icon-color) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+      }
+
+      &:focus-within {
+        border-color: var(--fcx-datatable-sort-icon-color) !important;
+        box-shadow: 0 0 0 3px rgba(66, 139, 202, 0.2) !important;
+      }
+
+      .p-dropdown-label {
+        padding: map.get($spacing, sm) map.get($spacing, md) !important;
+        color: var(--fcx-datatable-row-color) !important;
+        font-size: map.get($font-sizes, sm) !important;
+        font-weight: 500 !important;
+        line-height: 1.5 !important;
+      }
+
+      .p-dropdown-trigger {
+        border-left: 1px solid var(--fcx-datatable-border) !important;
+        background: transparent !important;
+        padding: map.get($spacing, sm) !important;
+        width: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        
+        .p-dropdown-trigger-icon {
+          color: var(--fcx-datatable-row-color) !important;
+          font-size: map.get($font-sizes, sm) !important;
+        }
+      }
+    }
+  }
+
+  // Simplified selector for text input
+  .p-column-filter-element {
+    width: 100% !important;
+    border: 1px solid var(--fcx-datatable-border) !important;
+    border-radius: map.get($border-radius, md) !important;
+    padding: map.get($spacing, sm) map.get($spacing, md) !important;
+    background: var(--fcx-datatable-background) !important;
+    color: var(--fcx-datatable-row-color) !important;
+    font-size: map.get($font-sizes, sm) !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    height: 36px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+
+    &:focus {
+      outline: none !important;
+      border-color: var(--fcx-datatable-sort-icon-color) !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    &::placeholder {
+      color: var(--fcx-datatable-label-color) !important;
+      font-style: italic !important;
+    }
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+      border-color: var(--fcx-datatable-sort-icon-color) !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    &:focus {
+      border-color: var(--fcx-datatable-sort-icon-color) !important;
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(66, 139, 202, 0.2) !important;
+    }
+
+    &::placeholder {
+      color: var(--fcx-datatable-empty-color) !important;
+      opacity: 0.6 !important;
+      font-weight: 400 !important;
+    }
+  }
+
+  // Simplified selector for apply button
+  .p-datatable-filter-apply-button {
+    background: var(--fcx-datatable-sort-icon-color) !important;
+    border: 1px solid var(--fcx-datatable-sort-icon-color) !important;
+    color: white !important;
+    padding: map.get($spacing, xs) map.get($spacing, md) !important;
+    border-radius: map.get($border-radius, md) !important;
+    font-size: map.get($font-sizes, sm) !important;
+    font-weight: 600 !important;
+    height: 36px !important;
+    min-width: 80px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(66, 139, 202, 0.3) !important;
+
+    &:hover {
+      background: var(--fcx-datatable-sort-icon-color) !important;
+      opacity: 0.9 !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 8px rgba(66, 139, 202, 0.4) !important;
+    }
+
+    &:active {
+      transform: translateY(0) !important;
+      box-shadow: 0 2px 4px rgba(66, 139, 202, 0.3) !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(66, 139, 202, 0.2), 0 2px 4px rgba(66, 139, 202, 0.3) !important;
+    }
+  }
+
+  // Simplified selector for clear button
+  .p-datatable-filter-clear-button {
+    background: transparent !important;
+    border: 1px solid var(--fcx-datatable-border) !important;
+    color: var(--fcx-datatable-row-color) !important;
+    padding: map.get($spacing, xs) map.get($spacing, md) !important;
+    border-radius: map.get($border-radius, md) !important;
+    font-size: map.get($font-sizes, sm) !important;
+    font-weight: 500 !important;
+    height: 36px !important;
+    min-width: 70px !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+      background: var(--fcx-datatable-row-hover-background) !important;
+      border-color: var(--fcx-datatable-sort-icon-color) !important;
+      color: var(--fcx-datatable-sort-icon-color) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    &:active {
+      transform: translateY(0) !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(66, 139, 202, 0.2) !important;
+    }
+  }
+}
+
+// CSS Custom Properties for theming
+:root {
+  // Light theme
+  --fcx-datatable-background: #{map.get(map.get($theme-colors, light), background)};
+  --fcx-datatable-border: #{map.get(map.get($theme-colors, light), border-normal)};
+  --fcx-datatable-border-light: #{map.get(map.get($theme-colors, light), border-light)};
+  --fcx-datatable-border-strong: #{map.get(map.get($theme-colors, light), border-strong)};
+  --fcx-datatable-shadow: #{map.get($shadows, sm)};
+  --fcx-datatable-shadow-raised: #{map.get($shadows, lg)};
+  
+  // Header
+  --fcx-datatable-header-background: #{map.get(map.get($theme-colors, light), gray-100)};
+  --fcx-datatable-header-color: #{map.get(map.get($theme-colors, light), gray-700)};
+  --fcx-datatable-header-hover-background: #{map.get(map.get($theme-colors, light), gray-50)};
+  --fcx-datatable-header-border: #{map.get(map.get($theme-colors, light), primary-400)};
+  --fcx-datatable-header-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --fcx-datatable-header-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  // Rows
+  --fcx-datatable-row-background: #{map.get(map.get($theme-colors, light), background)};
+  --fcx-datatable-row-alternate-background: #fafafa;
+  --fcx-datatable-row-hover-background: #{map.get(map.get($theme-colors, light), surface-hover)};
+  --fcx-datatable-row-selected-background: #{map.get(map.get($theme-colors, light), primary-50)};
+  --fcx-datatable-row-color: #{map.get(map.get($theme-colors, light), text-primary)};
+  --fcx-datatable-row-selected-color: #{map.get(map.get($theme-colors, light), primary-700)};
+  
+  // Footer
+  --fcx-datatable-footer-background: #{map.get(map.get($theme-colors, light), surface)};
+  --fcx-datatable-footer-color: #{map.get(map.get($theme-colors, light), text-primary)};
+  
+  // Empty state
+  --fcx-datatable-empty-color: #{map.get(map.get($theme-colors, light), text-secondary)};
+  
+  // Loading
+  --fcx-datatable-loading-background: rgba(255, 255, 255, 0.8);
+  --fcx-datatable-loading-color: #{map.get(map.get($theme-colors, light), text-primary)};
+  --fcx-datatable-loading-spinner-color: #{map.get(map.get($theme-colors, light), primary-500)};
+  --fcx-datatable-loading-spinner-track: #{map.get(map.get($theme-colors, light), gray-200)};
+  
+  // Pagination
+  --fcx-datatable-paginator-background: #{map.get(map.get($theme-colors, light), surface)};
+  
+  // Expansion and grouping
+  --fcx-datatable-expansion-background: #{map.get(map.get($theme-colors, light), surface)};
+  --fcx-datatable-group-header-background: #{map.get(map.get($theme-colors, light), surface-hover)};
+  --fcx-datatable-group-header-color: #{map.get(map.get($theme-colors, light), text-primary)};
+  --fcx-datatable-group-footer-background: #{map.get(map.get($theme-colors, light), surface)};
+  --fcx-datatable-group-footer-color: #{map.get(map.get($theme-colors, light), text-secondary)};
+  
+  // Misc
+  --fcx-datatable-sort-icon-color: #{map.get(map.get($theme-colors, light), primary-500)};
+  --fcx-datatable-resize-handle-color: #{map.get(map.get($theme-colors, light), primary-300)};
+  --fcx-datatable-label-color: #{map.get(map.get($theme-colors, light), text-secondary)};
+}
+
+// Dark theme
+[data-theme="dark"] {
+  --fcx-datatable-background: #{map.get(map.get($theme-colors, dark), background)};
+  --fcx-datatable-border: #{map.get(map.get($theme-colors, dark), border-normal)};
+  --fcx-datatable-border-light: #{map.get(map.get($theme-colors, dark), border-light)};
+  --fcx-datatable-border-strong: #{map.get(map.get($theme-colors, dark), border-strong)};
+  --fcx-datatable-shadow: #{map.get($dark-shadows, sm)};
+  --fcx-datatable-shadow-raised: #{map.get($dark-shadows, lg)};
+  
+  // Header
+  --fcx-datatable-header-background: #{map.get(map.get($theme-colors, dark), surface)};
+  --fcx-datatable-header-color: #{map.get(map.get($theme-colors, dark), text-primary)};
+  --fcx-datatable-header-hover-background: #{map.get(map.get($theme-colors, dark), surface-hover)};
+  --fcx-datatable-header-border: #{map.get(map.get($theme-colors, dark), primary-500)};
+  --fcx-datatable-header-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --fcx-datatable-header-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2);
+  
+  // Rows
+  --fcx-datatable-row-background: #{map.get(map.get($theme-colors, dark), background)};
+  --fcx-datatable-row-alternate-background: #1a202c;
+  --fcx-datatable-row-hover-background: #{map.get(map.get($theme-colors, dark), surface-hover)};
+  --fcx-datatable-row-selected-background: #{map.get(map.get($theme-colors, dark), primary-50)};
+  --fcx-datatable-row-color: #{map.get(map.get($theme-colors, dark), text-primary)};
+  --fcx-datatable-row-selected-color: #{map.get(map.get($theme-colors, dark), primary-400)};
+  
+  // Footer
+  --fcx-datatable-footer-background: #{map.get(map.get($theme-colors, dark), surface)};
+  --fcx-datatable-footer-color: #{map.get(map.get($theme-colors, dark), text-primary)};
+  
+  // Empty state
+  --fcx-datatable-empty-color: #{map.get(map.get($theme-colors, dark), text-secondary)};
+  
+  // Loading
+  --fcx-datatable-loading-background: rgba(15, 23, 42, 0.8);
+  --fcx-datatable-loading-color: #{map.get(map.get($theme-colors, dark), text-primary)};
+  --fcx-datatable-loading-spinner-color: #{map.get(map.get($theme-colors, dark), primary-500)};
+  --fcx-datatable-loading-spinner-track: #{map.get(map.get($theme-colors, dark), gray-600)};
+  
+  // Pagination
+  --fcx-datatable-paginator-background: #{map.get(map.get($theme-colors, dark), surface)};
+  
+  // Expansion and grouping
+  --fcx-datatable-expansion-background: #{map.get(map.get($theme-colors, dark), surface)};
+  --fcx-datatable-group-header-background: #{map.get(map.get($theme-colors, dark), surface-hover)};
+  --fcx-datatable-group-header-color: #{map.get(map.get($theme-colors, dark), text-primary)};
+  --fcx-datatable-group-footer-background: #{map.get(map.get($theme-colors, dark), surface)};
+  --fcx-datatable-group-footer-color: #{map.get(map.get($theme-colors, dark), text-secondary)};
+  
+  // Misc
+  --fcx-datatable-sort-icon-color: #{map.get(map.get($theme-colors, dark), primary-400)};
+  --fcx-datatable-resize-handle-color: #{map.get(map.get($theme-colors, dark), primary-600)};
+  --fcx-datatable-label-color: #{map.get(map.get($theme-colors, dark), text-secondary)};
+  
+  // Skeleton
+  --fcx-datatable-skeleton-background: #{map.get(map.get($theme-colors, dark), gray-700)};
+  --fcx-datatable-skeleton-shimmer: #{map.get(map.get($theme-colors, dark), gray-600)};
+
+  // Explicit PrimeVue DataTable dark theme overrides
+  .fcx-datatable {
+    background: var(--fcx-datatable-background) !important;
+    border: 1px solid var(--fcx-datatable-border) !important;
+    
+    .p-datatable-wrapper {
+      background: var(--fcx-datatable-background) !important;
+    }
+    
+    .p-datatable-thead > tr > th {
+      background: var(--fcx-datatable-header-background) !important;
+      color: var(--fcx-datatable-header-color) !important;
+      border-bottom: 1px solid var(--fcx-datatable-border-light) !important;
+      border-right: 1px solid var(--fcx-datatable-border-light) !important;
+      
+      &:hover,
+      &.p-sortable-column:hover {
+        background: var(--fcx-datatable-header-hover-background) !important;
+      }
+      
+      &.p-highlight,
+      &.p-sortable-column.p-highlight {
+        background: var(--fcx-datatable-header-background) !important;
+      }
+    }
+    
+    .p-datatable-tbody > tr > td {
+      background: var(--fcx-datatable-row-background) !important;
+      color: var(--fcx-datatable-row-color) !important;
+      border-bottom: 1px solid var(--fcx-datatable-border-light) !important;
+      
+      &:hover {
+        background: var(--fcx-datatable-row-hover-background) !important;
+      }
+    }
+    
+    .p-datatable-tbody > tr:hover > td {
+      background: var(--fcx-datatable-row-hover-background) !important;
+    }
+    
+    .p-datatable-tbody > tr:nth-child(even) > td {
+      background: var(--fcx-datatable-row-alternate-background, var(--fcx-datatable-row-background)) !important;
+    }
+    
+    .p-datatable-tbody > tr:nth-child(even):hover > td {
+      background: var(--fcx-datatable-row-hover-background) !important;
+    }
+  }
+}
+
+// Skeleton Loading Styles
+.fcx-datatable {
+  &__skeleton-item {
+    padding: map.get($spacing, xs) 0;
+    
+    &--wave .fcx-datatable__skeleton-bar {
+      animation: fcx-skeleton-wave 1.6s ease-in-out infinite;
+    }
+    
+    &--pulse .fcx-datatable__skeleton-bar {
+      animation: fcx-skeleton-pulse 1.5s ease-in-out infinite;
+    }
+
+    &--none .fcx-datatable__skeleton-bar {
+      animation: none;
+    }
+  }
+
+  &__skeleton-bar {
+    height: 16px;
+    background: linear-gradient(
+      90deg,
+      var(--fcx-datatable-skeleton-background, #f0f0f0) 25%,
+      var(--fcx-datatable-skeleton-shimmer, #e0e0e0) 50%,
+      var(--fcx-datatable-skeleton-background, #f0f0f0) 75%
+    );
+    background-size: 200% 100%;
+    border-radius: map.get($border-radius, sm);
+    width: 80%;
+    min-width: 60px;
+    max-width: 90%;
+  }
+
+  // Add skeleton background colors to CSS custom properties
+  &:not([data-theme="dark"]) {
+    --fcx-datatable-skeleton-background: #f0f0f0;
+    --fcx-datatable-skeleton-shimmer: #e0e0e0;
+  }
+}
+
+// Skeleton Animation Keyframes
+@keyframes fcx-skeleton-wave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fcx-skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+// Error State Styles
+.fcx-datatable {
+  &__error-state {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 100;
+    border-radius: inherit;
+  }
+
+  &__error-content {
+    text-align: center;
+    max-width: 400px;
+    padding: map.get($spacing, 3xl);
+    background: var(--fcx-datatable-background);
+    border-radius: map.get($border-radius, lg);
+    border: 1px solid var(--fcx-datatable-border);
+    box-shadow: map.get($shadows, lg);
+  }
+
+  &__error-icon {
+    font-size: 3rem;
+    margin-bottom: map.get($spacing, lg);
+    color: #dc3545;
+  }
+
+  &__error-title {
+    font-size: map.get($font-sizes, xl);
+    font-weight: map.get($font-weights, semibold);
+    color: var(--fcx-datatable-row-color);
+    margin: 0 0 map.get($spacing, md) 0;
+  }
+
+  &__error-message {
+    color: var(--fcx-datatable-empty-color);
+    margin: 0 0 map.get($spacing, lg) 0;
+    line-height: 1.5;
+  }
+
+  &__error-actions {
+    display: flex;
+    gap: map.get($spacing, md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  // Action button styles
+  &__action-btn,
+  &__add-btn,
+  &__refresh-btn {
+    white-space: nowrap;
+  }
+
+  // Dark theme support for error state
+  [data-theme="dark"] & {
+    &__error-state {
+      background: rgba(15, 23, 42, 0.95);
+    }
+  }
+}

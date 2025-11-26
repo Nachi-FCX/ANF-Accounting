@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  fincorpx-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENV: demo
+    ports:
+      - "3003:80"
+    container_name: fincorpx-demo
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=demo
+    networks:
+      - fincorpx-demo-network
+
+networks:
+  fincorpx-demo-network:
+    driver: bridge

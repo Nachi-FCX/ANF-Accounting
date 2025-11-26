@@ -1,0 +1,448 @@
+// SCSS Variables and Theme Configuration
+@use "sass:map";
+
+// Import global menu styles
+@use "../assets/styles/global-ui-variables" as *;
+
+// Theme color maps
+$theme-colors: (
+  light: (
+    // Primary colors
+    primary-50: #eff6ff,
+    primary-100: #dbeafe,
+    primary-200: #bfdbfe,
+    primary-300: #93c5fd,
+    primary-400: #60a5fa,
+    primary-500: #3b82f6,
+    primary-600: #2563eb,
+    primary-700: #1d4ed8,
+    primary-800: #1e40af,
+    primary-900: #1e3a8a,
+    
+    // Gray colors
+    gray-50: #f9fafb,
+    gray-100: #f3f4f6,
+    gray-200: #e5e7eb,
+    gray-300: #d1d5db,
+    gray-400: #9ca3af,
+    gray-500: #6b7280,
+    gray-600: #4b5563,
+    gray-700: #374151,
+    gray-800: #1f2937,
+    gray-900: #111827,
+    
+    // Semantic colors
+    success-50: #f0fdf4,
+    success-500: #22c55e,
+    success-600: #16a34a,
+    
+    warning-50: #fffbeb,
+    warning-500: #f59e0b,
+    warning-600: #d97706,
+    
+    error-50: #fef2f2,
+    error-500: #ef4444,
+    error-600: #dc2626,
+    
+    info-50: #eff6ff,
+    info-500: #3b82f6,
+    info-600: #2563eb,
+    
+    // Component colors
+    background: #ffffff,
+    surface: #ffffff,
+    surface-hover: #f9fafb,
+    surface-active: #f3f4f6,
+    
+    text-primary: #111827,
+    text-secondary: #6b7280,
+    text-muted: #9ca3af,
+    text-inverse: #ffffff,
+    
+    border-light: #f3f4f6,
+    border-normal: #e5e7eb,
+    border-strong: #d1d5db,
+    
+    focus-ring: #3b82f6,
+    focus-ring-offset: #ffffff
+  ),
+  
+  dark: (
+    // Primary colors - adjusted for dark theme
+    primary-50: #1e3a8a,
+    primary-100: #1e40af,
+    primary-200: #1d4ed8,
+    primary-300: #2563eb,
+    primary-400: #3b82f6,
+    primary-500: #60a5fa,
+    primary-600: #93c5fd,
+    primary-700: #bfdbfe,
+    primary-800: #dbeafe,
+    primary-900: #eff6ff,
+    
+    // Gray colors - inverted for dark theme
+    gray-50: #111827,
+    gray-100: #1f2937,
+    gray-200: #374151,
+    gray-300: #4b5563,
+    gray-400: #6b7280,
+    gray-500: #9ca3af,
+    gray-600: #d1d5db,
+    gray-700: #e5e7eb,
+    gray-800: #f3f4f6,
+    gray-900: #f9fafb,
+    
+    // Semantic colors - adjusted for dark theme
+    success-50: #14532d,
+    success-500: #22c55e,
+    success-600: #4ade80,
+    
+    warning-50: #451a03,
+    warning-500: #f59e0b,
+    warning-600: #fbbf24,
+    
+    error-50: #450a0a,
+    error-500: #ef4444,
+    error-600: #f87171,
+    
+    info-50: #1e3a8a,
+    info-500: #3b82f6,
+    info-600: #60a5fa,
+    
+    // Component colors for dark theme
+    background: #0f172a,
+    surface: #1e293b,
+    surface-hover: #334155,
+    surface-active: #475569,
+    
+    text-primary: #f8fafc,
+    text-secondary: #cbd5e1,
+    text-muted: #94a3b8,
+    text-inverse: #0f172a,
+    
+    border-light: #334155,
+    border-normal: #475569,
+    border-strong: #64748b,
+    
+    focus-ring: #60a5fa,
+    focus-ring-offset: #0f172a
+  )
+);
+
+// Base design tokens
+$spacing: (
+  xs: 4px,
+  sm: 8px,
+  md: 12px,
+  lg: 16px,
+  xl: 24px,
+  2xl: 32px,
+  3xl: 48px
+);
+
+$font-sizes: (
+  xs: 12px,
+  sm: 14px,
+  md: 16px,
+  lg: 18px,
+  xl: 20px,
+  2xl: 24px,
+  3xl: 30px
+);
+
+$font-weights: (
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700
+);
+
+$border-radius: (
+  sm: 4px,
+  md: 6px,
+  lg: 8px,
+  xl: 12px,
+  2xl: 16px,
+  full: 9999px
+);
+
+$shadows: (
+  sm: (0 1px 2px 0 rgba(0, 0, 0, 0.05)),
+  md: (0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)),
+  lg: (0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)),
+  xl: (0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04))
+);
+
+$dark-shadows: (
+  sm: (0 1px 2px 0 rgba(0, 0, 0, 0.3)),
+  md: (0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3)),
+  lg: (0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3)),
+  xl: (0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3))
+);
+
+// Transition settings
+$transition-duration: 0.2s;
+$transition-timing: ease-in-out;
+
+// Z-index layers
+$z-index: (
+  dropdown: 1000,
+  modal: 1050,
+  tooltip: 1100
+);
+
+// Breakpoints
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1536px
+);
+
+// Component sizes
+$component-sizes: (
+  sm: (
+    height: 36px,
+    padding: map.get($spacing, sm) map.get($spacing, md),
+    font-size: map.get($font-sizes, sm)
+  ),
+  md: (
+    height: 44px,
+    padding: map.get($spacing, md),
+    font-size: map.get($font-sizes, md)
+  ),
+  lg: (
+    height: 52px,
+    padding: map.get($spacing, lg),
+    font-size: map.get($font-sizes, lg)
+  )
+);
+
+// Sidebar-specific theme tokens
+$sidebar-theme: (
+  light: (
+    // Sidebar container
+    sidebar-bg: #ffffff,
+    sidebar-border: #e5e7eb,
+    sidebar-shadow: (0 2px 8px rgba(0, 0, 0, 0.1)),
+    
+    // Menu items
+    menu-text: #374151,
+    menu-text-secondary: #6b7280,
+    menu-bg-hover: #f3f4f6,
+    menu-bg-active: #3b82f6,
+    menu-text-hover: #1f2937,
+    menu-text-active: #ffffff,
+    
+    // Icons - Enhanced states
+    menu-icon-opacity: 0.6,
+    menu-icon-opacity-hover: 0.9,
+    menu-icon-opacity-active: 1,
+    menu-icon-filter: brightness(0) saturate(100%) invert(27%) sepia(8%) saturate(1567%) hue-rotate(183deg) brightness(94%) contrast(87%) grayscale(0.3),
+    menu-icon-filter-hover: brightness(0) saturate(100%) invert(27%) sepia(8%) saturate(1567%) hue-rotate(183deg) brightness(94%) contrast(87%),
+    menu-icon-filter-active: brightness(0) invert(1),
+    
+    // Tooltips
+    tooltip-bg: #1f2937,
+    tooltip-text: #ffffff,
+    tooltip-border: rgba(255, 255, 255, 0.1),
+    tooltip-shadow: (0 4px 12px rgba(0, 0, 0, 0.15))
+  ),
+  
+  dark: (
+    // Sidebar container
+    sidebar-bg: #1e293b,
+    sidebar-border: #334155,
+    sidebar-shadow: (0 2px 8px rgba(0, 0, 0, 0.3)),
+    
+    // Menu items
+    menu-text: #e2e8f0,
+    menu-text-secondary: #94a3b8,
+    menu-bg-hover: #334155,
+    menu-bg-active: #3b82f6,
+    menu-text-hover: #f8fafc,
+    menu-text-active: #ffffff,
+    
+    // Icons - Enhanced states
+    menu-icon-opacity: 0.6,
+    menu-icon-opacity-hover: 0.9,
+    menu-icon-opacity-active: 1,
+    menu-icon-filter: brightness(0) invert(1) grayscale(0.4),
+    menu-icon-filter-hover: brightness(0) invert(1),
+    menu-icon-filter-active: brightness(0) invert(1),
+    
+    // Tooltips
+    tooltip-bg: #0f172a,
+    tooltip-text: #f8fafc,
+    tooltip-border: rgba(255, 255, 255, 0.1),
+    tooltip-shadow: (0 4px 12px rgba(0, 0, 0, 0.4))
+  )
+);
+
+// Sidebar component settings
+$sidebar-settings: (
+  width: 250px,
+  collapsed-width: 64px,
+  transition-duration: 0.3s,
+  transition-timing: ease-in-out,
+  
+  // Menu item settings
+  menu-item-height: 44px,
+  menu-item-padding: 12px,
+  menu-item-border-radius: map.get($border-radius, md),
+  menu-item-margin: 2px 8px,
+  
+  // Icon settings
+  menu-icon-size: 20px,
+  menu-icon-margin: 12px,
+  
+  // Typography
+  menu-font-size: map.get($font-sizes, sm),
+  menu-font-weight: map.get($font-weights, medium),
+  menu-line-height: 1.4,
+  
+  // Tooltip settings
+  tooltip-padding: 8px 12px,
+  tooltip-border-radius: map.get($border-radius, md),
+  tooltip-font-size: map.get($font-sizes, xs),
+  tooltip-offset: 12px,
+  tooltip-arrow-size: 6px
+);
+
+// Enhanced responsive sidebar settings
+$sidebar-responsive: (
+  // Mobile Portrait (< 640px)
+  mobile-portrait: (
+    width: 100vw,
+    height: 100vh,
+    menu-item-height: 48px,
+    menu-item-padding: 16px,
+    menu-font-size: map.get($font-sizes, xs),
+    menu-icon-size: 24px,
+    menu-icon-margin: 16px,
+    touch-target-min: 44px,
+    header-height: 64px,
+    backdrop-blur: 8px,
+    animation-duration: 0.25s
+  ),
+  
+  // Mobile Landscape (640px - 768px)
+  mobile-landscape: (
+    width: 320px,
+    height: 100vh,
+    menu-item-height: 44px,
+    menu-item-padding: 14px,
+    menu-font-size: map.get($font-sizes, xs),
+    menu-icon-size: 22px,
+    menu-icon-margin: 14px,
+    touch-target-min: 40px,
+    header-height: 56px,
+    backdrop-blur: 6px,
+    animation-duration: 0.2s
+  ),
+  
+  // Tablet Portrait (768px - 1024px)
+  tablet-portrait: (
+    width: 280px,
+    height: 100vh,
+    menu-item-height: 42px,
+    menu-item-padding: 12px,
+    menu-font-size: map.get($font-sizes, xs),
+    menu-icon-size: 20px,
+    menu-icon-margin: 12px,
+    touch-target-min: 38px,
+    header-height: 60px,
+    backdrop-blur: 4px,
+    animation-duration: 0.2s
+  ),
+  
+  // Tablet Landscape/Small Desktop (1024px - 1280px)
+  tablet-landscape: (
+    width: 260px,
+    collapsed-width: 72px,
+    menu-item-height: 40px,
+    menu-item-padding: 12px,
+    menu-font-size: map.get($font-sizes, xs),
+    menu-icon-size: 20px,
+    menu-icon-margin: 12px,
+    touch-target-min: 36px,
+    header-height: 56px,
+    animation-duration: 0.15s
+  ),
+  
+  // Desktop (1280px - 1536px)
+  desktop: (
+    width: 250px,
+    collapsed-width: 64px,
+    menu-item-height: 40px,
+    menu-item-padding: 12px,
+    menu-font-size: 13px,
+    menu-icon-size: 20px,
+    menu-icon-margin: 12px,
+    touch-target-min: 32px,
+    header-height: 64px,
+    animation-duration: 0.15s
+  ),
+  
+  // Large Desktop (> 1536px)
+  desktop-large: (
+    width: 280px,
+    collapsed-width: 80px,
+    menu-item-height: 48px,
+    menu-item-padding: 16px,
+    menu-font-size: map.get($font-sizes, sm),
+    menu-icon-size: 24px,
+    menu-icon-margin: 16px,
+    touch-target-min: 32px,
+    header-height: 72px,
+    animation-duration: 0.15s
+  )
+);
+
+// Device-specific interaction settings
+$sidebar-interactions: (
+  mobile: (
+    swipe-threshold: 50px,
+    swipe-velocity: 0.3,
+    touch-delay: 150ms,
+    haptic-feedback: true,
+    backdrop-tap-close: true
+  ),
+  tablet: (
+    swipe-threshold: 30px,
+    swipe-velocity: 0.2,
+    touch-delay: 100ms,
+    haptic-feedback: false,
+    backdrop-tap-close: true
+  ),
+  desktop: (
+    hover-delay: 200ms,
+    focus-visible: true,
+    keyboard-nav: true,
+    backdrop-tap-close: false
+  )
+);
+
+// Helper functions for sidebar theming
+@function sidebar-theme($theme, $property) {
+  @return map.get(map.get($sidebar-theme, $theme), $property);
+}
+
+@function sidebar-setting($property) {
+  @return map.get($sidebar-settings, $property);
+}
+
+// Helper functions for responsive sidebar settings
+@function sidebar-responsive($device, $property) {
+  @return map.get(map.get($sidebar-responsive, $device), $property);
+}
+
+@function sidebar-interaction($device, $property) {
+  @return map.get(map.get($sidebar-interactions, $device), $property);
+}
+
+// Breakpoint helper function
+@function breakpoint($size) {
+  @return map.get($breakpoints, $size);
+}

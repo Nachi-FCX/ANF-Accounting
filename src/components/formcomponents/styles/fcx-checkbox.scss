@@ -1,0 +1,324 @@
+// FcxCheckbox Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// CHECKBOX WRAPPER
+// =============================================================================
+
+.fcx-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: map.get($spacing, sm);
+  position: relative;
+  width: 100%;
+}
+
+// =============================================================================
+// CHECKBOX INPUT (PRIMEVUE OVERRIDE)
+// =============================================================================
+
+.fcx-checkbox {
+  // Override PrimeVue checkbox styles
+  .p-checkbox {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    
+    .p-checkbox-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--fcx-border-strong);
+      border-radius: map.get($border-radius, sm);
+      background-color: var(--fcx-surface);
+      @include fcx-transition(border-color, background-color, box-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &:hover {
+        border-color: var(--fcx-primary-500);
+        background-color: var(--fcx-surface-hover);
+      }
+      
+      &.p-focus {
+        border-color: var(--fcx-primary-500);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        outline: none;
+        
+        @include fcx-dark-theme-focus;
+      }
+      
+      &.p-highlight {
+        background-color: var(--fcx-primary-500);
+        border-color: var(--fcx-primary-500);
+        
+        .p-checkbox-icon {
+          color: var(--fcx-text-inverse);
+          font-size: 12px;
+        }
+        
+        &:hover {
+          background-color: var(--fcx-primary-600);
+          border-color: var(--fcx-primary-600);
+        }
+      }
+      
+      &.p-disabled {
+        background-color: var(--fcx-surface-active);
+        border-color: var(--fcx-border-normal);
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      
+      // Indeterminate state
+      &.p-indeterminate {
+        background-color: var(--fcx-primary-500);
+        border-color: var(--fcx-primary-500);
+        
+        .p-checkbox-icon {
+          color: var(--fcx-text-inverse);
+          
+          &::before {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 2px;
+            background-color: currentColor;
+            border-radius: 2px;
+          }
+        }
+        
+        &:hover {
+          background-color: var(--fcx-primary-600);
+          border-color: var(--fcx-primary-600);
+        }
+      }
+    }
+  }
+  
+  // Size variants
+  &--sm {
+    .p-checkbox {
+      width: 16px;
+      height: 16px;
+      
+      .p-checkbox-box {
+        width: 16px;
+        height: 16px;
+        
+        .p-checkbox-icon {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+  
+  &--lg {
+    .p-checkbox {
+      width: 20px;
+      height: 20px;
+      
+      .p-checkbox-box {
+        width: 20px;
+        height: 20px;
+        
+        .p-checkbox-icon {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  
+  // Error state
+  &--error {
+    .p-checkbox-box {
+      border-color: var(--fcx-error-500);
+      
+      &:hover {
+        border-color: var(--fcx-error-600);
+      }
+      
+      &.p-focus {
+        border-color: var(--fcx-error-500);
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        
+        @include fcx-dark-theme-error-focus;
+      }
+      
+      &.p-highlight {
+        background-color: var(--fcx-error-500);
+        border-color: var(--fcx-error-500);
+        
+        &:hover {
+          background-color: var(--fcx-error-600);
+          border-color: var(--fcx-error-600);
+        }
+      }
+    }
+  }
+  
+  // Success state
+  &--success {
+    .p-checkbox-box {
+      border-color: var(--fcx-success-500);
+      
+      &:hover {
+        border-color: var(--fcx-success-600);
+      }
+      
+      &.p-focus {
+        border-color: var(--fcx-success-500);
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        
+        @include fcx-dark-theme-success-focus;
+      }
+      
+      &.p-highlight {
+        background-color: var(--fcx-success-500);
+        border-color: var(--fcx-success-500);
+        
+        &:hover {
+          background-color: var(--fcx-success-600);
+          border-color: var(--fcx-success-600);
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// CHECKBOX LABEL
+// =============================================================================
+
+.fcx-checkbox-label {
+  display: block;
+  font-size: $form-text-size;
+  font-weight: $form-text-weight;
+  line-height: $form-line-height;
+  color: var(--fcx-text-primary);
+  cursor: pointer;
+  user-select: none;
+  @include fcx-transition(color);
+  
+  &:hover {
+    color: var(--fcx-text-primary);
+  }
+  
+  // Required indicator
+  &.required::after {
+    content: ' *';
+    color: var(--fcx-error-500);
+    font-weight: $menu-font-weight-semibold;
+  }
+  
+  &.disabled {
+    color: var(--fcx-text-muted);
+    cursor: not-allowed;
+  }
+}
+
+// =============================================================================
+// LOADING STATE
+// =============================================================================
+
+.fcx-checkbox-loading {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  
+  .fcx-spinner {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+// =============================================================================
+// CHECKBOX GROUP (when multiple checkboxes are grouped)
+// =============================================================================
+
+.fcx-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: map.get($spacing, sm);
+  
+  &--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: map.get($spacing, lg);
+  }
+  
+  &--inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: map.get($spacing, md);
+  }
+}
+
+// =============================================================================
+// DARK THEME ADJUSTMENTS
+// =============================================================================
+
+:root[data-theme="dark"],
+.dark {
+  .fcx-checkbox {
+    .p-checkbox-box {
+      border-color: var(--fcx-border-strong);
+      background-color: var(--fcx-surface);
+      
+      &:hover {
+        background-color: var(--fcx-surface-hover);
+      }
+      
+      &.p-disabled {
+        background-color: var(--fcx-surface-active);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+
+@keyframes fcx-checkbox-check {
+  0% {
+    transform: scale(0) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(45deg);
+  }
+  100% {
+    transform: scale(1) rotate(45deg);
+    opacity: 1;
+  }
+}
+
+.p-checkbox-box.p-highlight .p-checkbox-icon {
+  animation: fcx-checkbox-check 0.2s ease-out;
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@media (max-width: breakpoint(sm)) {
+  .fcx-checkbox-wrapper {
+    gap: map.get($spacing, xs);
+  }
+  
+  .fcx-checkbox-label {
+    font-size: $form-input-text-size-small;
+  }
+  
+  .fcx-checkbox-group--horizontal,
+  .fcx-checkbox-group--inline {
+    flex-direction: column;
+    gap: map.get($spacing, sm);
+  }
+}

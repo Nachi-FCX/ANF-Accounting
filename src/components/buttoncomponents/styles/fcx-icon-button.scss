@@ -1,0 +1,687 @@
+// .fcxIconButton Component Styles - Integrated with Global Theme
+@use "sass:map";
+@use '../../../assets/styles/global-ui-variables' as *;
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// =============================================================================
+// ICON BUTTON BASE STYLES
+// =============================================================================
+
+.fcx-icon-button {
+  @include button-base;
+  position: relative;
+  padding: 0;
+  
+  // Size variants
+  &--small {
+    @include icon-button-base($icon-button-size-small);
+    
+    .fcx-icon-button-icon {
+      width: $menu-icon-size-mini;
+      height: $menu-icon-size-mini;
+    }
+    
+    .fcx-icon-button-loading-spinner {
+      @include button-loading-spinner($button-spinner-size-small);
+    }
+  }
+  
+  &--medium {
+    @include icon-button-base($icon-button-size-medium);
+    
+    .fcx-icon-button-icon {
+      width: $menu-icon-size-small;
+      height: $menu-icon-size-small;
+    }
+    
+    .fcx-icon-button-loading-spinner {
+      @include button-loading-spinner($button-spinner-size-medium);
+    }
+  }
+  
+  &--large {
+    @include icon-button-base($icon-button-size-large);
+    
+    .fcx-icon-button-icon {
+      width: $menu-icon-size-medium;
+      height: $menu-icon-size-medium;
+    }
+    
+    .fcx-icon-button-loading-spinner {
+      @include button-loading-spinner($button-spinner-size-large);
+    }
+  }
+  
+  // Shape variants
+  &--rounded {
+    border-radius: 50%;
+  }
+  
+  &--square {
+    border-radius: 6px;
+  }
+  
+  // Loading state
+  &--loading {
+    pointer-events: none;
+    
+    .fcx-icon-button-content {
+      opacity: 0;
+    }
+    
+    .fcx-icon-button-loading-spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+// =============================================================================
+// ICON BUTTON CONTENT
+// =============================================================================
+
+.fcx-icon-button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity var(--button-transition-duration) ease;
+}
+
+.fcx-icon-button-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg, img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.fcx-icon-button-loading-spinner {
+  flex-shrink: 0;
+}
+
+// =============================================================================
+// ICON BUTTON SEVERITY VARIANTS - FILLED STYLE
+// =============================================================================
+
+// Primary icon button
+.fcx-icon-button--primary.fcx-icon-button--filled {
+  background-color: map.get(map.get($theme-colors, light), primary-500);
+  color: map.get(map.get($theme-colors, light), text-inverse);
+  border-color: map.get(map.get($theme-colors, light), primary-500);
+  
+  &:hover:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), primary-600);
+    border-color: map.get(map.get($theme-colors, light), primary-600);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), primary-700);
+    border-color: map.get(map.get($theme-colors, light), primary-700);
+  }
+  
+  &:focus-visible {
+    @include button-focus-ring(map.get(map.get($theme-colors, light), primary-500));
+  }
+}
+
+// Secondary icon button
+.fcx-icon-button--secondary.fcx-icon-button--filled {
+  background-color: map.get(map.get($theme-colors, light), surface);
+  color: map.get(map.get($theme-colors, light), text-primary);
+  border-color: map.get(map.get($theme-colors, light), border-normal);
+  
+  &:hover:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), surface-hover);
+    border-color: map.get(map.get($theme-colors, light), border-strong);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), surface-active);
+  }
+  
+  &:focus-visible {
+    @include button-focus-ring(map.get(map.get($theme-colors, light), primary-500));
+  }
+}
+
+// Success icon button
+.fcx-icon-button--success.fcx-icon-button--filled {
+  background-color: map.get(map.get($theme-colors, light), success-500);
+  color: map.get(map.get($theme-colors, light), text-inverse);
+  border-color: map.get(map.get($theme-colors, light), success-500);
+  
+  &:hover:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), success-600);
+    border-color: map.get(map.get($theme-colors, light), success-600);
+  }
+  
+  &:focus-visible {
+    @include button-focus-ring(map.get(map.get($theme-colors, light), success-500));
+  }
+}
+
+// Info icon button
+.fcx-icon-button--info.fcx-icon-button--filled {
+  background-color: map.get(map.get($theme-colors, light), info-500);
+  color: map.get(map.get($theme-colors, light), text-inverse);
+  border-color: map.get(map.get($theme-colors, light), info-500);
+  
+  &:hover:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), info-600);
+    border-color: map.get(map.get($theme-colors, light), info-600);
+  }
+  
+  &:focus-visible {
+    @include button-focus-ring(map.get(map.get($theme-colors, light), info-500));
+  }
+}
+
+// Warning icon button
+.fcx-icon-button--warning.fcx-icon-button--filled {
+  background-color: map.get(map.get($theme-colors, light), warning-500);
+  color: map.get(map.get($theme-colors, light), text-inverse);
+  border-color: map.get(map.get($theme-colors, light), warning-500);
+  
+  &:hover:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), warning-600);
+    border-color: map.get(map.get($theme-colors, light), warning-600);
+  }
+  
+  &:focus-visible {
+    @include button-focus-ring(map.get(map.get($theme-colors, light), warning-500));
+  }
+}
+
+// Danger icon button
+.fcx-icon-button--danger.fcx-icon-button--filled {
+  background-color: map.get(map.get($theme-colors, light), error-500);
+  color: map.get(map.get($theme-colors, light), text-inverse);
+  border-color: map.get(map.get($theme-colors, light), error-500);
+  
+  &:hover:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), error-600);
+    border-color: map.get(map.get($theme-colors, light), error-600);
+  }
+  
+  &:focus-visible {
+    @include button-focus-ring(map.get(map.get($theme-colors, light), error-500));
+  }
+}
+
+// Help icon button
+.fcx-icon-button--help.fcx-icon-button--filled {
+  background-color: map.get(map.get($theme-colors, light), gray-500);
+  color: map.get(map.get($theme-colors, light), text-inverse);
+  border-color: map.get(map.get($theme-colors, light), gray-500);
+  
+  &:hover:not(:disabled) {
+    background-color: map.get(map.get($theme-colors, light), gray-600);
+    border-color: map.get(map.get($theme-colors, light), gray-600);
+  }
+  
+  &:focus-visible {
+    @include button-focus-ring(map.get(map.get($theme-colors, light), gray-500));
+  }
+}
+
+// =============================================================================
+// ICON BUTTON SEVERITY VARIANTS - OUTLINED STYLE
+// =============================================================================
+
+.fcx-icon-button--outlined {
+  background-color: transparent;
+  
+  &.fcx-icon-button--primary {
+    color: map.get(map.get($theme-colors, light), primary-500);
+    border-color: map.get(map.get($theme-colors, light), primary-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), primary-50);
+      color: map.get(map.get($theme-colors, light), primary-600);
+      border-color: map.get(map.get($theme-colors, light), primary-600);
+    }
+  }
+  
+  &.fcx-icon-button--secondary {
+    color: map.get(map.get($theme-colors, light), text-primary);
+    border-color: map.get(map.get($theme-colors, light), border-normal);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), surface-hover);
+      border-color: map.get(map.get($theme-colors, light), border-strong);
+    }
+  }
+  
+  &.fcx-icon-button--success {
+    color: map.get(map.get($theme-colors, light), success-500);
+    border-color: map.get(map.get($theme-colors, light), success-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), success-50);
+      color: map.get(map.get($theme-colors, light), success-600);
+      border-color: map.get(map.get($theme-colors, light), success-600);
+    }
+  }
+  
+  &.fcx-icon-button--info {
+    color: map.get(map.get($theme-colors, light), info-500);
+    border-color: map.get(map.get($theme-colors, light), info-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), info-50);
+      color: map.get(map.get($theme-colors, light), info-600);
+      border-color: map.get(map.get($theme-colors, light), info-600);
+    }
+  }
+  
+  &.fcx-icon-button--warning {
+    color: map.get(map.get($theme-colors, light), warning-500);
+    border-color: map.get(map.get($theme-colors, light), warning-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), warning-50);
+      color: map.get(map.get($theme-colors, light), warning-600);
+      border-color: map.get(map.get($theme-colors, light), warning-600);
+    }
+  }
+  
+  &.fcx-icon-button--danger {
+    color: map.get(map.get($theme-colors, light), error-500);
+    border-color: map.get(map.get($theme-colors, light), error-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), error-50);
+      color: map.get(map.get($theme-colors, light), error-600);
+      border-color: map.get(map.get($theme-colors, light), error-600);
+    }
+  }
+  
+  &.fcx-icon-button--help {
+    color: map.get(map.get($theme-colors, light), gray-500);
+    border-color: map.get(map.get($theme-colors, light), gray-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), gray-50);
+      color: map.get(map.get($theme-colors, light), gray-600);
+      border-color: map.get(map.get($theme-colors, light), gray-600);
+    }
+  }
+}
+
+// =============================================================================
+// ICON BUTTON SEVERITY VARIANTS - TEXT STYLE
+// =============================================================================
+
+.fcx-icon-button--text {
+  background-color: transparent;
+  border-color: transparent;
+  
+  &.fcx-icon-button--primary {
+    color: map.get(map.get($theme-colors, light), primary-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), primary-50);
+      color: map.get(map.get($theme-colors, light), primary-600);
+    }
+  }
+  
+  &.fcx-icon-button--secondary {
+    color: map.get(map.get($theme-colors, light), text-primary);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), surface-hover);
+    }
+  }
+  
+  &.fcx-icon-button--success {
+    color: map.get(map.get($theme-colors, light), success-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), success-50);
+      color: map.get(map.get($theme-colors, light), success-600);
+    }
+  }
+  
+  &.fcx-icon-button--info {
+    color: map.get(map.get($theme-colors, light), info-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), info-50);
+      color: map.get(map.get($theme-colors, light), info-600);
+    }
+  }
+  
+  &.fcx-icon-button--warning {
+    color: map.get(map.get($theme-colors, light), warning-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), warning-50);
+      color: map.get(map.get($theme-colors, light), warning-600);
+    }
+  }
+  
+  &.fcx-icon-button--danger {
+    color: map.get(map.get($theme-colors, light), error-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), error-50);
+      color: map.get(map.get($theme-colors, light), error-600);
+    }
+  }
+  
+  &.fcx-icon-button--help {
+    color: map.get(map.get($theme-colors, light), gray-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), gray-50);
+      color: map.get(map.get($theme-colors, light), gray-600);
+    }
+  }
+}
+
+// =============================================================================
+// ICON BUTTON SEVERITY VARIANTS - GHOST STYLE
+// =============================================================================
+
+.fcx-icon-button--ghost {
+  background-color: transparent;
+  border-color: transparent;
+  
+  &.fcx-icon-button--primary {
+    color: map.get(map.get($theme-colors, light), primary-500);
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(map.get(map.get($theme-colors, light), primary-500), 0.1);
+    }
+  }
+  
+  &.fcx-icon-button--secondary {
+    color: map.get(map.get($theme-colors, light), text-secondary);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, light), surface-hover);
+      color: map.get(map.get($theme-colors, light), text-primary);
+    }
+  }
+  
+  &.fcx-icon-button--success {
+    color: map.get(map.get($theme-colors, light), success-500);
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(map.get(map.get($theme-colors, light), success-500), 0.1);
+    }
+  }
+  
+  &.fcx-icon-button--info {
+    color: map.get(map.get($theme-colors, light), info-500);
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(map.get(map.get($theme-colors, light), info-500), 0.1);
+    }
+  }
+  
+  &.fcx-icon-button--warning {
+    color: map.get(map.get($theme-colors, light), warning-500);
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(map.get(map.get($theme-colors, light), warning-500), 0.1);
+    }
+  }
+  
+  &.fcx-icon-button--danger {
+    color: map.get(map.get($theme-colors, light), error-500);
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(map.get(map.get($theme-colors, light), error-500), 0.1);
+    }
+  }
+  
+  &.fcx-icon-button--help {
+    color: map.get(map.get($theme-colors, light), gray-500);
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(map.get(map.get($theme-colors, light), gray-500), 0.1);
+    }
+  }
+}
+
+// =============================================================================
+// TOOLTIP STYLES
+// =============================================================================
+
+.fcx-icon-button-tooltip {
+  position: absolute;
+  z-index: 1000;
+  padding: 6px 8px;
+  background-color: map.get(map.get($theme-colors, light), gray-800);
+  color: map.get(map.get($theme-colors, light), text-inverse);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+  
+  // Tooltip positions
+  &--top {
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 4px solid transparent;
+      border-top-color: map.get(map.get($theme-colors, light), gray-800);
+    }
+  }
+  
+  &--bottom {
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 4px solid transparent;
+      border-bottom-color: map.get(map.get($theme-colors, light), gray-800);
+    }
+  }
+  
+  &--left {
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 4px solid transparent;
+      border-left-color: map.get(map.get($theme-colors, light), gray-800);
+    }
+  }
+  
+  &--right {
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 4px solid transparent;
+      border-right-color: map.get(map.get($theme-colors, light), gray-800);
+    }
+  }
+}
+
+// Show tooltip on hover
+.fcx-icon-button:hover .fcx-icon-button-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+// =============================================================================
+// DARK THEME SUPPORT
+// =============================================================================
+
+[data-theme="dark"] {
+  // Filled icon buttons in dark theme
+  .fcx-icon-button--primary.fcx-icon-button--filled {
+    background-color: map.get(map.get($theme-colors, dark), primary-500);
+    color: map.get(map.get($theme-colors, dark), text-inverse);
+    border-color: map.get(map.get($theme-colors, dark), primary-500);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, dark), primary-600);
+      border-color: map.get(map.get($theme-colors, dark), primary-600);
+    }
+  }
+  
+  .fcx-icon-button--secondary.fcx-icon-button--filled {
+    background-color: map.get(map.get($theme-colors, dark), surface);
+    color: map.get(map.get($theme-colors, dark), text-primary);
+    border-color: map.get(map.get($theme-colors, dark), border-normal);
+    
+    &:hover:not(:disabled) {
+      background-color: map.get(map.get($theme-colors, dark), surface-hover);
+      border-color: map.get(map.get($theme-colors, dark), border-strong);
+    }
+  }
+  
+  // Outlined icon buttons in dark theme
+  .fcx-icon-button--outlined {
+    &.fcx-icon-button--primary {
+      color: map.get(map.get($theme-colors, dark), primary-500);
+      border-color: map.get(map.get($theme-colors, dark), primary-500);
+      
+      &:hover:not(:disabled) {
+        background-color: map.get(map.get($theme-colors, dark), primary-50);
+        color: map.get(map.get($theme-colors, dark), primary-600);
+        border-color: map.get(map.get($theme-colors, dark), primary-600);
+      }
+    }
+    
+    &.fcx-icon-button--secondary {
+      color: map.get(map.get($theme-colors, dark), text-primary);
+      border-color: map.get(map.get($theme-colors, dark), border-normal);
+      
+      &:hover:not(:disabled) {
+        background-color: map.get(map.get($theme-colors, dark), surface-hover);
+        border-color: map.get(map.get($theme-colors, dark), border-strong);
+      }
+    }
+  }
+  
+  // Text icon buttons in dark theme
+  .fcx-icon-button--text {
+    &.fcx-icon-button--primary {
+      color: map.get(map.get($theme-colors, dark), primary-500);
+      
+      &:hover:not(:disabled) {
+        background-color: map.get(map.get($theme-colors, dark), primary-50);
+        color: map.get(map.get($theme-colors, dark), primary-600);
+      }
+    }
+    
+    &.fcx-icon-button--secondary {
+      color: map.get(map.get($theme-colors, dark), text-primary);
+      
+      &:hover:not(:disabled) {
+        background-color: map.get(map.get($theme-colors, dark), surface-hover);
+      }
+    }
+  }
+  
+  // Ghost icon buttons in dark theme
+  .fcx-icon-button--ghost {
+    &.fcx-icon-button--primary {
+      color: map.get(map.get($theme-colors, dark), primary-500);
+      
+      &:hover:not(:disabled) {
+        background-color: rgba(map.get(map.get($theme-colors, dark), primary-500), 0.1);
+      }
+    }
+    
+    &.fcx-icon-button--secondary {
+      color: map.get(map.get($theme-colors, dark), text-secondary);
+      
+      &:hover:not(:disabled) {
+        background-color: map.get(map.get($theme-colors, dark), surface-hover);
+        color: map.get(map.get($theme-colors, dark), text-primary);
+      }
+    }
+  }
+  
+  // Tooltip in dark theme
+  .fcx-icon-button-tooltip {
+    background-color: map.get(map.get($theme-colors, dark), gray-200);
+    color: map.get(map.get($theme-colors, dark), text-inverse);
+    
+    &--top::after {
+      border-top-color: map.get(map.get($theme-colors, dark), gray-200);
+    }
+    
+    &--bottom::after {
+      border-bottom-color: map.get(map.get($theme-colors, dark), gray-200);
+    }
+    
+    &--left::after {
+      border-left-color: map.get(map.get($theme-colors, dark), gray-200);
+    }
+    
+    &--right::after {
+      border-right-color: map.get(map.get($theme-colors, dark), gray-200);
+    }
+  }
+}
+
+// =============================================================================
+// RESPONSIVE DESIGN
+// =============================================================================
+
+@media (max-width: 767px) {
+  .fcx-icon-button {
+    // Slightly larger touch targets on mobile
+    &--small {
+      min-width: 36px;
+      min-height: 36px;
+    }
+    
+    &--medium {
+      min-width: 44px;
+      min-height: 44px;
+    }
+    
+    &--large {
+      min-width: 52px;
+      min-height: 52px;
+    }
+  }
+}

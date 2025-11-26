@@ -1,0 +1,442 @@
+// .fcxOtp Component Styles - Following .fcx Design System
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+
+.fcx-otp-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.fcx-otp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  
+  // Size variants
+  &--sm {
+    gap: 0.375rem;
+  }
+  
+  &--md {
+    gap: 0.5rem;
+  }
+  
+  &--lg {
+    gap: 0.625rem;
+  }
+  
+  // States
+  &--error {
+    .fcx-otp-input {
+      border-color: #ef4444;
+      
+      &:focus {
+        border-color: #ef4444;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      }
+    }
+  }
+  
+  &--success {
+    .fcx-otp-input {
+      border-color: #10b981;
+      
+      &:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      }
+    }
+  }
+  
+  &--disabled {
+    .fcx-otp-input {
+      background-color: #f3f4f6;
+      color: #9ca3af;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+  
+  &--loading {
+    .fcx-otp-input {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+}
+
+// Individual OTP input
+.fcx-otp-input {
+  width: 3rem;
+  height: 3rem;
+  font-family: inherit;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #374151;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  text-align: center;
+  transition: all 0.2s ease;
+  caret-color: #3b82f6;
+  
+  &::placeholder {
+    color: #d1d5db;
+    opacity: 1;
+    font-weight: 400;
+  }
+  
+  &:hover:not(:disabled) {
+    border-color: #9ca3af;
+  }
+  
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    z-index: 1;
+    position: relative;
+  }
+  
+  &:disabled {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  // Size variants
+  &--sm {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.875rem;
+  }
+  
+  &--md {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.125rem;
+  }
+  
+  &--lg {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.25rem;
+  }
+  
+  // Variant styles
+  &--filled {
+    background-color: #f9fafb;
+    border-color: transparent;
+    
+    &:hover:not(:disabled) {
+      background-color: #f3f4f6;
+    }
+    
+    &:focus {
+      background-color: #ffffff;
+      border-color: #3b82f6;
+    }
+  }
+  
+  &--outlined {
+    background-color: transparent;
+    border-width: 2px;
+    
+    &:focus {
+      border-width: 2px;
+    }
+  }
+  
+  // Filled state (when input has value)
+  &--has-value {
+    background-color: #f0f9ff;
+    border-color: #3b82f6;
+    color: #1e40af;
+  }
+  
+  // Masked input (dots instead of numbers)
+  &--masked {
+    font-family: monospace;
+    letter-spacing: 0.1em;
+    
+    &::placeholder {
+      font-family: inherit;
+      letter-spacing: normal;
+    }
+  }
+}
+
+// Separator between inputs
+.fcx-otp-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 1rem;
+  font-weight: 500;
+  user-select: none;
+  
+  .fcx-otp--sm & {
+    font-size: 0.875rem;
+  }
+  
+  .fcx-otp--lg & {
+    font-size: 1.125rem;
+  }
+}
+
+// Loading state
+.fcx-otp-loading {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+// Clear row (on next line)
+.fcx-otp-clear-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+// Clear text button (on next row)
+.fcx-otp-clear-text {
+  background: none;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: #3b82f6;
+  text-decoration: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-size: $form-helper-size;
+  font-weight: $form-link-weight;
+  
+  &:hover {
+    color: #1d4ed8;
+    background: rgba(59, 130, 246, 0.1);
+  }
+  
+  &:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Auto-submit indicator
+.fcx-otp-auto-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  font-size: $form-counter-size;
+  color: #6b7280;
+  
+  .fcx-otp-countdown {
+    font-weight: $form-header-weight;
+    color: #3b82f6;
+    margin-left: 0.25rem;
+  }
+}
+
+// Paste indicator
+.fcx-otp-paste-indicator {
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3b82f6;
+  color: white;
+  font-size: $form-counter-size;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 10;
+  
+  &--visible {
+    opacity: 1;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #3b82f6;
+  }
+}
+
+// Responsive design
+@media (max-width: 640px) {
+  .fcx-otp {
+    gap: 0.375rem;
+    
+    &--sm {
+      gap: 0.25rem;
+    }
+    
+    &--md {
+      gap: 0.375rem;
+    }
+    
+    &--lg {
+      gap: 0.5rem;
+    }
+  }
+  
+  .fcx-otp-input {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    
+    &--sm {
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.875rem;
+    }
+    
+    &--md {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1rem;
+    }
+    
+    &--lg {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.125rem;
+    }
+  }
+}
+
+// Dark theme support
+:root[data-theme="dark"] {
+  .fcx-otp-input {
+    color: #f9fafb;
+    background-color: #1f2937;
+    border-color: #374151;
+    
+    &::placeholder {
+      color: #6b7280;
+    }
+    
+    &:hover:not(:disabled) {
+      border-color: #4b5563;
+    }
+    
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    &:disabled {
+      background-color: #374151;
+      color: #6b7280;
+    }
+    
+    &--filled {
+      background-color: #374151;
+      
+      &:hover:not(:disabled) {
+        background-color: #4b5563;
+      }
+      
+      &:focus {
+        background-color: #1f2937;
+      }
+    }
+    
+    &--has-value {
+      background-color: #1e3a8a;
+      border-color: #3b82f6;
+      color: #93c5fd;
+    }
+  }
+  
+  .fcx-otp-separator {
+    color: #6b7280;
+  }
+  
+  .fcx-otp-clear {
+    color: #6b7280;
+    
+    &:hover {
+      color: #d1d5db;
+    }
+  }
+  
+  .fcx-otp-auto-submit {
+    color: #9ca3af;
+    
+    .fcx-otp-countdown {
+      color: #60a5fa;
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .fcx-otp-input {
+    border-width: 2px;
+    
+    &:focus {
+      border-width: 3px;
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .fcx-otp-input {
+    transition: none;
+  }
+  
+  .fcx-otp-paste-indicator {
+    transition: none;
+  }
+}
+
+// Print styles
+@media print {
+  .fcx-otp {
+    display: flex;
+    border: 1px solid #000;
+    padding: 0.5rem;
+    
+    .fcx-otp-input {
+      border: 1px solid #000;
+      box-shadow: none;
+      background: white;
+      color: black;
+    }
+  }
+  
+  .fcx-otp-clear,
+  .fcx-otp-loading,
+  .fcx-otp-paste-indicator {
+    display: none;
+  }
+}

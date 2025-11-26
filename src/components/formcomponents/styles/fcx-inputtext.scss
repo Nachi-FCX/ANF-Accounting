@@ -1,0 +1,219 @@
+// .fcxInputtext Component Styles - Zoho Books Style
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+
+.fcx-inputtext-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.fcx-inputtext {
+  width: 100%;
+  font-family: inherit;
+  line-height: $form-input-line-height;
+  color: #374151;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 0.625rem 0.75rem;
+  font-size: $form-input-text-size-small;
+  
+  &::placeholder {
+    color: #9ca3af;
+    opacity: 1;
+  }
+  
+  &:hover:not(:disabled) {
+    border-color: #9ca3af;
+  }
+  
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  &:disabled {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+    
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+  
+  // Size variants
+  &--sm {
+    padding: 0.625rem 0.75rem;
+    font-size: $form-input-text-size-small;
+  }
+  
+  &--md {
+    padding: 0.75rem 0.875rem;
+    font-size: $form-input-text-size-medium;
+  }
+  
+  &--lg {
+    padding: 0.875rem 1rem;
+    font-size: $form-input-text-size-large;
+  }
+  
+  // States
+  &--error {
+    border-color: #ef4444;
+    
+    &:focus {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+  }
+  
+  &--success {
+    border-color: #10b981;
+    
+    &:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+  }
+  
+  // With icons
+  &--with-prefix {
+    padding-left: 2.5rem;
+    
+    &.fcx-inputtext--sm {
+      padding-left: 2.25rem;
+    }
+    
+    &.fcx-inputtext--lg {
+      padding-left: 2.75rem;
+    }
+  }
+  
+  &--with-suffix {
+    padding-right: 2.5rem;
+    
+    &.fcx-inputtext--sm {
+      padding-right: 2.25rem;
+    }
+    
+    &.fcx-inputtext--lg {
+      padding-right: 2.75rem;
+    }
+  }
+}
+
+// Icon containers
+.fcx-inputtext-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  pointer-events: none;
+  z-index: 1;
+  
+  &--prefix {
+    left: 0.75rem;
+  }
+  
+  &--suffix {
+    right: 0.75rem;
+  }
+  
+  svg,
+  i {
+    width: $form-input-icon-medium;
+    height: $form-input-icon-medium;
+    flex-shrink: 0;
+  }
+  
+  .fcx-inputtext--sm & {
+    svg,
+    i {
+      width: $form-input-icon-small;
+      height: $form-input-icon-small;
+    }
+  }
+  
+  .fcx-inputtext--lg & {
+    svg,
+    i {
+      width: $form-input-icon-large;
+      height: $form-input-icon-large;
+    }
+  }
+}
+
+// Clear button
+.fcx-inputtext-clear {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  padding: 0.25rem;
+  border-radius: 4px;
+  pointer-events: auto;
+  z-index: 2;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #374151;
+  }
+  
+  &:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  svg {
+    width: $form-input-icon-small;
+    height: $form-input-icon-small;
+    flex-shrink: 0;
+  }
+}
+
+// Loading state
+.fcx-inputtext--loading {
+  position: relative;
+}
+
+.fcx-inputtext-loading {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+// Character counter
+.fcx-inputtext-counter {
+  font-size: $form-counter-size;
+  color: #9ca3af;
+  text-align: right;
+  margin-top: 0.25rem;
+  
+  &--over-limit {
+    color: #ef4444;
+  }
+}

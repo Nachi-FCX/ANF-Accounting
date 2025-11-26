@@ -1,0 +1,373 @@
+// FCX Dialog Component Styles
+// 
+// This file contains the styles for the FCX Dialog component.
+// It includes overrides for PrimeVue Dialog styles and custom FCX styling.
+
+// Define CSS custom properties for dialog theming
+:root {
+  // Base dialog variables
+  --fcx-dialog-bg: #ffffff;
+  --fcx-dialog-border: #e5e7eb;
+  --fcx-dialog-border-radius: 8px;
+  --fcx-dialog-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  // Backdrop variables
+  --fcx-dialog-backdrop: rgba(0, 0, 0, 0.5);
+  --fcx-dialog-backdrop-blur: 8px;
+  --fcx-dialog-backdrop-z-index: 1000;
+  
+  // Header variables
+  --fcx-dialog-header-bg: #ffffff;
+  --fcx-dialog-header-border: #e5e7eb;
+  --fcx-dialog-header-padding: 1.5rem;
+  --fcx-dialog-header-text: #111827;
+  --fcx-dialog-header-font-size: 1.125rem;
+  --fcx-dialog-header-font-weight: 600;
+  
+  // Content variables
+  --fcx-dialog-content-bg: #ffffff;
+  --fcx-dialog-content-text: #374151;
+  --fcx-dialog-content-padding: 1.5rem;
+  
+  // Footer variables
+  --fcx-dialog-footer-bg: #ffffff;
+  --fcx-dialog-footer-border: #e5e7eb;
+  --fcx-dialog-footer-padding: 1rem 1.5rem;
+}
+
+// Dark theme overrides
+[data-theme="dark"] {
+  --fcx-dialog-bg: #1f2937;
+  --fcx-dialog-border: #374151;
+  --fcx-dialog-backdrop: rgba(0, 0, 0, 0.75);
+  --fcx-dialog-header-bg: #1f2937;
+  --fcx-dialog-header-border: #374151;
+  --fcx-dialog-header-text: #f9fafb;
+  --fcx-dialog-content-bg: #1f2937;
+  --fcx-dialog-content-text: #d1d5db;
+  --fcx-dialog-footer-bg: #1f2937;
+  --fcx-dialog-footer-border: #374151;
+}
+
+// Override PrimeVue Dialog styles with FcxDialog custom styling
+:deep(.p-dialog-mask) {
+  background: var(--fcx-dialog-backdrop) !important;
+  backdrop-filter: blur(var(--fcx-dialog-backdrop-blur)) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(var(--fcx-dialog-backdrop-blur)) saturate(180%) !important;
+}
+
+:deep(.p-dialog) {
+  background: var(--fcx-dialog-bg) !important;
+  border: 1px solid var(--fcx-dialog-border) !important;
+  border-radius: var(--fcx-dialog-border-radius) !important;
+  box-shadow: var(--fcx-dialog-shadow) !important;
+}
+
+// Size variants
+:deep(.p-dialog.fcx-dialog--small),
+:deep(.p-dialog.fcx-dialog--s) {
+  width: 95vw !important;
+  max-width: 400px !important;
+  min-width: 300px !important;
+}
+
+:deep(.p-dialog.fcx-dialog--medium),
+:deep(.p-dialog.fcx-dialog--m) {
+  width: 90vw !important;
+  max-width: 500px !important;
+  min-width: 350px !important;
+}
+
+:deep(.p-dialog.fcx-dialog--large),
+:deep(.p-dialog.fcx-dialog--l) {
+  width: 95vw !important;
+  max-width: 800px !important;
+  min-width: 600px !important;
+}
+
+:deep(.p-dialog.fcx-dialog--xl) {
+  width: 95vw !important;
+  max-width: 1200px !important;
+  min-width: 800px !important;
+}
+
+:deep(.p-dialog.fcx-dialog--fullscreen) {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
+
+// Theme variants
+:deep(.p-dialog.fcx-dialog--minimal) {
+  border: none !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+:deep(.p-dialog.fcx-dialog--bordered) {
+  border-width: 2px !important;
+}
+
+:deep(.p-dialog.fcx-dialog--rounded) {
+  border-radius: 12px !important;
+}
+
+:deep(.p-dialog.fcx-dialog--shadow) {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+:deep(.p-dialog.fcx-dialog--maximized) {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  top: 0 !important;
+  left: 0 !important;
+  border-radius: 0 !important;
+  transform: none !important;
+}
+
+:deep(.p-dialog-header) {
+  background: var(--fcx-dialog-header-bg) !important;
+  border-bottom: 1px solid var(--fcx-dialog-header-border) !important;
+  padding: var(--fcx-dialog-header-padding) !important;
+  
+  .p-dialog-title {
+    color: var(--fcx-dialog-header-text) !important;
+    font-size: var(--fcx-dialog-header-font-size) !important;
+    font-weight: var(--fcx-dialog-header-font-weight) !important;
+  }
+}
+
+:deep(.p-dialog-content) {
+  background: var(--fcx-dialog-content-bg) !important;
+  color: var(--fcx-dialog-content-text) !important;
+  padding: var(--fcx-dialog-content-padding) !important;
+}
+
+:deep(.p-dialog-footer) {
+  background: var(--fcx-dialog-footer-bg) !important;
+  border-top: 1px solid var(--fcx-dialog-footer-border) !important;
+  padding: var(--fcx-dialog-footer-padding) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0.75rem !important;
+}
+
+// Close button styling
+:deep(.p-dialog-header-close) {
+  background: transparent !important;
+  border: none !important;
+  color: var(--fcx-dialog-header-text) !important;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+  }
+  
+  &:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
+  }
+}
+
+// Responsive overrides for PrimeVue Dialog
+@media (max-width: 768px) {
+  :deep(.p-dialog.fcx-dialog--small),
+  :deep(.p-dialog.fcx-dialog--medium),
+  :deep(.p-dialog.fcx-dialog--large) {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  
+  :deep(.p-dialog-header) {
+    padding: 1rem !important;
+  }
+  
+  :deep(.p-dialog-content) {
+    padding: 1rem !important;
+  }
+  
+  :deep(.p-dialog-footer) {
+    padding: 0.75rem 1rem !important;
+    flex-direction: column-reverse !important;
+    gap: 0.5rem !important;
+    
+    .fcx-button {
+      width: 100% !important;
+    }
+  }
+}
+
+// Dialog mask styling
+.fcx-dialog-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--fcx-dialog-backdrop);
+  backdrop-filter: blur(var(--fcx-dialog-backdrop-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--fcx-dialog-backdrop-blur)) saturate(180%);
+  z-index: var(--fcx-dialog-backdrop-z-index);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.fcx-dialog-mask--modal {
+  pointer-events: auto;
+}
+
+.fcx-dialog-mask--non-modal {
+  pointer-events: none;
+}
+
+// Basic dialog container styles
+.fcx-dialog {
+  background: var(--fcx-dialog-bg);
+  border: 1px solid var(--fcx-dialog-border);
+  border-radius: var(--fcx-dialog-border-radius);
+  box-shadow: var(--fcx-dialog-shadow);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  max-width: 90vw;
+  overflow: hidden;
+  position: relative;
+}
+
+// Size variants for base class
+.fcx-dialog--small {
+  width: 400px;
+  min-width: 300px;
+}
+
+.fcx-dialog--medium {
+  width: 600px;
+  min-width: 400px;
+}
+
+.fcx-dialog--large {
+  width: 800px;
+  min-width: 600px;
+}
+
+.fcx-dialog--fullscreen {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+  margin: 0;
+}
+
+// Theme variants for base class
+.fcx-dialog--minimal {
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.fcx-dialog--bordered {
+  border-width: 2px;
+}
+
+.fcx-dialog--rounded {
+  border-radius: 12px;
+}
+
+.fcx-dialog--shadow {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.fcx-dialog--dragging {
+  user-select: none;
+  cursor: move;
+}
+
+.fcx-dialog--resizing {
+  user-select: none;
+}
+
+.fcx-dialog--maximized {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  top: 0 !important;
+  left: 0 !important;
+  border-radius: 0;
+  transform: none !important;
+}
+
+// Dialog header styles
+.fcx-dialog-header {
+  background: var(--fcx-dialog-header-bg);
+  border-bottom: 1px solid var(--fcx-dialog-header-border);
+  padding: var(--fcx-dialog-header-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.fcx-dialog-header--draggable {
+  cursor: move;
+  user-select: none;
+}
+
+.fcx-dialog-title {
+  color: var(--fcx-dialog-header-text);
+  font-size: var(--fcx-dialog-header-font-size);
+  font-weight: var(--fcx-dialog-header-font-weight);
+  margin: 0;
+  flex-grow: 1;
+}
+
+.fcx-dialog-close {
+  background: transparent;
+  border: none;
+  color: var(--fcx-dialog-header-text);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+}
+
+// Dialog content styles
+.fcx-dialog-content {
+  background: var(--fcx-dialog-content-bg);
+  color: var(--fcx-dialog-content-text);
+  padding: var(--fcx-dialog-content-padding);
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.fcx-dialog-content--no-padding {
+  padding: 0;
+}
+
+// Dialog footer styles
+.fcx-dialog-footer {
+  background: var(--fcx-dialog-footer-bg);
+  border-top: 1px solid var(--fcx-dialog-footer-border);
+  padding: var(--fcx-dialog-footer-padding);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}

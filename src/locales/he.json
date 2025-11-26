@@ -1,0 +1,62 @@
+{
+  "common": {
+    "home": "בית",
+    "about": "אודות",
+    "language": "שפה",
+    "welcome": "ברוכים הבאים",
+    "loading": "טוען...",
+    "error": "שגיאה",
+    "success": "הצלחה",
+    "cancel": "ביטול",
+    "save": "שמור",
+    "edit": "עריכה",
+    "delete": "מחק",
+    "confirm": "אישור",
+    "close": "סגור"
+  },
+  "navigation": {
+    "home": "בית",
+    "about": "אודות",
+    "forms": "טפסים"
+  },
+  "home": {
+    "title": "הצלחת!",
+    "subtitle": "יצרת בהצלחה פרויקט עם {vite} + {vue}. מה הלאה?",
+    "vite": "Vite",
+    "vue": "Vue 3"
+  },
+  "forms": {
+    "title": "הדגמת טופס",
+    "labels": {
+      "name": "שם",
+      "email": "דוא\"ל",
+      "country": "מדינה",
+      "message": "הודעה"
+    },
+    "placeholders": {
+      "enterName": "הכנס את שמך",
+      "enterEmail": "הכנס את כתובת הדוא\"ל שלך",
+      "selectCountry": "בחר מדינה",
+      "enterMessage": "הכנס את ההודעה שלך"
+    },
+    "validation": {
+      "required": "השדה {field} נדרש.",
+      "email": "השדה {field} חייב להיות כתובת דוא\"ל תקינה.",
+      "min": "השדה {field} חייב להכיל לפחות {min} תווים.",
+      "max": "השדה {field} לא יכול לחרוג מ-{max} תווים."
+    }
+  },
+  "invoice": {
+    "ocr": {
+      "title": "זיהוי OCR של חשבוניות",
+      "uploadDocument": "העלה מסמך",
+      "processOcr": "עבד OCR",
+      "noPdfSelected": "לא נבחר PDF",
+      "uploadFirst": "העלה קודם"
+    },
+    "documents": {
+      "title": "מסמכים",
+      "empty": "טרם הועלו מסמכים"
+    }
+  }
+}

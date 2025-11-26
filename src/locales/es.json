@@ -1,0 +1,62 @@
+{
+  "common": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "language": "Idioma",
+    "welcome": "Bienvenido",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "close": "Cerrar"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "forms": "Formularios"
+  },
+  "home": {
+    "title": "¡Lo lograste!",
+    "subtitle": "Has creado exitosamente un proyecto con {vite} + {vue}. ¿Qué sigue?",
+    "vite": "Vite",
+    "vue": "Vue 3"
+  },
+  "forms": {
+    "title": "Demo de Formulario",
+    "labels": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "country": "País",
+      "message": "Mensaje"
+    },
+    "placeholders": {
+      "enterName": "Ingresa tu nombre",
+      "enterEmail": "Ingresa tu correo electrónico",
+      "selectCountry": "Selecciona un país",
+      "enterMessage": "Ingresa tu mensaje"
+    },
+    "validation": {
+      "required": "El campo {field} es requerido.",
+      "email": "El campo {field} debe ser un correo electrónico válido.",
+      "min": "El campo {field} debe tener al menos {min} caracteres.",
+      "max": "El campo {field} no debe exceder {max} caracteres."
+    }
+  },
+  "invoice": {
+    "ocr": {
+      "title": "OCR de Facturas",
+      "uploadDocument": "Subir Documento",
+      "processOcr": "Procesar OCR",
+      "noPdfSelected": "No se ha seleccionado ningún PDF",
+      "uploadFirst": "Subir Primero"
+    },
+    "documents": {
+      "title": "Documentos",
+      "empty": "No se han subido documentos aún"
+    }
+  }
+}

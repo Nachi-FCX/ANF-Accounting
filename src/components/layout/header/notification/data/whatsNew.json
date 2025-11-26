@@ -1,0 +1,81 @@
+{
+  "updates": [
+    {
+      "id": "w1",
+      "title": "New Dashboard Analytics",
+      "message": "Enhanced analytics with real-time charts and insights",
+      "type": "success",
+      "timestamp": "2024-01-05T12:00:00Z",
+      "isRead": false,
+      "category": "feature",
+      "featureType": "new",
+      "version": "2.1.0",
+      "actionUrl": "/features/analytics",
+      "priority": "medium"
+    },
+    {
+      "id": "w2",
+      "title": "Performance Improvements",
+      "message": "50% faster loading times across all modules",
+      "type": "info",
+      "timestamp": "2024-01-04T15:30:00Z",
+      "isRead": true,
+      "category": "improvement",
+      "featureType": "improvement",
+      "version": "2.0.8",
+      "priority": "low"
+    },
+    {
+      "id": "w3",
+      "title": "Dark Mode Support",
+      "message": "New dark theme available in user preferences",
+      "type": "success",
+      "timestamp": "2024-01-03T10:00:00Z",
+      "isRead": false,
+      "category": "feature",
+      "featureType": "new",
+      "version": "2.0.7",
+      "actionUrl": "/settings/appearance",
+      "priority": "medium"
+    },
+    {
+      "id": "w4",
+      "title": "Mobile App Update",
+      "message": "FinCorpX mobile app now available on App Store",
+      "type": "success",
+      "timestamp": "2024-01-02T14:00:00Z",
+      "isRead": true,
+      "category": "release",
+      "featureType": "new",
+      "version": "1.0.0",
+      "actionUrl": "/mobile/download",
+      "priority": "high"
+    },
+    {
+      "id": "w5",
+      "title": "API Rate Limits Updated",
+      "message": "Increased API rate limits for premium users",
+      "type": "info",
+      "timestamp": "2024-01-01T09:00:00Z",
+      "isRead": false,
+      "category": "improvement",
+      "featureType": "update",
+      "version": "2.0.6",
+      "actionUrl": "/api/documentation",
+      "priority": "low"
+    },
+    {
+      "id": "w6",
+      "title": "Security Enhancement",
+      "message": "Two-factor authentication now mandatory for admin users",
+      "type": "warning",
+      "timestamp": "2023-12-30T16:00:00Z",
+      "isRead": true,
+      "category": "security",
+      "featureType": "update",
+      "version": "2.0.5",
+      "actionUrl": "/security/2fa",
+      "priority": "high"
+    }
+  ]
+}

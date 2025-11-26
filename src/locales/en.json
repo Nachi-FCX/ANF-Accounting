@@ -1,0 +1,63 @@
+{
+  "common": {
+    "home": "Home",
+    "about": "About",
+    "language": "Language",
+    "selectLanguage": "Select Language",
+    "welcome": "Welcome",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close"
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "forms": "Forms"
+  },
+  "home": {
+    "title": "You did it!",
+    "subtitle": "You've successfully created a project with {vite} + {vue}. What's next?",
+    "vite": "Vite",
+    "vue": "Vue 3"
+  },
+  "forms": {
+    "title": "Form Demo",
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "country": "Country",
+      "message": "Message"
+    },
+    "placeholders": {
+      "enterName": "Enter your name",
+      "enterEmail": "Enter your email",
+      "selectCountry": "Select a country",
+      "enterMessage": "Enter your message"
+    },
+    "validation": {
+      "required": "The {field} field is required.",
+      "email": "The {field} field must be a valid email.",
+      "min": "The {field} field must have at least {min} characters.",
+      "max": "The {field} field must not exceed {max} characters."
+    }
+  },
+  "invoice": {
+    "ocr": {
+      "title": "Invoice OCR",
+      "uploadDocument": "Upload Document",
+      "processOcr": "Process OCR",
+      "noPdfSelected": "No PDF Selected",
+      "uploadFirst": "Upload First"
+    },
+    "documents": {
+      "title": "Documents",
+      "empty": "No documents uploaded yet"
+    }
+  }
+}

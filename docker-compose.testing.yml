@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  fincorpx-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENV: testing
+    ports:
+      - "3002:80"
+    container_name: fincorpx-test
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=testing
+    networks:
+      - fincorpx-test-network
+
+networks:
+  fincorpx-test-network:
+    driver: bridge

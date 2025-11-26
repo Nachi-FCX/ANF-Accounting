@@ -1,0 +1,62 @@
+{
+  "common": {
+    "home": "Accueil",
+    "about": "À propos",
+    "language": "Langue",
+    "welcome": "Bienvenue",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "close": "Fermer"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "about": "À propos",
+    "forms": "Formulaires"
+  },
+  "home": {
+    "title": "Vous avez réussi !",
+    "subtitle": "Vous avez créé avec succès un projet avec {vite} + {vue}. Et maintenant ?",
+    "vite": "Vite",
+    "vue": "Vue 3"
+  },
+  "forms": {
+    "title": "Démo de Formulaire",
+    "labels": {
+      "name": "Nom",
+      "email": "E-mail",
+      "country": "Pays",
+      "message": "Message"
+    },
+    "placeholders": {
+      "enterName": "Entrez votre nom",
+      "enterEmail": "Entrez votre e-mail",
+      "selectCountry": "Sélectionnez un pays",
+      "enterMessage": "Entrez votre message"
+    },
+    "validation": {
+      "required": "Le champ {field} est requis.",
+      "email": "Le champ {field} doit être un e-mail valide.",
+      "min": "Le champ {field} doit contenir au moins {min} caractères.",
+      "max": "Le champ {field} ne doit pas dépasser {max} caractères."
+    }
+  },
+  "invoice": {
+    "ocr": {
+      "title": "OCR de Factures",
+      "uploadDocument": "Télécharger le Document",
+      "processOcr": "Traiter l'OCR",
+      "noPdfSelected": "Aucun PDF sélectionné",
+      "uploadFirst": "Télécharger d'abord"
+    },
+    "documents": {
+      "title": "Documents",
+      "empty": "Aucun document téléchargé pour le moment"
+    }
+  }
+}

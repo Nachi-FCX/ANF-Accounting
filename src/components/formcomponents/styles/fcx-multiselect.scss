@@ -1,0 +1,598 @@
+// FcxMultiSelect Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// MULTISELECT WRAPPER
+// =============================================================================
+
+.fcx-multiselect-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+// =============================================================================
+// MULTISELECT CONTAINER (PRIMEVUE OVERRIDE)
+// =============================================================================
+
+.fcx-multiselect {
+  width: 100%;
+  
+  .p-multiselect {
+    @include fcx-input-base;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    min-height: 44px;
+    
+    .p-multiselect-label-container {
+      flex: 1;
+      overflow: hidden;
+      
+      .p-multiselect-label {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: map.get($spacing, xs);
+        padding: 0;
+        
+        &.p-placeholder {
+          color: var(--fcx-text-muted);
+        }
+        
+        // Chips/tags for selected items
+        .p-multiselect-token {
+          @include fcx-chip;
+          animation: fcx-chip-appear 0.2s ease-out;
+          
+          .p-multiselect-token-icon {
+            @include fcx-chip-remove-button;
+            margin-left: map.get($spacing, xs);
+          }
+        }
+      }
+    }
+    
+    .p-multiselect-trigger {
+      @include flex-center;
+      width: 2rem;
+      color: var(--fcx-text-secondary);
+      flex-shrink: 0;
+      margin-left: map.get($spacing, xs);
+      
+      svg {
+        width: 16px;
+        height: 16px;
+        @include fcx-transition(transform);
+      }
+    }
+    
+    &.p-focus {
+      border-color: var(--fcx-primary-500);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      
+      @include fcx-dark-theme-focus;
+      
+      .p-multiselect-trigger svg {
+        transform: rotate(180deg);
+      }
+    }
+    
+    &:hover:not(.p-disabled) {
+      border-color: var(--fcx-border-strong);
+      background-color: var(--fcx-surface-hover);
+    }
+    
+    &.p-disabled {
+      background-color: var(--fcx-surface-active);
+      color: var(--fcx-text-muted);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+  
+  // Size variants
+  &--sm .p-multiselect {
+    @include fcx-input-size-sm;
+    min-height: 36px;
+  }
+  
+  &--md .p-multiselect {
+    @include fcx-input-size-md;
+    min-height: 44px;
+  }
+  
+  &--lg .p-multiselect {
+    @include fcx-input-size-lg;
+    min-height: 52px;
+  }
+  
+  // State variants
+  &--error .p-multiselect {
+    @include fcx-input-error-state;
+    @include fcx-dark-theme-error-focus;
+  }
+  
+  &--success .p-multiselect {
+    @include fcx-input-success-state;
+    @include fcx-dark-theme-success-focus;
+  }
+}
+
+// =============================================================================
+// MULTISELECT PANEL/DROPDOWN
+// =============================================================================
+
+.p-multiselect-panel {
+  @include fcx-dropdown-panel;
+  min-width: 250px;
+  
+  // Header with filter
+  .p-multiselect-header {
+    padding: map.get($spacing, sm) map.get($spacing, md);
+    border-bottom: 1px solid var(--fcx-border-normal);
+    margin-bottom: map.get($spacing, xs);
+    display: flex;
+    flex-direction: column;
+    gap: map.get($spacing, sm);
+    
+    .p-multiselect-filter-container {
+      position: relative;
+      
+      .p-multiselect-filter {
+        @include fcx-input-base;
+        @include fcx-input-size-sm;
+        padding-left: 2.25rem;
+        width: 100%;
+        
+        &:focus {
+          border-color: var(--fcx-primary-500);
+          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+      }
+      
+      .p-multiselect-filter-icon {
+        position: absolute;
+        left: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--fcx-text-secondary);
+        pointer-events: none;
+        
+        svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+    
+    // Select all / Clear all buttons
+    .p-multiselect-close {
+      @include button-reset;
+      align-self: flex-end;
+      padding: map.get($spacing, xs);
+      color: var(--fcx-text-secondary);
+      border-radius: map.get($border-radius, sm);
+      @include fcx-transition(background-color, color);
+      
+      &:hover {
+        background-color: var(--fcx-surface-hover);
+        color: var(--fcx-text-primary);
+      }
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  
+  // Items container
+  .p-multiselect-items-wrapper {
+    max-height: 300px;
+    overflow-y: auto;
+    @include custom-scrollbar(6px);
+  }
+  
+  .p-multiselect-items {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    
+    .p-multiselect-item {
+      @include fcx-dropdown-item;
+      display: flex;
+      align-items: center;
+      gap: map.get($spacing, sm);
+      
+      .p-checkbox {
+        flex-shrink: 0;
+        
+        .p-checkbox-box {
+          width: 16px;
+          height: 16px;
+          border: 2px solid var(--fcx-border-strong);
+          border-radius: map.get($border-radius, sm);
+          background-color: var(--fcx-surface);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          @include fcx-transition(border-color, background-color);
+          
+          &.p-highlight {
+            background-color: var(--fcx-primary-500);
+            border-color: var(--fcx-primary-500);
+            
+            .p-checkbox-icon {
+              color: var(--fcx-text-inverse);
+              font-size: 10px;
+            }
+          }
+        }
+      }
+      
+      &:hover {
+        background-color: var(--fcx-surface-hover);
+        
+        .p-checkbox-box {
+          border-color: var(--fcx-primary-500);
+        }
+      }
+      
+      &.p-highlight {
+        background-color: var(--fcx-primary-50);
+        
+        :root[data-theme="dark"] &,
+        .dark & {
+          background-color: var(--fcx-primary-900);
+        }
+      }
+      
+      &.p-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    }
+    
+    // Group items
+    .p-multiselect-item-group {
+      padding: map.get($spacing, sm) map.get($spacing, md);
+      font-size: $form-helper-size;
+      font-weight: $form-label-weight;
+      color: var(--fcx-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background-color: var(--fcx-surface-hover);
+      border-radius: map.get($border-radius, sm);
+      margin: map.get($spacing, xs) 0;
+    }
+  }
+  
+  // Empty message
+  .p-multiselect-empty-message {
+    padding: map.get($spacing, md);
+    text-align: center;
+    font-size: $form-text-size;
+    color: var(--fcx-text-secondary);
+    font-style: italic;
+  }
+}
+
+// =============================================================================
+// SELECT ALL TOGGLE
+// =============================================================================
+
+.p-multiselect-panel .p-multiselect-header {
+  .p-multiselect-select-all {
+    display: flex;
+    align-items: center;
+    gap: map.get($spacing, sm);
+    padding: map.get($spacing, xs) 0;
+    cursor: pointer;
+    user-select: none;
+    
+    .p-checkbox {
+      flex-shrink: 0;
+      
+      .p-checkbox-box {
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--fcx-border-strong);
+        border-radius: map.get($border-radius, sm);
+        background-color: var(--fcx-surface);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include fcx-transition(border-color, background-color);
+        
+        &.p-highlight {
+          background-color: var(--fcx-primary-500);
+          border-color: var(--fcx-primary-500);
+          
+          .p-checkbox-icon {
+            color: var(--fcx-text-inverse);
+            font-size: 10px;
+          }
+        }
+      }
+    }
+    
+    span {
+      font-size: $form-text-size;
+      color: var(--fcx-text-primary);
+      font-weight: $form-label-weight;
+    }
+    
+    &:hover .p-checkbox-box {
+      border-color: var(--fcx-primary-500);
+    }
+  }
+}
+
+// =============================================================================
+// CHIP DISPLAY MODES
+// =============================================================================
+
+.fcx-multiselect {
+  // Show selected count instead of chips
+  &--count .p-multiselect-label {
+    .p-multiselect-token {
+      display: none;
+    }
+  }
+  
+  // Comma-separated text display
+  &--comma .p-multiselect-label {
+    flex-wrap: nowrap;
+    
+    .p-multiselect-token {
+      background: none;
+      padding: 0;
+      margin: 0;
+      
+      &:not(:last-child)::after {
+        content: ', ';
+        margin-right: map.get($spacing, xs);
+      }
+      
+      .p-multiselect-token-icon {
+        display: none;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// MAX SELECTED LABELS
+// =============================================================================
+
+.p-multiselect-label {
+  .p-multiselect-items-label {
+    @include fcx-chip;
+    background-color: var(--fcx-gray-100);
+    color: var(--fcx-gray-700);
+    
+    :root[data-theme="dark"] &,
+    .dark & {
+      background-color: var(--fcx-gray-800);
+      color: var(--fcx-gray-300);
+    }
+  }
+}
+
+// =============================================================================
+// CLEAR BUTTON
+// =============================================================================
+
+.fcx-multiselect-clear {
+  @include clear-button;
+  right: 2.5rem;
+  
+  &:hover {
+    color: var(--fcx-text-primary);
+  }
+}
+
+// =============================================================================
+// LOADING STATE
+// =============================================================================
+
+.fcx-multiselect-loading {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  
+  .fcx-spinner {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// =============================================================================
+// ITEM WITH CUSTOM CONTENT
+// =============================================================================
+
+.fcx-multiselect-item-content {
+  display: flex;
+  align-items: center;
+  gap: map.get($spacing, sm);
+  flex: 1;
+  min-width: 0;
+  
+  .fcx-multiselect-item-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--fcx-text-secondary);
+    flex-shrink: 0;
+  }
+  
+  .fcx-multiselect-item-text {
+    flex: 1;
+    min-width: 0;
+    
+    .fcx-multiselect-item-title {
+      font-weight: $form-label-weight;
+      color: var(--fcx-text-primary);
+      @include truncate;
+    }
+    
+    .fcx-multiselect-item-subtitle {
+      font-size: $form-helper-size;
+      color: var(--fcx-text-secondary);
+      @include truncate;
+    }
+  }
+  
+  .fcx-multiselect-item-badge {
+    padding: 2px 6px;
+    background-color: var(--fcx-gray-100);
+    color: var(--fcx-gray-700);
+    font-size: 10px;
+    font-weight: $form-label-weight;
+    border-radius: map.get($border-radius, md);
+    flex-shrink: 0;
+    
+    :root[data-theme="dark"] &,
+    .dark & {
+      background-color: var(--fcx-gray-800);
+      color: var(--fcx-gray-300);
+    }
+  }
+}
+
+// =============================================================================
+// DARK THEME ADJUSTMENTS
+// =============================================================================
+
+:root[data-theme="dark"],
+.dark {
+  .fcx-multiselect .p-multiselect {
+    background-color: var(--fcx-surface);
+    border-color: var(--fcx-border-normal);
+  }
+  
+  .p-multiselect-panel {
+    background-color: var(--fcx-surface);
+    border-color: var(--fcx-border-normal);
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@media (max-width: breakpoint(sm)) {
+  .fcx-multiselect .p-multiselect {
+    font-size: $form-input-text-size-small;
+  }
+  
+  .p-multiselect-panel {
+    max-width: calc(100vw - 2rem);
+    
+    .p-multiselect-items .p-multiselect-item {
+      font-size: $form-input-text-size-small;
+      padding: map.get($spacing, sm);
+    }
+    
+    .p-multiselect-header .p-multiselect-filter {
+      font-size: $form-input-text-size-small;
+    }
+  }
+  
+  // Stack chips vertically on very small screens
+  .fcx-multiselect .p-multiselect-label {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+// =============================================================================
+// VIRTUAL SCROLLING SUPPORT
+// =============================================================================
+
+.p-multiselect-panel {
+  &.p-multiselect-virtualscroll {
+    .p-multiselect-items-wrapper {
+      overflow-y: auto;
+      @include custom-scrollbar(6px);
+    }
+  }
+}
+
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+
+@keyframes fcx-chip-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fcx-multiselect-panel-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.p-multiselect-panel {
+  animation: fcx-multiselect-panel-appear 0.15s ease-out;
+}
+
+// =============================================================================
+// ACCESSIBILITY ENHANCEMENTS
+// =============================================================================
+
+.fcx-multiselect {
+  .p-multiselect:focus-visible {
+    outline: 2px solid var(--fcx-primary-500);
+    outline-offset: -2px;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .p-multiselect-panel {
+    border: 2px solid currentColor;
+    
+    .p-multiselect-item {
+      &.p-highlight {
+        outline: 2px solid currentColor;
+        outline-offset: -2px;
+      }
+      
+      .p-checkbox-box {
+        border-width: 2px;
+      }
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .p-multiselect-trigger svg,
+  .p-multiselect-token,
+  .p-multiselect-panel {
+    animation: none;
+    transition: none;
+  }
+}

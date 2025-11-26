@@ -1,0 +1,547 @@
+// FcxCalendar Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// CALENDAR WRAPPER
+// =============================================================================
+
+.fcx-calendar-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+// =============================================================================
+// CALENDAR INPUT (PRIMEVUE OVERRIDE)
+// =============================================================================
+
+.fcx-calendar {
+  width: 100%;
+  
+  .p-calendar {
+    width: 100%;
+  }
+  
+  .p-inputtext {
+    @include fcx-input-base;
+  }
+  
+  // Size variants
+  &--sm .p-inputtext {
+    @include fcx-input-size-sm;
+  }
+  
+  &--md .p-inputtext {
+    @include fcx-input-size-md;
+  }
+  
+  &--lg .p-inputtext {
+    @include fcx-input-size-lg;
+  }
+  
+  // State variants
+  &--error .p-inputtext {
+    @include fcx-input-error-state;
+    @include fcx-dark-theme-error-focus;
+  }
+  
+  &--success .p-inputtext {
+    @include fcx-input-success-state;
+    @include fcx-dark-theme-success-focus;
+  }
+  
+  // With icon
+  &--with-icon .p-inputtext {
+    padding-right: 2.5rem;
+  }
+}
+
+// =============================================================================
+// CALENDAR ICON/BUTTON
+// =============================================================================
+
+.fcx-calendar {
+  .p-datepicker-trigger {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    @include button-reset;
+    @include flex-center;
+    color: var(--fcx-text-secondary);
+    padding: map.get($spacing, xs);
+    border-radius: map.get($border-radius, sm);
+    @include fcx-transition(color, background-color);
+    
+    &:hover {
+      color: var(--fcx-text-primary);
+      background-color: var(--fcx-surface-hover);
+    }
+    
+    &:focus {
+      @include focus-ring(1px);
+    }
+    
+    svg {
+      width: $form-input-icon-medium;
+      height: $form-input-icon-medium;
+    }
+  }
+}
+
+// =============================================================================
+// CALENDAR PANEL/DROPDOWN
+// =============================================================================
+
+.p-datepicker {
+  @include fcx-dropdown-panel;
+//   padding: map.get($spacing, md);
+  min-width: 280px;
+  max-height: none;
+  overflow: visible;
+  
+  // Header with month/year navigation
+  .p-datepicker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: map.get($spacing, sm) 0;
+    margin-bottom: map.get($spacing, sm);
+    border-bottom: 1px solid var(--fcx-border-normal);
+    
+    .p-datepicker-title {
+      display: flex;
+      align-items: center;
+      gap: map.get($spacing, xs);
+      flex: 1;
+      justify-content: center;
+      
+      .p-datepicker-month,
+      .p-datepicker-year {
+        font-size: $form-text-size;
+        font-weight: $form-label-weight;
+        color: var(--fcx-text-primary);
+        padding: map.get($spacing, xs) map.get($spacing, sm);
+        border-radius: map.get($border-radius, sm);
+        cursor: pointer;
+        @include fcx-transition(background-color, color);
+        
+        &:hover {
+          background-color: var(--fcx-surface-hover);
+        }
+      }
+    }
+    
+    .p-datepicker-prev,
+    .p-datepicker-next {
+      @include button-reset;
+      @include flex-center;
+      width: 32px;
+      height: 32px;
+      color: var(--fcx-text-secondary);
+      border-radius: map.get($border-radius, sm);
+      @include fcx-transition(background-color, color);
+      
+      &:hover:not(:disabled) {
+        background-color: var(--fcx-surface-hover);
+        color: var(--fcx-text-primary);
+      }
+      
+      &:focus {
+        @include focus-ring(1px);
+      }
+      
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  
+  // Week day headers
+  .p-datepicker-calendar-container {
+    .p-datepicker-calendar {
+      thead {
+        tr {
+          th {
+            padding: map.get($spacing, xs);
+            
+            span {
+              font-size: $form-helper-size;
+              font-weight: $form-label-weight;
+              color: var(--fcx-text-secondary);
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+          }
+        }
+      }
+      
+      // Date cells
+      tbody {
+        tr {
+          td {
+            padding: 2px;
+            
+            span {
+              width: 36px;
+              height: 36px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: map.get($border-radius, sm);
+              font-size: $form-text-size;
+              color: var(--fcx-text-primary);
+              cursor: pointer;
+              @include fcx-transition(background-color, color, transform);
+              
+              &:hover:not(.p-disabled) {
+                background-color: var(--fcx-surface-hover);
+                transform: scale(1.05);
+              }
+              
+              &:focus {
+                @include focus-ring(0);
+              }
+              
+              // Today
+              &.p-highlight {
+                background-color: var(--fcx-primary-500);
+                color: var(--fcx-text-inverse);
+                font-weight: $form-label-weight;
+                
+                &:hover {
+                  background-color: var(--fcx-primary-600);
+                }
+              }
+              
+              // Other month dates
+              &.p-datepicker-other-month {
+                color: var(--fcx-text-muted);
+                opacity: 0.5;
+              }
+              
+              // Disabled dates
+              &.p-disabled {
+                opacity: 0.3;
+                cursor: not-allowed;
+                text-decoration: line-through;
+              }
+            }
+          }
+          
+          // Selected date
+          td.p-datepicker-today span {
+            position: relative;
+            
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 2px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 4px;
+              height: 4px;
+              border-radius: 50%;
+              background-color: var(--fcx-primary-500);
+            }
+            
+            &.p-highlight::after {
+              background-color: var(--fcx-text-inverse);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Month picker
+  .p-monthpicker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: map.get($spacing, xs);
+    padding: map.get($spacing, sm) 0;
+    
+    .p-monthpicker-month {
+      padding: map.get($spacing, sm);
+      border-radius: map.get($border-radius, sm);
+      font-size: $form-text-size;
+      color: var(--fcx-text-primary);
+      text-align: center;
+      cursor: pointer;
+      @include fcx-transition(background-color, color);
+      
+      &:hover:not(.p-disabled) {
+        background-color: var(--fcx-surface-hover);
+      }
+      
+      &.p-highlight {
+        background-color: var(--fcx-primary-500);
+        color: var(--fcx-text-inverse);
+        font-weight: $form-label-weight;
+      }
+      
+      &.p-disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+  }
+  
+  // Year picker
+  .p-yearpicker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: map.get($spacing, xs);
+    padding: map.get($spacing, sm) 0;
+    
+    .p-yearpicker-year {
+      padding: map.get($spacing, sm);
+      border-radius: map.get($border-radius, sm);
+      font-size: $form-text-size;
+      color: var(--fcx-text-primary);
+      text-align: center;
+      cursor: pointer;
+      @include fcx-transition(background-color, color);
+      
+      &:hover:not(.p-disabled) {
+        background-color: var(--fcx-surface-hover);
+      }
+      
+      &.p-highlight {
+        background-color: var(--fcx-primary-500);
+        color: var(--fcx-text-inverse);
+        font-weight: $form-label-weight;
+      }
+      
+      &.p-disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+  }
+  
+  // Time picker
+  .p-timepicker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: map.get($spacing, md);
+    padding: map.get($spacing, md) 0;
+    border-top: 1px solid var(--fcx-border-normal);
+    margin-top: map.get($spacing, sm);
+    
+    .p-hour-picker,
+    .p-minute-picker,
+    .p-second-picker,
+    .p-ampm-picker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: map.get($spacing, xs);
+      
+      button {
+        @include button-reset;
+        @include flex-center;
+        width: 28px;
+        height: 28px;
+        color: var(--fcx-text-secondary);
+        border-radius: map.get($border-radius, sm);
+        @include fcx-transition(background-color, color);
+        
+        &:hover {
+          background-color: var(--fcx-surface-hover);
+          color: var(--fcx-text-primary);
+        }
+        
+        svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+      
+      span {
+        font-size: $form-text-size;
+        font-weight: $form-label-weight;
+        color: var(--fcx-text-primary);
+        min-width: 32px;
+        text-align: center;
+      }
+    }
+    
+    .p-separator {
+      font-size: $form-text-size;
+      font-weight: $form-label-weight;
+      color: var(--fcx-text-secondary);
+    }
+  }
+  
+  // Button bar (today/clear buttons)
+  .p-datepicker-buttonbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: map.get($spacing, sm);
+    padding-top: map.get($spacing, md);
+    border-top: 1px solid var(--fcx-border-normal);
+    margin-top: map.get($spacing, sm);
+    
+    .p-button {
+      padding: map.get($spacing, xs) map.get($spacing, md);
+      font-size: $form-helper-size;
+      border-radius: map.get($border-radius, sm);
+      @include fcx-transition(background-color, color);
+      cursor: pointer;
+      
+      &.p-button-text {
+        background: none;
+        border: none;
+        color: var(--fcx-primary-500);
+        
+        &:hover {
+          background-color: var(--fcx-primary-50);
+          
+          :root[data-theme="dark"] &,
+          .dark & {
+            background-color: var(--fcx-primary-900);
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// RANGE SELECTION
+// =============================================================================
+
+.p-datepicker.p-datepicker-range {
+  .p-datepicker-calendar {
+    tbody tr td {
+      &.p-datepicker-range-start span,
+      &.p-datepicker-range-end span {
+        background-color: var(--fcx-primary-500);
+        color: var(--fcx-text-inverse);
+      }
+      
+      &.p-datepicker-range span {
+        background-color: var(--fcx-primary-100);
+        color: var(--fcx-primary-700);
+        
+        :root[data-theme="dark"] &,
+        .dark & {
+          background-color: var(--fcx-primary-900);
+          color: var(--fcx-primary-300);
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// MULTIPLE MONTHS VIEW
+// =============================================================================
+
+.p-datepicker.p-datepicker-multiple-month {
+  .p-datepicker-group-container {
+    display: flex;
+    gap: map.get($spacing, lg);
+  }
+}
+
+// =============================================================================
+// INLINE CALENDAR
+// =============================================================================
+
+.fcx-calendar--inline {
+  .p-calendar {
+    display: block;
+  }
+  
+  .p-datepicker {
+    position: static;
+    box-shadow: none;
+    border: 1px solid var(--fcx-border-normal);
+  }
+}
+
+// =============================================================================
+// LOADING STATE
+// =============================================================================
+
+.fcx-calendar-loading {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  
+  .fcx-spinner {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// =============================================================================
+// DARK THEME ADJUSTMENTS
+// =============================================================================
+
+:root[data-theme="dark"],
+.dark {
+  .p-datepicker {
+    background-color: var(--fcx-surface);
+    border-color: var(--fcx-border-normal);
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@media (max-width: breakpoint(sm)) {
+  .p-datepicker {
+    min-width: 100%;
+    max-width: 320px;
+    
+    .p-datepicker-calendar tbody tr td span {
+      width: 32px;
+      height: 32px;
+      font-size: $form-helper-size;
+    }
+    
+    &.p-datepicker-multiple-month {
+      .p-datepicker-group-container {
+        flex-direction: column;
+        gap: map.get($spacing, md);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+
+@keyframes fcx-calendar-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.p-datepicker {
+  animation: fcx-calendar-fade-in 0.2s ease-out;
+}

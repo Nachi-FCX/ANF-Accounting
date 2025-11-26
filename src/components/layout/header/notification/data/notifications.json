@@ -1,0 +1,70 @@
+{
+  "notifications": [
+    {
+      "id": "1",
+      "title": "System Update",
+      "message": "System maintenance scheduled for tonight at 2:00 AM",
+      "type": "info",
+      "timestamp": "2024-01-06T18:30:00Z",
+      "isRead": false,
+      "category": "system",
+      "actionUrl": "/system/maintenance",
+      "priority": "medium"
+    },
+    {
+      "id": "2",
+      "title": "Payment Received",
+      "message": "Payment of $1,250.00 has been successfully processed",
+      "type": "success",
+      "timestamp": "2024-01-06T16:00:00Z",
+      "isRead": false,
+      "category": "financial",
+      "actionUrl": "/payments/2",
+      "priority": "high"
+    },
+    {
+      "id": "3",
+      "title": "Security Alert",
+      "message": "New login detected from Chrome on Windows",
+      "type": "warning",
+      "timestamp": "2024-01-06T14:00:00Z",
+      "isRead": true,
+      "category": "security",
+      "actionUrl": "/security/sessions",
+      "priority": "high"
+    },
+    {
+      "id": "4",
+      "title": "Profile Updated",
+      "message": "Your profile information has been successfully updated",
+      "type": "success",
+      "timestamp": "2024-01-05T18:00:00Z",
+      "isRead": true,
+      "category": "user",
+      "actionUrl": "/profile",
+      "priority": "low"
+    },
+    {
+      "id": "5",
+      "title": "Invoice Overdue",
+      "message": "Invoice #INV-2024-001 is now 5 days overdue",
+      "type": "error",
+      "timestamp": "2024-01-04T12:00:00Z",
+      "isRead": false,
+      "category": "financial",
+      "actionUrl": "/invoices/INV-2024-001",
+      "priority": "high"
+    },
+    {
+      "id": "6",
+      "title": "New Feature Available",
+      "message": "Check out our new dashboard analytics feature",
+      "type": "info",
+      "timestamp": "2024-01-03T10:00:00Z",
+      "isRead": true,
+      "category": "system",
+      "actionUrl": "/features/analytics",
+      "priority": "medium"
+    }
+  ]
+}

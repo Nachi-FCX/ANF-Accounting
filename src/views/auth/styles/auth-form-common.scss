@@ -1,0 +1,169 @@
+// Common styles for authentication forms (SignIn and SignUp)
+// Based on SignUpForm dimensions for consistency
+@use '../../../assets/styles/global-ui-variables' as *;
+
+.auth-form-base {
+  max-width: 100%;
+  width: 100%;
+  
+  .form-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    
+    h2 {
+      font-size: $form-header-size;
+      font-weight: $form-header-weight;
+      color: #1f2937;
+      margin: 0 0 0.25rem 0;
+      line-height: $form-header-line-height;
+    }
+    
+    .form-subtitle {
+      color: #6b7280;
+      font-size: $form-subtitle-size;
+      font-weight: $form-text-weight;
+      margin: 0;
+      line-height: $form-line-height;
+    }
+  }
+  
+  .form-content {
+    .form-group {
+      margin-bottom: 1rem;
+      
+      &.checkbox-group {
+        margin-bottom: 1.25rem;
+      }
+    }
+    
+    .form-label {
+      font-size: $form-label-size;
+      font-weight: $form-label-weight;
+      color: #374151;
+      margin-bottom: 0.375rem;
+      display: block;
+      line-height: $form-line-height;
+    }
+    
+    .error-message {
+      display: block;
+      color: #ef4444;
+      font-size: $form-error-size;
+      margin-top: 0.125rem;
+      margin-bottom: 0.5rem;
+      font-weight: $form-error-weight;
+      line-height: $form-line-height;
+    }
+    
+    .submit-btn {
+      margin-bottom: 1.25rem;
+    }
+    
+    .social-section {
+      margin-bottom: 1.25rem;
+      
+      .divider {
+        position: relative;
+        text-align: center;
+        margin-bottom: 1rem;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: #e5e7eb;
+        }
+        
+        span {
+          background: white;
+          padding: 0 0.75rem;
+          color: #6b7280;
+          font-size: $form-divider-size;
+          font-weight: $form-text-weight;
+          position: relative;
+          line-height: $form-line-height;
+        }
+      }
+    }
+    
+    .auth-link {
+      text-align: center;
+      
+      p {
+        color: #6b7280;
+        font-size: $form-subtitle-size;
+        font-weight: $form-text-weight;
+        margin: 0;
+        line-height: $form-line-height;
+      }
+      
+      .link {
+        color: #4f46e5;
+        text-decoration: none;
+        font-weight: $form-link-weight;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .auth-form-base {
+    .form-header h2 {
+      font-size: $form-header-size-tablet;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-form-base {
+    .form-header h2 {
+      font-size: $form-header-size-mobile;
+    }
+    
+    .form-content {
+      .form-group {
+        margin-bottom: 1.25rem;
+      }
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .auth-form-base {
+    .form-header h2 {
+      color: #f9fafb;
+    }
+    
+    .form-content {
+      .form-label {
+        color: #d1d5db;
+      }
+      
+      .social-section .divider span {
+        background: #1f2937;
+      }
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .auth-form-base .form-content {
+    .submit-btn {
+      transition: none;
+      
+      &:hover:not(:disabled) {
+        transform: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,336 @@
+// FcxTextarea Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// TEXTAREA WRAPPER
+// =============================================================================
+
+.fcx-textarea-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+// =============================================================================
+// TEXTAREA INPUT (PRIMEVUE OVERRIDE)
+// =============================================================================
+
+.fcx-textarea {
+  @include fcx-input-base;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  
+  // Size variants
+  &--sm {
+    @include fcx-input-size-sm;
+    min-height: 72px;
+  }
+  
+  &--md {
+    @include fcx-input-size-md;
+    min-height: 96px;
+  }
+  
+  &--lg {
+    @include fcx-input-size-lg;
+    min-height: 120px;
+  }
+  
+  // State variants
+  &--error {
+    @include fcx-input-error-state;
+    @include fcx-dark-theme-error-focus;
+  }
+  
+  &--success {
+    @include fcx-input-success-state;
+    @include fcx-dark-theme-success-focus;
+  }
+  
+  &--loading {
+    padding-right: 2.5rem;
+  }
+  
+  // Auto-resize variant
+  &--auto-resize {
+    resize: none;
+    overflow-y: hidden;
+  }
+  
+  // Fixed size (no resize)
+  &--no-resize {
+    resize: none;
+  }
+  
+  // Scrollbar styling
+  @include custom-scrollbar(8px);
+}
+
+// Override PrimeVue Textarea styles
+.p-inputtextarea {
+  &.fcx-textarea {
+    @include fcx-input-base;
+  }
+}
+
+// =============================================================================
+// LOADING STATE
+// =============================================================================
+
+.fcx-textarea-loading {
+  position: absolute;
+  right: map.get($spacing, md);
+  top: map.get($spacing, md);
+  z-index: 2;
+  pointer-events: none;
+  
+  .fcx-spinner {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// =============================================================================
+// CHARACTER COUNTER
+// =============================================================================
+
+.fcx-textarea-counter {
+  display: flex;
+  justify-content: flex-end;
+  font-size: $form-counter-size;
+  color: var(--fcx-text-secondary);
+  margin-top: map.get($spacing, xs);
+  line-height: $form-line-height;
+  @include fcx-transition(color);
+  
+  &--over-limit {
+    color: var(--fcx-error-500);
+    font-weight: $form-label-weight;
+  }
+  
+  &--approaching-limit {
+    color: var(--fcx-warning-500);
+  }
+}
+
+// =============================================================================
+// TEXTAREA WITH TOOLBAR (optional enhancement)
+// =============================================================================
+
+.fcx-textarea-with-toolbar {
+  .fcx-textarea-toolbar {
+    display: flex;
+    align-items: center;
+    gap: map.get($spacing, xs);
+    padding: map.get($spacing, xs) map.get($spacing, sm);
+    background-color: var(--fcx-surface-hover);
+    border: 1px solid var(--fcx-border-normal);
+    border-bottom: none;
+    border-top-left-radius: map.get($border-radius, md);
+    border-top-right-radius: map.get($border-radius, md);
+    
+    button {
+      @include button-reset;
+      padding: map.get($spacing, xs);
+      color: var(--fcx-text-secondary);
+      border-radius: map.get($border-radius, sm);
+      @include fcx-transition(background-color, color);
+      
+      &:hover {
+        background-color: var(--fcx-surface-active);
+        color: var(--fcx-text-primary);
+      }
+      
+      &:focus {
+        @include focus-ring(1px);
+      }
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  
+  .fcx-textarea {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+// =============================================================================
+// TEXTAREA WITH FOOTER (counter + actions)
+// =============================================================================
+
+.fcx-textarea-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: map.get($spacing, xs);
+  gap: map.get($spacing, md);
+  
+  .fcx-textarea-footer-left {
+    display: flex;
+    align-items: center;
+    gap: map.get($spacing, sm);
+    font-size: $form-helper-size;
+    color: var(--fcx-text-secondary);
+  }
+  
+  .fcx-textarea-footer-right {
+    display: flex;
+    align-items: center;
+    gap: map.get($spacing, sm);
+  }
+}
+
+// =============================================================================
+// MENTIONS/TAGS SUPPORT (optional)
+// =============================================================================
+
+.fcx-textarea-mention {
+  position: relative;
+  
+  .fcx-mention-panel {
+    @include fcx-dropdown-panel;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    margin-bottom: map.get($spacing, xs);
+    min-width: 200px;
+    max-width: 300px;
+    max-height: 200px;
+    z-index: map.get($z-index, dropdown);
+  }
+  
+  .fcx-mention-item {
+    @include fcx-dropdown-item;
+    display: flex;
+    align-items: center;
+    gap: map.get($spacing, sm);
+    
+    .fcx-mention-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: var(--fcx-primary-100);
+      color: var(--fcx-primary-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $form-helper-size;
+      font-weight: $form-label-weight;
+    }
+    
+    .fcx-mention-info {
+      flex: 1;
+      min-width: 0;
+      
+      .fcx-mention-name {
+        font-weight: $form-label-weight;
+        @include truncate;
+      }
+      
+      .fcx-mention-username {
+        font-size: $form-helper-size;
+        color: var(--fcx-text-secondary);
+        @include truncate;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// DARK THEME ADJUSTMENTS
+// =============================================================================
+
+:root[data-theme="dark"],
+.dark {
+  .fcx-textarea {
+    &::placeholder {
+      color: var(--fcx-text-muted);
+    }
+  }
+  
+  .fcx-textarea-with-toolbar .fcx-textarea-toolbar {
+    background-color: var(--fcx-surface-active);
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@media (max-width: breakpoint(sm)) {
+  .fcx-textarea {
+    font-size: $form-input-text-size-small;
+    
+    &--sm {
+      min-height: 64px;
+    }
+    
+    &--md {
+      min-height: 80px;
+    }
+    
+    &--lg {
+      min-height: 96px;
+    }
+  }
+  
+  .fcx-textarea-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: map.get($spacing, xs);
+  }
+  
+  .fcx-textarea-with-toolbar .fcx-textarea-toolbar {
+    padding: map.get($spacing, xs);
+    overflow-x: auto;
+    
+    button {
+      flex-shrink: 0;
+    }
+  }
+}
+
+// =============================================================================
+// FOCUS WITHIN ENHANCEMENT
+// =============================================================================
+
+.fcx-textarea-wrapper:focus-within {
+  .fcx-textarea-footer {
+    .fcx-textarea-counter {
+      color: var(--fcx-primary-500);
+      
+      &--over-limit {
+        color: var(--fcx-error-500);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// PRINT STYLES
+// =============================================================================
+
+@media print {
+  .fcx-textarea {
+    border: 1px solid #000;
+    background-color: transparent;
+    
+    &:disabled {
+      opacity: 1;
+    }
+  }
+  
+  .fcx-textarea-toolbar,
+  .fcx-textarea-loading,
+  .fcx-textarea-counter {
+    display: none;
+  }
+}

@@ -1,0 +1,430 @@
+// FcxRadioButton Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// RADIO BUTTON WRAPPER
+// =============================================================================
+
+.fcx-radiobutton-wrapper {
+  display: flex;
+  align-items: center;
+  gap: map.get($spacing, sm);
+  position: relative;
+  width: 100%;
+}
+
+// =============================================================================
+// RADIO BUTTON INPUT (PRIMEVUE OVERRIDE)
+// =============================================================================
+
+.fcx-radiobutton {
+  // Override PrimeVue radio button styles
+  .p-radiobutton {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    
+    .p-radiobutton-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--fcx-border-strong);
+      border-radius: 50%;
+      background-color: var(--fcx-surface);
+      @include fcx-transition(border-color, background-color, box-shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      
+      &:hover {
+        border-color: var(--fcx-primary-500);
+        background-color: var(--fcx-surface-hover);
+      }
+      
+      &.p-focus {
+        border-color: var(--fcx-primary-500);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        outline: none;
+        
+        @include fcx-dark-theme-focus;
+      }
+      
+      &.p-highlight {
+        background-color: var(--fcx-surface);
+        border-color: var(--fcx-primary-500);
+        
+        .p-radiobutton-icon {
+          width: 8px;
+          height: 8px;
+          background-color: var(--fcx-primary-500);
+          border-radius: 50%;
+          animation: fcx-radio-check 0.2s ease-out;
+        }
+        
+        &:hover {
+          border-color: var(--fcx-primary-600);
+          
+          .p-radiobutton-icon {
+            background-color: var(--fcx-primary-600);
+          }
+        }
+      }
+      
+      &.p-disabled {
+        background-color: var(--fcx-surface-active);
+        border-color: var(--fcx-border-normal);
+        opacity: 0.6;
+        cursor: not-allowed;
+        
+        .p-radiobutton-icon {
+          background-color: var(--fcx-border-strong);
+        }
+      }
+    }
+  }
+  
+  // Size variants
+  &--sm {
+    .p-radiobutton {
+      width: 16px;
+      height: 16px;
+      
+      .p-radiobutton-box {
+        width: 16px;
+        height: 16px;
+        
+        &.p-highlight .p-radiobutton-icon {
+          width: 6px;
+          height: 6px;
+        }
+      }
+    }
+  }
+  
+  &--lg {
+    .p-radiobutton {
+      width: 20px;
+      height: 20px;
+      
+      .p-radiobutton-box {
+        width: 20px;
+        height: 20px;
+        
+        &.p-highlight .p-radiobutton-icon {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+  }
+  
+  // Error state
+  &--error {
+    .p-radiobutton-box {
+      border-color: var(--fcx-error-500);
+      
+      &:hover {
+        border-color: var(--fcx-error-600);
+      }
+      
+      &.p-focus {
+        border-color: var(--fcx-error-500);
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        
+        @include fcx-dark-theme-error-focus;
+      }
+      
+      &.p-highlight {
+        border-color: var(--fcx-error-500);
+        
+        .p-radiobutton-icon {
+          background-color: var(--fcx-error-500);
+        }
+        
+        &:hover {
+          border-color: var(--fcx-error-600);
+          
+          .p-radiobutton-icon {
+            background-color: var(--fcx-error-600);
+          }
+        }
+      }
+    }
+  }
+  
+  // Success state
+  &--success {
+    .p-radiobutton-box {
+      border-color: var(--fcx-success-500);
+      
+      &:hover {
+        border-color: var(--fcx-success-600);
+      }
+      
+      &.p-focus {
+        border-color: var(--fcx-success-500);
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        
+        @include fcx-dark-theme-success-focus;
+      }
+      
+      &.p-highlight {
+        border-color: var(--fcx-success-500);
+        
+        .p-radiobutton-icon {
+          background-color: var(--fcx-success-500);
+        }
+        
+        &:hover {
+          border-color: var(--fcx-success-600);
+          
+          .p-radiobutton-icon {
+            background-color: var(--fcx-success-600);
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// RADIO BUTTON LABEL
+// =============================================================================
+
+.fcx-radiobutton-label {
+  display: block;
+  font-size: $form-text-size;
+  font-weight: $form-text-weight;
+  line-height: $form-line-height;
+  color: var(--fcx-text-primary);
+  cursor: pointer;
+  user-select: none;
+  @include fcx-transition(color);
+  
+  &:hover {
+    color: var(--fcx-text-primary);
+  }
+  
+  // Required indicator
+  &.required::after {
+    content: ' *';
+    color: var(--fcx-error-500);
+    font-weight: $menu-font-weight-semibold;
+  }
+  
+  &.disabled {
+    color: var(--fcx-text-muted);
+    cursor: not-allowed;
+  }
+}
+
+// =============================================================================
+// LOADING STATE
+// =============================================================================
+
+.fcx-radiobutton-loading {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  
+  .fcx-spinner {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+// =============================================================================
+// RADIO BUTTON GROUP (when multiple radio buttons are grouped)
+// =============================================================================
+
+.fcx-radiobutton-group {
+  display: flex;
+  flex-direction: column;
+  gap: map.get($spacing, sm);
+  
+  &--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: map.get($spacing, lg);
+  }
+  
+  &--inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: map.get($spacing, md);
+  }
+  
+  // Card variant - radio buttons in bordered cards
+  &--cards {
+    gap: map.get($spacing, md);
+    
+    .fcx-radiobutton-card {
+      border: 1px solid var(--fcx-border-normal);
+      border-radius: map.get($border-radius, md);
+      padding: map.get($spacing, md);
+      cursor: pointer;
+      @include fcx-transition(border-color, background-color, box-shadow);
+      
+      &:hover {
+        border-color: var(--fcx-primary-500);
+        background-color: var(--fcx-surface-hover);
+      }
+      
+      &.selected {
+        border-color: var(--fcx-primary-500);
+        background-color: var(--fcx-primary-50);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        
+        :root[data-theme="dark"] &,
+        .dark & {
+          background-color: var(--fcx-primary-900);
+        }
+      }
+      
+      &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    }
+  }
+  
+  // Button variant - radio buttons styled as buttons
+  &--buttons {
+    flex-direction: row;
+    gap: 0;
+    
+    .fcx-radiobutton-button {
+      padding: map.get($spacing, sm) map.get($spacing, md);
+      border: 1px solid var(--fcx-border-normal);
+      background-color: var(--fcx-surface);
+      cursor: pointer;
+      font-size: $form-text-size;
+      font-weight: $form-text-weight;
+      color: var(--fcx-text-primary);
+      @include fcx-transition(border-color, background-color, color);
+      
+      &:first-child {
+        border-top-left-radius: map.get($border-radius, md);
+        border-bottom-left-radius: map.get($border-radius, md);
+      }
+      
+      &:last-child {
+        border-top-right-radius: map.get($border-radius, md);
+        border-bottom-right-radius: map.get($border-radius, md);
+      }
+      
+      &:not(:first-child) {
+        border-left: none;
+      }
+      
+      &:hover {
+        background-color: var(--fcx-surface-hover);
+        z-index: 1;
+      }
+      
+      &.selected {
+        background-color: var(--fcx-primary-500);
+        border-color: var(--fcx-primary-500);
+        color: var(--fcx-text-inverse);
+        z-index: 2;
+      }
+      
+      &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// DARK THEME ADJUSTMENTS
+// =============================================================================
+
+:root[data-theme="dark"],
+.dark {
+  .fcx-radiobutton {
+    .p-radiobutton-box {
+      border-color: var(--fcx-border-strong);
+      background-color: var(--fcx-surface);
+      
+      &:hover {
+        background-color: var(--fcx-surface-hover);
+      }
+      
+      &.p-disabled {
+        background-color: var(--fcx-surface-active);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+
+@keyframes fcx-radio-check {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@media (max-width: breakpoint(sm)) {
+  .fcx-radiobutton-wrapper {
+    gap: map.get($spacing, xs);
+  }
+  
+  .fcx-radiobutton-label {
+    font-size: $form-input-text-size-small;
+  }
+  
+  .fcx-radiobutton-group--horizontal,
+  .fcx-radiobutton-group--inline {
+    flex-direction: column;
+    gap: map.get($spacing, sm);
+  }
+  
+  .fcx-radiobutton-group--buttons {
+    flex-direction: column;
+    
+    .fcx-radiobutton-button {
+      border: 1px solid var(--fcx-border-normal);
+      
+      &:first-child {
+        border-radius: 0;
+        border-top-left-radius: map.get($border-radius, md);
+        border-top-right-radius: map.get($border-radius, md);
+      }
+      
+      &:last-child {
+        border-radius: 0;
+        border-bottom-left-radius: map.get($border-radius, md);
+        border-bottom-right-radius: map.get($border-radius, md);
+      }
+      
+      &:not(:first-child) {
+        border-left: 1px solid var(--fcx-border-normal);
+        border-top: none;
+      }
+    }
+  }
+}

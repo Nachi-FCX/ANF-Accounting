@@ -1,0 +1,26 @@
+// Form Components Styles - Central Import File
+// Import this file in your main styles or components to use form component styles
+
+// Base styles (must be imported first)
+@forward 'form-base';
+
+// Common PrimeVue component styles
+@forward 'common';
+
+// Individual component styles
+@forward 'fcx-checkbox';
+@forward 'fcx-radiobutton';
+@forward 'fcx-textarea';
+@forward 'fcx-inputnumber';
+@forward 'fcx-inputmask';
+@forward 'fcx-togglebutton';
+@forward 'fcx-calendar';
+@forward 'fcx-autocomplete';
+@forward 'fcx-multiselect';
+
+// Existing component styles (if you want to include them)
+// Uncomment these if you want to include existing styles
+// @forward 'fcx-inputtext';
+// @forward 'fcx-dropdown';
+// @forward 'fcx-password';
+// @forward 'fcx-otp';

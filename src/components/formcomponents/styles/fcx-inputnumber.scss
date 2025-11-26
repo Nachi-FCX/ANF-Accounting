@@ -1,0 +1,425 @@
+// FcxInputNumber Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// INPUT NUMBER WRAPPER
+// =============================================================================
+
+.fcx-inputnumber-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+
+// =============================================================================
+// INPUT NUMBER (PRIMEVUE OVERRIDE)
+// =============================================================================
+
+.fcx-inputnumber {
+  width: 100%;
+  
+  // Override PrimeVue input number styles
+  .p-inputnumber {
+    width: 100%;
+    display: flex;
+    
+    .p-inputnumber-input {
+      @include fcx-input-base;
+      flex: 1;
+    }
+  }
+  
+  // Size variants
+  &--sm .p-inputnumber-input {
+    @include fcx-input-size-sm;
+  }
+  
+  &--md .p-inputnumber-input {
+    @include fcx-input-size-md;
+  }
+  
+  &--lg .p-inputnumber-input {
+    @include fcx-input-size-lg;
+  }
+  
+  // State variants
+  &--error .p-inputnumber-input {
+    @include fcx-input-error-state;
+    @include fcx-dark-theme-error-focus;
+  }
+  
+  &--success .p-inputnumber-input {
+    @include fcx-input-success-state;
+    @include fcx-dark-theme-success-focus;
+  }
+  
+  // With prefix icon
+  &--with-prefix .p-inputnumber-input {
+    @include fcx-input-with-prefix-icon;
+  }
+  
+  // With suffix or buttons
+  &--with-suffix .p-inputnumber-input,
+  &--with-buttons .p-inputnumber-input {
+    @include fcx-input-with-suffix-icon;
+  }
+}
+
+// =============================================================================
+// BUTTON LAYOUT VARIANTS
+// =============================================================================
+
+// Horizontal buttons (stacked layout)
+.fcx-inputnumber--horizontal {
+  .p-inputnumber {
+    .p-inputnumber-button-group {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+// Vertical buttons (side by side)
+.fcx-inputnumber--vertical {
+  .p-inputnumber {
+    flex-direction: row;
+    
+    .p-inputnumber-button-group {
+      display: flex;
+      margin-left: -1px;
+    }
+  }
+}
+
+// Buttons inside input (stacked on the right)
+.fcx-inputnumber--buttons-stacked {
+  .p-inputnumber {
+    position: relative;
+    
+    .p-inputnumber-input {
+      padding-right: 2.5rem;
+    }
+    
+    .p-inputnumber-button-group {
+      position: absolute;
+      right: 1px;
+      top: 1px;
+      bottom: 1px;
+      display: flex;
+      flex-direction: column;
+      width: 2rem;
+    }
+  }
+}
+
+// =============================================================================
+// INCREMENT/DECREMENT BUTTONS
+// =============================================================================
+
+.fcx-inputnumber {
+  .p-inputnumber-button {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--fcx-surface);
+    border: 1px solid var(--fcx-border-normal);
+    color: var(--fcx-text-secondary);
+    cursor: pointer;
+    @include fcx-transition(background-color, border-color, color);
+    min-width: 36px;
+    
+    &:hover:not(:disabled) {
+      background-color: var(--fcx-surface-hover);
+      border-color: var(--fcx-border-strong);
+      color: var(--fcx-text-primary);
+    }
+    
+    &:active:not(:disabled) {
+      background-color: var(--fcx-surface-active);
+    }
+    
+    &:focus {
+      outline: none;
+      z-index: 1;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    
+    &:disabled {
+      background-color: var(--fcx-surface-active);
+      border-color: var(--fcx-border-normal);
+      color: var(--fcx-text-muted);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    
+    .p-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  
+  // Increment button
+  .p-inputnumber-button-up {
+    border-top-right-radius: map.get($border-radius, md);
+  }
+  
+  // Decrement button
+  .p-inputnumber-button-down {
+    border-bottom-right-radius: map.get($border-radius, md);
+  }
+  
+  // Vertical layout adjustments
+  &--vertical {
+    .p-inputnumber-button-up {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: map.get($border-radius, md);
+      border-left: none;
+    }
+    
+    .p-inputnumber-button-down {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: map.get($border-radius, md);
+      border-left: none;
+      margin-left: -1px;
+    }
+  }
+  
+  // Stacked buttons adjustments
+  &--buttons-stacked {
+    .p-inputnumber-button {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      border-left: 1px solid var(--fcx-border-normal);
+      
+      &:hover:not(:disabled) {
+        background-color: var(--fcx-primary-50);
+        color: var(--fcx-primary-700);
+      }
+    }
+    
+    .p-inputnumber-button-up {
+      border-top-right-radius: calc(#{map.get($border-radius, md)} - 1px);
+      border-bottom: 1px solid var(--fcx-border-normal);
+    }
+    
+    .p-inputnumber-button-down {
+      border-bottom-right-radius: calc(#{map.get($border-radius, md)} - 1px);
+    }
+  }
+}
+
+// =============================================================================
+// ICON POSITIONING (for prefix/suffix)
+// =============================================================================
+
+.fcx-inputnumber-icon {
+  @include fcx-icon-container;
+  
+  &--prefix {
+    left: 0.75rem;
+  }
+  
+  &--suffix {
+    right: 0.75rem;
+  }
+  
+  svg,
+  i {
+    width: $form-input-icon-medium;
+    height: $form-input-icon-medium;
+  }
+}
+
+// =============================================================================
+// LOADING STATE
+// =============================================================================
+
+.fcx-inputnumber-loading {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  
+  .fcx-spinner {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.fcx-inputnumber--with-buttons .fcx-inputnumber-loading {
+  right: 2.5rem;
+}
+
+// =============================================================================
+// CURRENCY/PREFIX/SUFFIX MODE
+// =============================================================================
+
+.fcx-inputnumber--currency,
+.fcx-inputnumber--prefix,
+.fcx-inputnumber--suffix {
+  .p-inputnumber-input {
+    text-align: right;
+  }
+}
+
+.fcx-inputnumber-prefix,
+.fcx-inputnumber-suffix {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: $form-text-size;
+  color: var(--fcx-text-secondary);
+  font-weight: $form-label-weight;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fcx-inputnumber-prefix {
+  left: 0.75rem;
+  
+  & ~ .p-inputnumber-input {
+    padding-left: 2rem;
+  }
+}
+
+.fcx-inputnumber-suffix {
+  right: 0.75rem;
+  
+  & ~ .p-inputnumber-input {
+    padding-right: 2rem;
+  }
+}
+
+// =============================================================================
+// SIZE ADJUSTMENTS FOR BUTTONS
+// =============================================================================
+
+.fcx-inputnumber--sm {
+  .p-inputnumber-button {
+    min-width: 32px;
+    
+    .p-icon {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  
+  &.fcx-inputnumber--buttons-stacked {
+    .p-inputnumber-input {
+      padding-right: 2.25rem;
+    }
+    
+    .p-inputnumber-button-group {
+      width: 1.75rem;
+    }
+  }
+}
+
+.fcx-inputnumber--lg {
+  .p-inputnumber-button {
+    min-width: 40px;
+    
+    .p-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  
+  &.fcx-inputnumber--buttons-stacked {
+    .p-inputnumber-input {
+      padding-right: 2.75rem;
+    }
+    
+    .p-inputnumber-button-group {
+      width: 2.25rem;
+    }
+  }
+}
+
+// =============================================================================
+// DARK THEME ADJUSTMENTS
+// =============================================================================
+
+:root[data-theme="dark"],
+.dark {
+  .fcx-inputnumber {
+    .p-inputnumber-button {
+      background-color: var(--fcx-surface);
+      border-color: var(--fcx-border-normal);
+      
+      &:hover:not(:disabled) {
+        background-color: var(--fcx-surface-hover);
+      }
+    }
+    
+    &--buttons-stacked .p-inputnumber-button:hover:not(:disabled) {
+      background-color: var(--fcx-primary-900);
+      color: var(--fcx-primary-300);
+    }
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@media (max-width: breakpoint(sm)) {
+  .fcx-inputnumber {
+    .p-inputnumber-button {
+      min-width: 40px; // Larger touch targets on mobile
+      
+      .p-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  
+  .fcx-inputnumber--vertical {
+    .p-inputnumber {
+      flex-direction: column;
+      
+      .p-inputnumber-button-group {
+        flex-direction: row;
+        width: 100%;
+        margin-left: 0;
+        margin-top: -1px;
+      }
+      
+      .p-inputnumber-button {
+        flex: 1;
+        border-top: none;
+        
+        &:first-child {
+          border-bottom-left-radius: map.get($border-radius, md);
+        }
+        
+        &:last-child {
+          border-bottom-right-radius: map.get($border-radius, md);
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ACCESSIBILITY ENHANCEMENTS
+// =============================================================================
+
+.fcx-inputnumber {
+  .p-inputnumber-button {
+    // Keyboard focus enhancement
+    &:focus-visible {
+      outline: 2px solid var(--fcx-primary-500);
+      outline-offset: -2px;
+    }
+  }
+}

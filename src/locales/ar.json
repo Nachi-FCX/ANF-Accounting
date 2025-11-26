@@ -1,0 +1,62 @@
+{
+  "common": {
+    "home": "الرئيسية",
+    "about": "حول",
+    "language": "اللغة",
+    "welcome": "مرحباً",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "confirm": "تأكيد",
+    "close": "إغلاق"
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "about": "حول",
+    "forms": "النماذج"
+  },
+  "home": {
+    "title": "لقد نجحت!",
+    "subtitle": "لقد نجحت في إنشاء مشروع باستخدام {vite} + {vue}. ما التالي؟",
+    "vite": "Vite",
+    "vue": "Vue 3"
+  },
+  "forms": {
+    "title": "عرض النموذج",
+    "labels": {
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "country": "البلد",
+      "message": "الرسالة"
+    },
+    "placeholders": {
+      "enterName": "أدخل اسمك",
+      "enterEmail": "أدخل بريدك الإلكتروني",
+      "selectCountry": "اختر بلداً",
+      "enterMessage": "أدخل رسالتك"
+    },
+    "validation": {
+      "required": "حقل {field} مطلوب.",
+      "email": "حقل {field} يجب أن يكون بريد إلكتروني صحيح.",
+      "min": "حقل {field} يجب أن يحتوي على {min} أحرف على الأقل.",
+      "max": "حقل {field} يجب ألا يتجاوز {max} حرف."
+    }
+  },
+  "invoice": {
+    "ocr": {
+      "title": "التعرف الضوئي على الفواتير",
+      "uploadDocument": "تحميل المستند",
+      "processOcr": "معالجة OCR",
+      "noPdfSelected": "لم يتم تحديد PDF",
+      "uploadFirst": "تحميل أولاً"
+    },
+    "documents": {
+      "title": "المستندات",
+      "empty": "لم يتم تحميل أي مستندات بعد"
+    }
+  }
+}

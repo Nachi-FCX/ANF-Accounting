@@ -1,0 +1,386 @@
+// FcxInputMask Component Styles
+@use "sass:map";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+@use '../../../assets/styles/global-ui-variables' as *;
+@use 'form-base' as *;
+
+// =============================================================================
+// INPUT MASK WRAPPER
+// =============================================================================
+
+.fcx-inputmask-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+// =============================================================================
+// INPUT MASK (PRIMEVUE OVERRIDE)
+// =============================================================================
+
+.fcx-inputmask {
+  @include fcx-input-base;
+  
+  // Override PrimeVue InputMask styles
+  &.p-inputmask {
+    @include fcx-input-base;
+  }
+  
+  // Size variants
+  &--sm {
+    @include fcx-input-size-sm;
+  }
+  
+  &--md {
+    @include fcx-input-size-md;
+  }
+  
+  &--lg {
+    @include fcx-input-size-lg;
+  }
+  
+  // State variants
+  &--error {
+    @include fcx-input-error-state;
+    @include fcx-dark-theme-error-focus;
+  }
+  
+  &--success {
+    @include fcx-input-success-state;
+    @include fcx-dark-theme-success-focus;
+  }
+  
+  &--loading {
+    padding-right: 2.5rem;
+  }
+  
+  // With prefix icon
+  &--with-prefix {
+    @include fcx-input-with-prefix-icon;
+  }
+  
+  // With suffix icon or clear button
+  &--with-suffix {
+    @include fcx-input-with-suffix-icon;
+  }
+}
+
+// =============================================================================
+// MASK PLACEHOLDER/TEMPLATE STYLING
+// =============================================================================
+
+.fcx-inputmask {
+  // Placeholder character styling (for incomplete masks)
+  &::placeholder {
+    color: var(--fcx-text-muted);
+    opacity: 0.6;
+  }
+  
+  // Slot character styling (underscore, etc.)
+  &[data-incomplete="true"] {
+    color: var(--fcx-text-secondary);
+    font-style: italic;
+  }
+}
+
+// =============================================================================
+// MASK TYPE VARIANTS (visual hints)
+// =============================================================================
+
+.fcx-inputmask {
+  // Phone number masks
+  &--phone {
+    letter-spacing: 0.5px;
+  }
+  
+  // Date masks
+  &--date {
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  // Time masks
+  &--time {
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  // Credit card masks
+  &--credit-card {
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+    font-weight: $menu-font-weight-medium;
+  }
+  
+  // SSN/Tax ID masks
+  &--ssn,
+  &--tax-id {
+    letter-spacing: 1.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  // Postal/Zip code masks
+  &--postal,
+  &--zip {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  // Custom numeric masks
+  &--numeric {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// =============================================================================
+// ICON POSITIONING
+// =============================================================================
+
+.fcx-inputmask-icon {
+  @include fcx-icon-container;
+  
+  &--prefix {
+    left: 0.75rem;
+  }
+  
+  &--suffix {
+    right: 0.75rem;
+  }
+  
+  svg,
+  i {
+    width: $form-input-icon-medium;
+    height: $form-input-icon-medium;
+  }
+}
+
+// Size-specific icon adjustments
+.fcx-inputmask--sm {
+  .fcx-inputmask-icon {
+    svg,
+    i {
+      width: $form-input-icon-small;
+      height: $form-input-icon-small;
+    }
+  }
+}
+
+.fcx-inputmask--lg {
+  .fcx-inputmask-icon {
+    svg,
+    i {
+      width: $form-input-icon-large;
+      height: $form-input-icon-large;
+    }
+  }
+}
+
+// =============================================================================
+// CLEAR BUTTON
+// =============================================================================
+
+.fcx-inputmask-clear {
+  @include clear-button;
+}
+
+// =============================================================================
+// LOADING STATE
+// =============================================================================
+
+.fcx-inputmask-loading {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  
+  .fcx-spinner {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// =============================================================================
+// VALIDATION INDICATORS (for partial completion)
+// =============================================================================
+
+.fcx-inputmask-validation {
+  display: flex;
+  align-items: center;
+  gap: map.get($spacing, xs);
+  margin-top: map.get($spacing, xs);
+  font-size: $form-helper-size;
+  color: var(--fcx-text-secondary);
+  
+  &--incomplete {
+    color: var(--fcx-warning-500);
+    
+    .fcx-inputmask-validation-icon {
+      color: var(--fcx-warning-500);
+    }
+  }
+  
+  &--complete {
+    color: var(--fcx-success-500);
+    
+    .fcx-inputmask-validation-icon {
+      color: var(--fcx-success-500);
+    }
+  }
+  
+  .fcx-inputmask-validation-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+}
+
+// =============================================================================
+// FORMAT HINT (shows expected format)
+// =============================================================================
+
+.fcx-inputmask-hint {
+  display: flex;
+  align-items: center;
+  gap: map.get($spacing, xs);
+  margin-top: map.get($spacing, xs);
+  font-size: $form-helper-size;
+  color: var(--fcx-text-secondary);
+  font-family: monospace;
+  
+  .fcx-inputmask-hint-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    color: var(--fcx-text-muted);
+  }
+  
+  .fcx-inputmask-hint-text {
+    font-style: italic;
+  }
+}
+
+// =============================================================================
+// MASK CHARACTER COUNTER (for masks with length)
+// =============================================================================
+
+.fcx-inputmask-counter {
+  display: flex;
+  justify-content: flex-end;
+  font-size: $form-counter-size;
+  color: var(--fcx-text-secondary);
+  margin-top: map.get($spacing, xs);
+  line-height: $form-line-height;
+  font-variant-numeric: tabular-nums;
+  @include fcx-transition(color);
+  
+  &--complete {
+    color: var(--fcx-success-500);
+  }
+  
+  &--incomplete {
+    color: var(--fcx-warning-500);
+  }
+}
+
+// =============================================================================
+// DARK THEME ADJUSTMENTS
+// =============================================================================
+
+:root[data-theme="dark"],
+.dark {
+  .fcx-inputmask {
+    &::placeholder {
+      color: var(--fcx-text-muted);
+    }
+    
+    &[data-incomplete="true"] {
+      color: var(--fcx-text-secondary);
+    }
+  }
+  
+  .fcx-inputmask-hint {
+    color: var(--fcx-text-secondary);
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@media (max-width: breakpoint(sm)) {
+  .fcx-inputmask {
+    font-size: $form-input-text-size-small;
+    
+    // Reduce letter-spacing on mobile for better fit
+    &--phone,
+    &--credit-card,
+    &--ssn,
+    &--tax-id,
+    &--postal,
+    &--zip {
+      letter-spacing: normal;
+    }
+  }
+  
+  .fcx-inputmask-hint {
+    font-size: 11px;
+  }
+}
+
+// =============================================================================
+// FOCUS ENHANCEMENTS
+// =============================================================================
+
+.fcx-inputmask-wrapper:focus-within {
+  .fcx-inputmask-hint {
+    color: var(--fcx-primary-500);
+  }
+  
+  .fcx-inputmask-counter {
+    color: var(--fcx-primary-500);
+    
+    &--complete {
+      color: var(--fcx-success-500);
+    }
+  }
+}
+
+// =============================================================================
+// ACCESSIBILITY - HIGH CONTRAST MODE
+// =============================================================================
+
+@media (prefers-contrast: high) {
+  .fcx-inputmask {
+    border-width: 2px;
+    
+    &:focus {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
+}
+
+// =============================================================================
+// PRINT STYLES
+// =============================================================================
+
+@media print {
+  .fcx-inputmask {
+    border: 1px solid #000;
+    background-color: transparent;
+    
+    &:disabled {
+      opacity: 1;
+    }
+  }
+  
+  .fcx-inputmask-icon,
+  .fcx-inputmask-clear,
+  .fcx-inputmask-loading,
+  .fcx-inputmask-hint {
+    display: none;
+  }
+}
