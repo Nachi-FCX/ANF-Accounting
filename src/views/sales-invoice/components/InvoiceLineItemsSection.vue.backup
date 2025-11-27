@@ -1,0 +1,342 @@
+<template>
+  <div class="invoice-line-items-section">
+    <div class="invoice-line-items-section__header">
+      <h3 class="invoice-line-items-section__title">Line Items</h3>
+      <FcxButton
+        label="Add Item"
+        icon="pi pi-plus"
+        size="sm"
+        @click="handleAddItem"
+      />
+    </div>
+
+    <div v-if="localItems.length === 0" class="invoice-line-items-section__empty">
+      <i class="pi pi-inbox" style="font-size: 2rem; color: var(--text-color-secondary)"></i>
+      <p>No line items added. Click "Add Item" to get started.</p>
+    </div>
+
+    <div v-else class="invoice-line-items-section__table">
+      <div class="invoice-line-items-section__table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 20%">Product/Service</th>
+              <th style="width: 15%">Description</th>
+              <th style="width: 10%">HSN Code</th>
+              <th style="width: 10%">Quantity</th>
+              <th style="width: 10%">Unit Price</th>
+              <th style="width: 10%">Discount</th>
+              <th style="width: 10%">Tax Rate</th>
+              <th style="width: 12%">Amount</th>
+              <th style="width: 3%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in localItems" :key="index">
+              <!-- Product Name -->
+              <td>
+                <FcxInputtext
+                  :name="`productName-${index}`"
+                  v-model="item.productName"
+                  placeholder="Product name"
+                  :error="getItemError(index, 'productName')"
+                  @update:modelValue="handleItemChange(index)"
+                  size="sm"
+                />
+              </td>
+
+              <!-- Description -->
+              <td>
+                <FcxInputtext
+                  :name="`description-${index}`"
+                  v-model="item.description"
+                  placeholder="Description"
+                  @update:modelValue="handleItemChange(index)"
+                  size="sm"
+                />
+              </td>
+
+              <!-- HSN Code -->
+              <td>
+                <FcxInputtext
+                  :name="`hsnCode-${index}`"
+                  v-model="item.hsnCode"
+                  placeholder="HSN"
+                  @update:modelValue="handleItemChange(index)"
+                  size="sm"
+                />
+              </td>
+
+              <!-- Quantity -->
+              <td>
+                <FcxInputNumber
+                  :name="`quantity-${index}`"
+                  v-model="item.quantity"
+                  :min="0.01"
+                  :max="999999"
+                  :minFractionDigits="2"
+                  :maxFractionDigits="2"
+                  @update:modelValue="handleItemChange(index)"
+                  size="sm"
+                />
+              </td>
+
+              <!-- Unit Price -->
+              <td>
+                <FcxInputNumber
+                  :name="`unitPrice-${index}`"
+                  v-model="item.unitPrice"
+                  :min="0"
+                  :max="9999999"
+                  :minFractionDigits="2"
+                  :maxFractionDigits="2"
+                  mode="currency"
+                  currency="INR"
+                  @update:modelValue="handleItemChange(index)"
+                  size="sm"
+                />
+              </td>
+
+              <!-- Discount -->
+              <td>
+                <div class="invoice-line-items-section__discount">
+                  <FcxInputNumber
+                    :name="`discount-${index}`"
+                    v-model="item.discount"
+                    :min="0"
+                    :max="item.discountType === 'percentage' ? 100 : 999999"
+                    :minFractionDigits="2"
+                    :maxFractionDigits="2"
+                    @update:modelValue="handleItemChange(index)"
+                    size="sm"
+                  />
+                  <FcxDropdown
+                    :name="`discountType-${index}`"
+                    v-model="item.discountType"
+                    :options="[
+                      { label: '%', value: 'percentage' },
+                      { label: '₹', value: 'amount' }
+                    ]"
+                    optionLabel="label"
+                    optionValue="value"
+                    @update:modelValue="handleItemChange(index)"
+                    size="sm"
+                    style="width: 60px"
+                  />
+                </div>
+              </td>
+
+              <!-- Tax Rate -->
+              <td>
+                <FcxDropdown
+                  :name="`taxRate-${index}`"
+                  v-model="item.taxRate"
+                  :options="TAX_RATE_OPTIONS"
+                  optionLabel="label"
+                  optionValue="value"
+                  @update:modelValue="handleItemChange(index)"
+                  size="sm"
+                />
+              </td>
+
+              <!-- Amount (Calculated) -->
+              <td>
+                <div class="invoice-line-items-section__amount">
+                  {{ formatCurrency(item.amount) }}
+                </div>
+              </td>
+
+              <!-- Actions -->
+              <td>
+                <FcxButton
+                  icon="pi pi-trash"
+                  severity="danger"
+                  text
+                  size="sm"
+                  @click="handleRemoveItem(index)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { FcxInputtext, FcxInputNumber } from '@/components/formcomponents'
+import { FcxDropdown } from '@/components/formcomponents'
+import { FcxButton } from '@/components/buttoncomponents'
+import { TAX_RATE_OPTIONS, DEFAULT_LINE_ITEM } from '../constants/sales-invoice-constants'
+import type { InvoiceLineItem, LineItemErrors } from '../types/sales-invoice-types'
+import { formatCurrency } from '../utils/invoice-formatters'
+import { updateLineItemAmount } from '../utils/invoice-calculations'
+
+interface Props {
+  modelValue: InvoiceLineItem[]
+  errors?: Record<number, LineItemErrors>
+}
+
+interface Emits {
+  (e: 'update:modelValue', value: InvoiceLineItem[]): void
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
+
+const localItems = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+})
+
+const handleAddItem = () => {
+  const newItem = { ...DEFAULT_LINE_ITEM }
+  localItems.value = [...localItems.value, newItem]
+}
+
+const handleRemoveItem = (index: number) => {
+  if (confirm('Are you sure you want to remove this item?')) {
+    const items = [...localItems.value]
+    items.splice(index, 1)
+    localItems.value = items
+  }
+}
+
+const handleItemChange = (index: number) => {
+  const items = [...localItems.value]
+  items[index] = updateLineItemAmount(items[index])
+  localItems.value = items
+}
+
+const getItemError = (index: number, field: string): string | undefined => {
+  return props.errors?.[index]?.[field]
+}
+</script>
+
+<style scoped lang="scss">
+.invoice-line-items-section {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  &__title {
+    margin: 0;
+    color: #1e293b;
+    font-size: 1.125rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    
+    &::before {
+      content: '📝';
+      margin-right: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  &__empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    background: var(--surface-ground);
+    border-radius: 6px;
+    border: 2px dashed var(--surface-border);
+
+    i {
+      font-size: 1.5rem !important;
+      color: var(--text-color-secondary);
+    }
+
+    p {
+      margin: 0.75rem 0 0 0;
+      color: var(--text-color-secondary);
+      font-size: 0.875rem;
+    }
+  }
+    font-weight: 600;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+    background: var(--surface-ground);
+    border-radius: 8px;
+    border: 2px dashed var(--surface-border);
+
+    p {
+      margin: 1rem 0 0 0;
+      color: var(--text-color-secondary);
+    }
+  }
+
+  &__table {
+    overflow-x: auto;
+  }
+
+  &__table-wrapper {
+    min-width: 100%;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface-card);
+      border-radius: 6px;
+      overflow: hidden;
+      font-size: 0.875rem;
+
+      th {
+        background: var(--surface-50);
+        padding: 0.5rem 0.4rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--text-color);
+        border-bottom: 1px solid var(--surface-border);
+        font-size: 0.8125rem;
+        white-space: nowrap;
+      }
+
+      td {
+        padding: 0.4rem;
+        border-bottom: 1px solid var(--surface-border);
+        vertical-align: middle;
+      }
+
+      tbody tr:hover {
+        background: var(--surface-hover);
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__discount {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  &__amount {
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: right;
+    padding-right: 0.5rem;
+  }
+}
+</style>

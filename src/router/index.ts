@@ -85,26 +85,47 @@ const router = createRouter({
             title: 'Bills - FinCorpX'
           }
         },
+        // Sales Invoice Routes
         {
           path: 'sales-invoice',
           name: 'sales-invoice',
-          component: () => import('../views/Sales Invoice/views/SalesInvoiceView.vue'), // Placeholder
+          redirect: '/sales-invoice/list'
+        },
+        {
+          path: 'sales-invoice/list',
+          name: 'sales-invoice-list',
+          component: () => import('@/views/sales-invoice/views/SalesInvoiceListView.vue'),
           meta: {
             requiresAuth: true,
-            title: 'Sales Invoice - FinCorpX'
+            title: 'Sales Invoices - FinCorpX'
           }
         },
-
-
-
-
+        {
+          path: 'sales-invoice/create',
+          name: 'sales-invoice-create',
+          component: () => import('@/views/sales-invoice/views/SalesInvoiceCreateView.vue'),
+          meta: {
+            requiresAuth: true,
+            title: 'Create Sales Invoice - FinCorpX'
+          }
+        },
+        {
+          path: 'sales-invoice/edit/:id',
+          name: 'sales-invoice-edit',
+          component: () => import('@/views/sales-invoice/views/SalesInvoiceEditView.vue'),
+          meta: {
+            requiresAuth: true,
+            title: 'Edit Sales Invoice - FinCorpX'
+          }
+        },
+        // Invoice OCR Routes
         {
           path: 'invoice',
           name: 'invoice',
-          component: () => import('../views/invoice/InvoiceOcrView.vue'), // Placeholder
+          component: () => import('../views/invoice/InvoiceOcrView.vue'),
           meta: {
             requiresAuth: true,
-            title: 'Invoice - FinCorpX'
+            title: 'Invoice Processing - FinCorpX'
           }
         },
         {

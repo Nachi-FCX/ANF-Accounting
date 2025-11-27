@@ -1,0 +1,534 @@
+<template>
+  <div class="invoice-header-section">
+    <!-- Compact Customer & Invoice Info -->
+    <div class="header-grid">
+      <!-- Customer Selection -->
+      <div class="field-group">
+        <label class="field-label required">Contact</label>
+        <FcxDropdown
+          name="customerId"
+          v-model="localData.customerId"
+          :options="customerOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select or search customer"
+          :filter="true"
+          filterBy="label"
+          :error="errors.customerId"
+          required
+          class="customer-dropdown"
+          @change="onCustomerChange"
+        >
+          <template #option="{ option }">
+            <div class="customer-option">
+              <div class="customer-name">{{ option.customer.name }}</div>
+              <div class="customer-details">
+                <span v-if="option.customer.gstin" class="gstin">GSTIN: {{ option.customer.gstin }}</span>
+                <span v-if="option.customer.trnNumber" class="trn">TRN: {{ option.customer.trnNumber }}</span>
+                <span v-if="option.customer.phone" class="phone">{{ option.customer.phone }}</span>
+              </div>
+            </div>
+          </template>
+        </FcxDropdown>
+      </div>
+
+      <!-- Invoice Number -->
+      <div class="field-group">
+        <label class="field-label">Invoice Number</label>
+        <div class="input-group">
+          <FcxInputtext
+            name="invoiceNumber"
+            v-model="localData.invoiceNumber"
+            placeholder="INV-1997"
+            :error="errors.invoiceNumber"
+            :disabled="isGenerating"
+            class="compact-input"
+          />
+          <FcxButton
+            v-if="!isGenerating"
+            icon="pi pi-refresh"
+            size="sm"
+            severity="secondary"
+            @click="handleGenerateNumber"
+            class="generate-btn"
+            text
+          />
+        </div>
+      </div>
+
+      <!-- Issue Date -->
+      <div class="field-group">
+        <label class="field-label required">Issue Date</label>
+        <FcxCalendar
+          name="invoiceDate"
+          v-model="localData.invoiceDate"
+          :error="errors.invoiceDate"
+          required
+          dateFormat="dd/mm/yy"
+          :showIcon="true"
+          class="compact-input"
+        />
+      </div>
+
+      <!-- Due Date -->
+      <div class="field-group">
+        <label class="field-label required">Due Date</label>
+        <FcxCalendar
+          name="dueDate"
+          v-model="localData.dueDate"
+          :error="errors.dueDate"
+          required
+          dateFormat="dd/mm/yy"
+          :showIcon="true"
+          class="compact-input"
+        />
+      </div>
+
+      <!-- Reference -->
+      <div class="field-group">
+        <label class="field-label">Reference</label>
+        <FcxInputtext
+          name="reference"
+          v-model="localData.reference"
+          placeholder="Optional"
+          class="compact-input"
+        />
+      </div>
+
+      <!-- Branding Theme -->
+      <div class="field-group">
+        <label class="field-label">Branding Theme</label>
+        <FcxDropdown
+          name="brandingTheme"
+          v-model="localData.brandingTheme"
+          :options="BRANDING_THEME_OPTIONS"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Standard"
+          class="compact-input"
+        />
+      </div>
+
+      <!-- Place of Supply -->
+      <div class="field-group">
+        <label class="field-label required">Place of Supply</label>
+        <FcxDropdown
+          name="placeOfSupply"
+          v-model="localData.placeOfSupply"
+          :options="INDIAN_STATES"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select state"
+          :filter="true"
+          filterBy="label"
+          :error="errors.placeOfSupply"
+          required
+          class="compact-input"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, watch, computed } from 'vue'
+import { FcxInputtext, FcxTextarea } from '@/components/formcomponents'
+import { FcxCalendar } from '@/components/formcomponents'
+import { FcxDropdown } from '@/components/formcomponents'
+import { FcxButton } from '@/components/buttoncomponents'
+import { INDIAN_STATES } from '../constants/sales-invoice-constants'
+import type { 
+  CreateInvoiceData, 
+  InvoiceFormErrors, 
+  Customer, 
+  CustomerOption,
+  CustomerAddress 
+} from '../types/sales-invoice-types'
+import { useSalesInvoices } from '../composables/useSalesInvoices'
+
+const BRANDING_THEME_OPTIONS = [
+  { label: 'Standard', value: 'standard' },
+  { label: 'Modern', value: 'modern' },
+  { label: 'Classic', value: 'classic' }
+]
+
+// Mock customer data - replace with actual API call
+const mockCustomers: Customer[] = [
+  {
+    id: 1,
+    name: 'Acme Corporation Ltd',
+    email: 'info@acme.com',
+    phone: '+971-4-123-4567',
+    gstin: '29ABCDE1234F1Z5',
+    trnNumber: '100123456700003',
+    customerType: 'business',
+    addresses: [
+      {
+        id: 1,
+        customerId: 1,
+        addressType: 'billing',
+        addressLine1: 'Sheikh Zayed Road, Trade Center',
+        city: 'Dubai',
+        state: 'Dubai',
+        postalCode: '12345',
+        country: 'UAE',
+        isDefault: true
+      }
+    ],
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  {
+    id: 2,
+    name: 'Global Tech Solutions',
+    email: 'contact@globaltech.com',
+    phone: '+971-2-987-6543',
+    gstin: '07GHIJK5678L2M6',
+    trnNumber: '100987654321001',
+    customerType: 'business',
+    addresses: [
+      {
+        id: 2,
+        customerId: 2,
+        addressType: 'billing',
+        addressLine1: 'Business Bay, Downtown',
+        city: 'Dubai',
+        state: 'Dubai',
+        postalCode: '54321',
+        country: 'UAE',
+        isDefault: true
+      }
+    ],
+    createdAt: '2024-01-02',
+    updatedAt: '2024-01-02'
+  },
+  {
+    id: 3,
+    name: 'Emirates Trading Co',
+    email: 'sales@emiratestrading.ae',
+    phone: '+971-6-555-0123',
+    trnNumber: '100555012300007',
+    customerType: 'business',
+    addresses: [
+      {
+        id: 3,
+        customerId: 3,
+        addressType: 'billing',
+        addressLine1: 'Industrial Area 1',
+        city: 'Sharjah',
+        state: 'Sharjah',
+        postalCode: '25689',
+        country: 'UAE',
+        isDefault: true
+      }
+    ],
+    createdAt: '2024-01-03',
+    updatedAt: '2024-01-03'
+  }
+]
+
+interface Props {
+  modelValue: Partial<CreateInvoiceData>
+  errors?: InvoiceFormErrors
+}
+
+interface Emits {
+  (e: 'update:modelValue', value: Partial<CreateInvoiceData>): void
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
+
+const { generateInvoiceNumber } = useSalesInvoices()
+const isGenerating = ref(false)
+
+const localData = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+})
+
+const errors = computed(() => props.errors || {})
+
+// Customer options for dropdown
+const customerOptions = computed((): CustomerOption[] => {
+  return mockCustomers.map(customer => ({
+    label: customer.name,
+    value: customer.id,
+    customer
+  }))
+})
+
+// Handle customer selection
+const onCustomerChange = (customerId: number) => {
+  const selectedCustomer = mockCustomers.find(c => c.id === customerId)
+  if (selectedCustomer) {
+    const billingAddress = selectedCustomer.addresses.find(addr => 
+      addr.addressType === 'billing' && addr.isDefault
+    )
+    
+    localData.value = {
+      ...localData.value,
+      customerId: selectedCustomer.id,
+      customerName: selectedCustomer.name,
+      customerEmail: selectedCustomer.email,
+      customerPhone: selectedCustomer.phone,
+      customerGSTIN: selectedCustomer.gstin,
+      billingAddress: billingAddress ? 
+        `${billingAddress.addressLine1}, ${billingAddress.city}, ${billingAddress.state} ${billingAddress.postalCode}` : 
+        undefined
+    }
+  }
+}
+
+const handleGenerateNumber = async () => {
+  try {
+    isGenerating.value = true
+    const invoiceNumber = await generateInvoiceNumber()
+    localData.value = {
+      ...localData.value,
+      invoiceNumber
+    }
+  } catch (error) {
+    console.error('Failed to generate invoice number:', error)
+    const timestamp = Date.now().toString().slice(-6)
+    localData.value = {
+      ...localData.value,
+      invoiceNumber: `INV-${timestamp}`
+    }
+  } finally {
+    isGenerating.value = false
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.invoice-header-section {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 0.75rem;
+    align-items: end;
+    
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+    }
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .field-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #374151;
+      margin: 0;
+      white-space: nowrap;
+      
+      &.required::after {
+        content: ' *';
+        color: #ef4444;
+      }
+    }
+
+    .compact-input,
+    .customer-dropdown {
+      font-size: 0.875rem;
+      padding: 0.375rem 0.5rem;
+      
+      :deep(.p-inputtext),
+      :deep(.p-dropdown),
+      :deep(.p-calendar input) {
+        padding: 0.375rem 0.5rem;
+        font-size: 0.875rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        transition: all 0.15s ease;
+        
+        &:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+          outline: none;
+        }
+        
+        &:hover:not(:focus) {
+          border-color: #9ca3af;
+        }
+      }
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      
+      .compact-input {
+        flex: 1;
+      }
+      
+      .generate-btn {
+        padding: 0.25rem;
+        min-width: auto;
+        
+        :deep(.p-button-icon) {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  // Customer dropdown option styling
+  .customer-option {
+    padding: 0.25rem 0;
+    
+    .customer-name {
+      font-weight: 500;
+      color: #111827;
+      font-size: 0.875rem;
+      margin-bottom: 0.125rem;
+    }
+    
+    .customer-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: #6b7280;
+      
+      .gstin, .trn, .phone {
+        background: #f3f4f6;
+        padding: 0.125rem 0.375rem;
+        border-radius: 12px;
+        font-family: monospace;
+      }
+      
+      .gstin {
+        background: #dbeafe;
+        color: #1d4ed8;
+      }
+      
+      .trn {
+        background: #d1fae5;
+        color: #065f46;
+      }
+    }
+  }
+}
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.875rem;
+        letter-spacing: -0.025em;
+      }
+  }
+}
+</style>    &.grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      
+      @media (max-width: 1200px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+    
+    &.grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .field-label {
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-weight: 500;
+    font-size: 0.875rem;
+    
+    &.required::after {
+      content: ' *';
+      color: #ef4444;
+    }
+  }
+
+  .modern-input {
+    border: 1.5px solid #d1d5db !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.9375rem;
+    transition: all 0.2s ease;
+    background: white;
+    
+    &:hover {
+      border-color: #9ca3af !important;
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    }
+    
+    &::placeholder {
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+  }
+
+  .input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    
+    .modern-input {
+      padding-right: 3rem !important;
+    }
+    
+    .generate-btn {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      padding: 0.375rem;
+      border-radius: 6px;
+      
+      &:hover {
+        color: #3b82f6;
+        background: #f3f4f6;
+      }
+    }
+  }
+}
+</style>
